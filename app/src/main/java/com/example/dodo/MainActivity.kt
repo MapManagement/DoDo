@@ -16,13 +16,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addNewToDoitem() {
-        val alert = AlertDialog.Builder(this)
-        val itemText = EditText(this)
-        alert.setTitle("ToDo Item")
-        alert.setView(itemText)
-        alert.setPositiveButton("Add") { _, _ ->
-
-        }
-        alert.show()
+        CustomEntryDialog(this).show()
     }
 }
