@@ -2,10 +2,10 @@ package com.example.dodo
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.custom_entry_dialog.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAlertDialog() {
-        val editText = EditText(this)
         val dialogView = layoutInflater.inflate(R.layout.custom_entry_dialog, null)
         AlertDialog.Builder(this)
             .setTitle("Add New Task")
@@ -40,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addNewToDoItem(itemText: String) {
+        layoutInflater.inflate(R.layout.custom_list_item, null)
         taskList.add(itemText)
         arrayAdapter.notifyDataSetChanged()
         todosListView.adapter = arrayAdapter
