@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ItemListener {
 
     var taskList = ArrayList<String>()
     lateinit var arrayAdapter: ArrayAdapter<String>
@@ -43,5 +43,13 @@ class MainActivity : AppCompatActivity() {
         taskList.add(itemText)
         arrayAdapter.notifyDataSetChanged()
         todosListView.adapter = arrayAdapter
+    }
+
+    override fun onItemStatusChanged(iteObjectId: String, isDone: Boolean) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onItemDeleted(itemObjectId: String) {
+        TODO("Not yet implemented")
     }
 }
