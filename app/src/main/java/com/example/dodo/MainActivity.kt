@@ -29,8 +29,9 @@ class MainActivity : AppCompatActivity(), ItemListener {
         AlertDialog.Builder(this)
             .setTitle("Add New Task")
             .setView(dialogView)
-            .setPositiveButton("Add") { _dialog, _which ->
+            .setPositiveButton("Add") { dialog, _which ->
                 addNewToDoItem(dialogView.entry_text.text.toString())
+                dialog.dismiss()
             }
             .setNegativeButton("Cancel") { _dialog, _which ->
                 Toast.makeText(this, "Cancelled!", Toast.LENGTH_SHORT).show()
@@ -39,6 +40,11 @@ class MainActivity : AppCompatActivity(), ItemListener {
     }
 
     private fun addNewToDoItem(itemText: String) {
+        val taskItem = ToDoTask()
+        taskItem.taskText = itemText
+        taskItem.isDone = false
+        taskItem.isDeleted = false
+
         layoutInflater.inflate(R.layout.custom_list_item, null)
         taskList.add(itemText)
         arrayAdapter.notifyDataSetChanged()
