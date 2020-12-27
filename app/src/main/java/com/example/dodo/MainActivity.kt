@@ -22,6 +22,10 @@ class MainActivity : AppCompatActivity(), ItemListener {
         listView.adapter = arrayAdapter
 
         fab_add_entry.setOnClickListener { showAlertDialog() }
+
+        toDoItemList = mutableListOf<ToDoTask>()
+        adapter = CustomListAdapter(this, toDoItemList!!)
+        listViewItems!!.setAdapter(adapter)
     }
 
     private fun showAlertDialog() {

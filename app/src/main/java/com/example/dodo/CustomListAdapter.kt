@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 
-class CustomListAdapter(context: Context, texts: Array<String>): BaseAdapter() {
+var toDoItemList: MutableList<ToDoTask>? = null
+lateinit var adapter: CustomListAdapter
+var listViewItems: ListView? = null
 
-    private val itemList: Array<String> = texts
+class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAdapter() {
+
+    private val itemList: MutableList<ToDoTask> = tasks
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getCount(): Int {
@@ -26,8 +30,9 @@ class CustomListAdapter(context: Context, texts: Array<String>): BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
-        val itemText: String = itemList[position]
-        val isDOne: Boolean = false
+        val itemText: String = itemList[position].taskText
+        val isDone: Boolean = itemList[position].isDone
+        val isDeleted: Boolean = itemList[position].isDeleted
 
         val rowView = layoutInflater.inflate(R.layout.custom_list_item, null)
 
@@ -35,11 +40,25 @@ class CustomListAdapter(context: Context, texts: Array<String>): BaseAdapter() {
         val checkBox = rowView.findViewById(R.id.item_checkbox) as CheckBox
         val deleteButton = rowView.findViewById(R.id.item_delete_button) as ImageButton
 
-        itemTextView.text = itemList[position]
-        checkBox.isChecked = false
+        itemTextView.text = itemText
+        checkBox.isChecked = isDone
+
+        checkBox.setOnClickListener {
+            checkBox.isChecked = !checkBox.isChecked
+        }
+
+        deleteButton.setOnClickListener {
+            itemList.removeAt(position)
+        }
 
         return rowView
 
         TODO("https://www.appsdeveloperblog.com/todo-list-app-kotlin-firebase/")
+    }
+
+    private class ListViewItem(row: View) {
+        val text: TextView = row.findViewById(R.id.item_text)
+        val isDoneCheckBox: CheckBox = row.findViewById(R.id.item_checkbox)
+        val deleteButton: ImageButton = row.findViewById(R.id.item_delete_button)
     }
 }
