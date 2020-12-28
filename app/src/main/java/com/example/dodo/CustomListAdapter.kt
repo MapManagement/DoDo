@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 
-var toDoItemList: MutableList<ToDoTask>? = null
+var toDoTaskList: MutableList<ToDoTask>? = null
 lateinit var adapter: CustomListAdapter
 var listViewItems: ListView? = null
 
@@ -31,12 +31,12 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         val itemText: String = itemList[position].taskText
-        val isDone: Boolean = itemList[position].isDone
+        var isDone: Boolean = itemList[position].isDone
         val isDeleted: Boolean = itemList[position].isDeleted
 
         val rowView = layoutInflater.inflate(R.layout.custom_list_item, null)
 
-        val itemTextView = rowView.findViewById(R.id.text) as TextView
+        val itemTextView = rowView.findViewById(R.id.item_text) as TextView
         val checkBox = rowView.findViewById(R.id.item_checkbox) as CheckBox
         val deleteButton = rowView.findViewById(R.id.item_delete_button) as ImageButton
 
@@ -44,11 +44,13 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
         checkBox.isChecked = isDone
 
         checkBox.setOnClickListener {
-            checkBox.isChecked = !checkBox.isChecked
+            isDone = checkBox.isChecked
+            TODO("including database")
         }
 
         deleteButton.setOnClickListener {
             itemList.removeAt(position)
+            TODO("including database")
         }
 
         return rowView

@@ -1,6 +1,7 @@
 package com.example.dodo
 
 import android.app.AlertDialog
+import android.net.sip.SipSession
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -16,16 +17,14 @@ class MainActivity : AppCompatActivity(), ItemListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val listView: ListView = findViewById(R.id.todosListView)
-
-        arrayAdapter = ArrayAdapter(this, R.layout.listview_item, taskList)
-        listView.adapter = arrayAdapter
+        listViewItems = findViewById(R.id.todosListView)
 
         fab_add_entry.setOnClickListener { showAlertDialog() }
 
-        toDoItemList = mutableListOf<ToDoTask>()
-        adapter = CustomListAdapter(this, toDoItemList!!)
+        toDoTaskList = mutableListOf()
+        adapter = CustomListAdapter(this, toDoTaskList!!)
         listViewItems!!.setAdapter(adapter)
+        TODO("loading stored tasks from database")
     }
 
     private fun showAlertDialog() {
@@ -50,9 +49,8 @@ class MainActivity : AppCompatActivity(), ItemListener {
         taskItem.isDeleted = false
 
         layoutInflater.inflate(R.layout.custom_list_item, null)
-        taskList.add(itemText)
-        arrayAdapter.notifyDataSetChanged()
-        todosListView.adapter = arrayAdapter
+        toDoTaskList?.add(taskItem)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onItemStatusChanged(iteObjectId: String, isDone: Boolean) {
