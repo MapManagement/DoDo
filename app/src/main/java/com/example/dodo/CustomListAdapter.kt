@@ -1,5 +1,6 @@
 package com.example.dodo
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
 
     private val itemList: MutableList<ToDoTask> = tasks
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+    private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
 
     override fun getCount(): Int {
         return  itemList.size
@@ -28,11 +30,13 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
         return position.toLong()
     }
 
+    @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
-        val itemText: String = itemList[position].taskText
+        val itemID: Int = itemList[position].taskID
+        var itemText: String = itemList[position].taskText
         var isDone: Boolean = itemList[position].isDone
-        val isDeleted: Boolean = itemList[position].isDeleted
+        var isDeleted: Boolean = itemList[position].isDeleted
 
         val rowView = layoutInflater.inflate(R.layout.custom_list_item, null)
 
@@ -45,12 +49,13 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
 
         checkBox.setOnClickListener {
             isDone = checkBox.isChecked
-            TODO("including database")
+            dbConnector.updateTask(itemID, itemText, isDone)
         }
 
         deleteButton.setOnClickListener {
+            isDeleted = true
             itemList.removeAt(position)
-            TODO("including database")
+            dbConnector.deleteTask(itemID)
         }
 
         return rowView

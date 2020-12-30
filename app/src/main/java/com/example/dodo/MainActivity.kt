@@ -11,8 +11,7 @@ import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
 
 class MainActivity : AppCompatActivity(), ItemListener {
 
-    var taskList = ArrayList<String>()
-    lateinit var arrayAdapter: ArrayAdapter<String>
+    private val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +22,8 @@ class MainActivity : AppCompatActivity(), ItemListener {
 
         toDoTaskList = mutableListOf()
         adapter = CustomListAdapter(this, toDoTaskList!!)
-        listViewItems!!.setAdapter(adapter)
-        TODO("loading stored tasks from database")
+        listViewItems!!.adapter = adapter
+        loadStoredTasks()
     }
 
     private fun showAlertDialog() {
@@ -49,8 +48,16 @@ class MainActivity : AppCompatActivity(), ItemListener {
         taskItem.isDeleted = false
 
         layoutInflater.inflate(R.layout.custom_list_item, null)
+        dbConnector.insertNewTask(itemText)
         toDoTaskList?.add(taskItem)
         adapter.notifyDataSetChanged()
+    }
+
+    private fun loadStoredTasks() {
+        val storedTasks: ArrayList<ToDoTask> = dbConnector.getAllTasks()
+        for(task in storedTasks) {
+            toDoTaskList?.add(task)
+        }
     }
 
     override fun onItemStatusChanged(iteObjectId: String, isDone: Boolean) {
