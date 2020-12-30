@@ -1,7 +1,6 @@
 package com.example.dodo
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +41,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
 
         val itemTextView = rowView.findViewById(R.id.item_text) as TextView
         val checkBox = rowView.findViewById(R.id.item_checkbox) as CheckBox
+        val editButton = rowView.findViewById(R.id.item_edit_button) as ImageButton
         val deleteButton = rowView.findViewById(R.id.item_delete_button) as ImageButton
 
         itemTextView.text = itemText
@@ -52,20 +52,19 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
             dbConnector.updateTask(itemID, itemText, isDone)
         }
 
+        editButton.setOnClickListener {
+            TODO("showing dialog to edit task text")
+        }
+
         deleteButton.setOnClickListener {
             isDeleted = true
             itemList.removeAt(position)
             dbConnector.deleteTask(itemID)
+            this.notifyDataSetChanged()
         }
 
         return rowView
 
         TODO("https://www.appsdeveloperblog.com/todo-list-app-kotlin-firebase/")
-    }
-
-    private class ListViewItem(row: View) {
-        val text: TextView = row.findViewById(R.id.item_text)
-        val isDoneCheckBox: CheckBox = row.findViewById(R.id.item_checkbox)
-        val deleteButton: ImageButton = row.findViewById(R.id.item_delete_button)
     }
 }

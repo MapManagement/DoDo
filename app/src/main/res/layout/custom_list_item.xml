@@ -8,15 +8,30 @@
               android:textSize="20sp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
+              android:layout_marginLeft="3dp"
               tools:ignore="RelativeOverlap"/>
 
     <CheckBox android:id="@+id/item_checkbox"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
 
-              android:layout_toLeftOf="@+id/item_delete_button"
-              android:layout_toStartOf="@+id/item_delete_button"
+              android:layout_toLeftOf="@+id/item_edit_button"
+              android:layout_toStartOf="@+id/item_edit_button"
               android:layout_centerVertical="true" />
+
+    <ImageButton
+            android:id="@+id/item_edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/todo"
+
+            android:layout_toLeftOf="@+id/item_delete_button"
+            android:layout_toStartOf="@+id/item_delete_button"
+            android:layout_centerVertical="true"
+
+            app:srcCompat="@drawable/ic_edit_pen"
+            tools:ignore="VectorDrawableCompat"/>
 
     <ImageButton
             android:id="@+id/item_delete_button"
@@ -30,6 +45,5 @@
             android:layout_centerVertical="true"
 
             app:srcCompat="@android:drawable/ic_delete"/>
-
 
 </RelativeLayout>
