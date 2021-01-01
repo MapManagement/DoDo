@@ -1,11 +1,13 @@
 package com.example.dodo
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
 
 var toDoTaskList: MutableList<ToDoTask>? = null
 lateinit var adapter: CustomListAdapter
@@ -53,7 +55,23 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
         }
 
         editButton.setOnClickListener {
-            TODO("showing dialog to edit task text")
+            val dialogView = layoutInflater.inflate(R.layout.custom_entry_dialog, null)
+            AlertDialog.Builder(parent.context)
+                .setTitle("Edit Task")
+                .setView(dialogView)
+                .setPositiveButton("Edit") { dialog, _which ->
+                    itemText = dialogView.entry_text.text.toString()
+                    itemTextView.text = itemText
+
+                    dbConnector.updateTask(itemID, itemText, isDone)
+                    adapter.notifyDataSetChanged()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _which ->
+                    dialog.dismiss()
+                }
+                .show()
+            TODO("task text is not updating in UI")
         }
 
         deleteButton.setOnClickListener {
