@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_todos"
+          android:title="@string/todos"
+          android:icon="@drawable/ic_nav_todo"
+    />
+    <item android:id="@+id/nav_notes"
+          android:title="@string/notes"
+          android:icon="@drawable/ic_nav_note"
+    />
+    <item android:id="@+id/nav_settings"
+          android:title="@string/settings"
+          android:icon="@drawable/ic_nav_settings"
+    />
+</menu>

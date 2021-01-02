@@ -24,6 +24,21 @@ class MainActivity : AppCompatActivity(), ItemListener {
         adapter = CustomListAdapter(this, toDoTaskList!!)
         listViewItems!!.adapter = adapter
         loadStoredTasks()
+
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.nav_todos -> {
+                    TODO("opening todo view")
+                }
+                R.id.nav_notes -> {
+                    TODO("opening note view")
+                }
+                R.id.nav_settings -> {
+                    TODO("opening settings view")
+                }
+                else -> false
+            }
+        }
     }
 
     private fun showAlertDialog() {
