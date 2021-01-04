@@ -1,6 +1,8 @@
 package com.example.dodo
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.net.sip.SipSession
 import android.os.Bundle
 import android.view.View
@@ -9,9 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
 
-class MainActivity : AppCompatActivity(), ItemListener {
+class MainActivity(openingActivity: Activity? = null) : AppCompatActivity() {
 
     private val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
+    private val lastActivity: Activity? = openingActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +31,17 @@ class MainActivity : AppCompatActivity(), ItemListener {
         bottom_navigation.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.nav_todos -> {
-                    TODO("opening todo view")
+                    true
                 }
                 R.id.nav_notes -> {
-                    TODO("opening note view")
+                    val intent = Intent(this, NoteActivity(this)::class.java)
+                    startActivity(intent)
+                    true
                 }
                 R.id.nav_settings -> {
-                    TODO("opening settings view")
+                    val intent = Intent(this, SettingsActivity(this)::class.java)
+                    startActivity(intent)
+                    true
                 }
                 else -> false
             }
@@ -75,11 +82,14 @@ class MainActivity : AppCompatActivity(), ItemListener {
         }
     }
 
-    override fun onItemStatusChanged(iteObjectId: String, isDone: Boolean) {
-        TODO("Not yet implemented")
-    }
+    override fun onBackPressed() {
+        if(lastActivity != null){
+            val intent = Intent(this, lastActivity::class.java)
+            startActivity(intent)
+        }
+        else {
+            finish()
+        }
 
-    override fun onItemDeleted(itemObjectId: String) {
-        TODO("Not yet implemented")
     }
 }
