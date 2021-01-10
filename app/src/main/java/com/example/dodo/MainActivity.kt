@@ -11,10 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
 
-class MainActivity(openingActivity: Activity? = null) : AppCompatActivity() {
+class MainActivity(openingActivity: DoDoActivities) : AppCompatActivity() {
 
     private val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
-    private val lastActivity: Activity? = openingActivity
+    private val lastActivity: DoDoActivities = openingActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +34,16 @@ class MainActivity(openingActivity: Activity? = null) : AppCompatActivity() {
                     true
                 }
                 R.id.nav_notes -> {
-                    val intent = Intent(this, NoteActivity(this)::class.java)
+                    val activity: DoDoActivities = DoDoActivities()
+                    activity.MainAc = true
+                    val intent = Intent(this, NoteActivity(activity)::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.nav_settings -> {
-                    val intent = Intent(this, SettingsActivity(this)::class.java)
+                    val activity: DoDoActivities = DoDoActivities()
+                    activity.MainAc = true
+                    val intent = Intent(this, SettingsActivity(activity)::class.java)
                     startActivity(intent)
                     true
                 }
@@ -83,13 +87,20 @@ class MainActivity(openingActivity: Activity? = null) : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(lastActivity != null){
-            val intent = Intent(this, lastActivity::class.java)
+        if(lastActivity.MainAc) {
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        else {
+        else if(lastActivity.NoteAc){
+            val intent = Intent(this, NoteActivity::class.java)
+            startActivity(intent)
+        }
+        else if(lastActivity.SettingsAc) {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+        else{
             finish()
         }
-
     }
 }

@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class NoteActivity(openingActivity: Activity) : AppCompatActivity() {
+class NoteActivity(openingActivity: DoDoActivities) : AppCompatActivity() {
 
     private val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
-    private val lastActivity: Activity = openingActivity
+    private val lastActivity: DoDoActivities = openingActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,9 @@ class NoteActivity(openingActivity: Activity) : AppCompatActivity() {
         bottom_navigation.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.nav_todos -> {
-                    val intent = Intent(this, MainActivity(this)::class.java)
+                    val activity: DoDoActivities = DoDoActivities()
+                    activity.NoteAc = true
+                    val intent = Intent(this, MainActivity(activity)::class.java)
                     startActivity(intent)
                     true
                 }
@@ -28,7 +30,9 @@ class NoteActivity(openingActivity: Activity) : AppCompatActivity() {
                     true
                 }
                 R.id.nav_settings -> {
-                    val intent = Intent(this, SettingsActivity(this)::class.java)
+                    val activity: DoDoActivities = DoDoActivities()
+                    activity.NoteAc = true
+                    val intent = Intent(this, SettingsActivity(activity)::class.java)
                     startActivity(intent)
                     true
                 }
@@ -38,7 +42,20 @@ class NoteActivity(openingActivity: Activity) : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this, lastActivity::class.java)
-        startActivity(intent)
+        if(lastActivity.MainAc) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        else if(lastActivity.NoteAc){
+            val intent = Intent(this, NoteActivity::class.java)
+            startActivity(intent)
+        }
+        else if(lastActivity.SettingsAc) {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+        else{
+            finish()
+        }
     }
 }

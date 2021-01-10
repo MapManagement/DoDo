@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.dodo">
+          xmlns:tools="http://schemas.android.com/tools" package="com.example.dodo">
 
     <application
             android:allowBackup="true"
@@ -11,15 +11,15 @@
             android:theme="@style/AppTheme">
         <activity
                 android:name=".MainActivity"
-                android:label="@string/app_name">
+                android:label="@string/app_name" tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".NoteActivity" />
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".NoteActivity" tools:ignore="Instantiatable"/>
+        <activity android:name=".SettingsActivity" tools:ignore="Instantiatable"/>
     </application>
 
 </manifest>
