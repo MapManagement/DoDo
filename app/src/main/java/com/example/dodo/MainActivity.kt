@@ -11,10 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
 
-class MainActivity(openingActivity: DoDoActivities) : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
-    private val lastActivity: DoDoActivities = openingActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +35,14 @@ class MainActivity(openingActivity: DoDoActivities) : AppCompatActivity() {
                 R.id.nav_notes -> {
                     val activity: DoDoActivities = DoDoActivities()
                     activity.MainAc = true
-                    val intent = Intent(this, NoteActivity(activity)::class.java)
+                    val intent = Intent(this, NoteActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.nav_settings -> {
                     val activity: DoDoActivities = DoDoActivities()
                     activity.MainAc = true
-                    val intent = Intent(this, SettingsActivity(activity)::class.java)
+                    val intent = Intent(this, SettingsActivity::class.java)
                     startActivity(intent)
                     true
                 }
@@ -87,20 +86,6 @@ class MainActivity(openingActivity: DoDoActivities) : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(lastActivity.MainAc) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-        else if(lastActivity.NoteAc){
-            val intent = Intent(this, NoteActivity::class.java)
-            startActivity(intent)
-        }
-        else if(lastActivity.SettingsAc) {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-        }
-        else{
             finish()
-        }
     }
 }

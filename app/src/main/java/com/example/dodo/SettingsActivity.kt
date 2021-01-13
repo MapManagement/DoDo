@@ -8,10 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class SettingsActivity(openingActivity: DoDoActivities) : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     private val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
-    private val lastActivity: DoDoActivities = openingActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,14 +21,14 @@ class SettingsActivity(openingActivity: DoDoActivities) : AppCompatActivity() {
                 R.id.nav_todos -> {
                     val activity: DoDoActivities = DoDoActivities()
                     activity.SettingsAc = true
-                    val intent = Intent(this, MainActivity(activity)::class.java)
+                    val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.nav_notes -> {
                     val activity: DoDoActivities = DoDoActivities()
                     activity.SettingsAc = true
-                    val intent = Intent(this, NoteActivity(activity)::class.java)
+                    val intent = Intent(this, NoteActivity::class.java)
                     startActivity(intent)
                     true
                 }
@@ -42,20 +41,6 @@ class SettingsActivity(openingActivity: DoDoActivities) : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(lastActivity.MainAc) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-        else if(lastActivity.NoteAc){
-            val intent = Intent(this, NoteActivity::class.java)
-            startActivity(intent)
-        }
-        else if(lastActivity.SettingsAc) {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-        }
-        else{
             finish()
-        }
     }
 }
