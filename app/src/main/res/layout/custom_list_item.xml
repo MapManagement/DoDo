@@ -2,14 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@drawable/round_corners"
+                android:layout_margin="3dp">
 
     <TextView android:id="@+id/item_text"
               android:textSize="20sp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginLeft="3dp"
-              tools:ignore="RelativeOverlap"/>
+              android:layout_marginStart="3dp"
+              tools:ignore="RelativeOverlap" />
 
     <CheckBox android:id="@+id/item_checkbox"
               android:layout_width="wrap_content"
