@@ -3,6 +3,9 @@ package com.example.dodo
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,6 +83,11 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
             dbConnector.deleteTask(itemID)
             this.notifyDataSetChanged()
         }
+
+        val drawableBackground: Drawable = rowView.background
+        drawableBackground.setColorFilter(Color.parseColor("#9966FF"), PorterDuff.Mode.SRC)
+        rowView.background = drawableBackground
+
 
         return rowView
 
