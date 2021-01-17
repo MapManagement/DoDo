@@ -4,6 +4,19 @@
                                                    xmlns:tools="http://schemas.android.com/tools" android:layout_width="320dp"
                                                    android:layout_height="160dp">
 
+    <ImageView
+            android:id="@+id/item_color_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:layout_marginTop="8dp"
+            android:tint="@color/grey"
+
+            app:layout_constraintRight_toLeftOf="@id/entry_text"
+            app:layout_constraintTop_toTopOf="@id/entry_text"
+            app:srcCompat="@drawable/ic_color_display"
+            tools:ignore="VectorDrawableCompat" />
+
     <EditText
             android:id="@+id/entry_text"
             android:layout_width="match_parent"

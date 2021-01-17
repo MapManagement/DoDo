@@ -74,7 +74,6 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
                     dialog.dismiss()
                 }
                 .show()
-            TODO("task text is not updating in UI")
         }
 
         deleteButton.setOnClickListener {

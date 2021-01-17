@@ -3,12 +3,17 @@ package com.example.dodo
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.net.sip.SipSession
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.custom_entry_dialog.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
 
 class MainActivity : AppCompatActivity() {
@@ -58,6 +63,34 @@ class MainActivity : AppCompatActivity() {
             .setView(dialogView)
             .setPositiveButton("Add") { dialog, _which ->
                 addNewToDoItem(dialogView.entry_text.text.toString())
+
+                red_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                        val colorValue = convertColorToHexString()
+                        item_color_preview.setColorFilter(Color.parseColor(colorValue), PorterDuff.Mode.SRC)
+                    }
+                })
+                green_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                        val colorValue = convertColorToHexString()
+                        println(colorValue)
+                        item_color_preview.setColorFilter(Color.parseColor(colorValue), PorterDuff.Mode.SRC)
+                    }
+                })
+                blue_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                        val colorValue = convertColorToHexString()
+                        item_color_preview.setColorFilter(Color.parseColor(colorValue), PorterDuff.Mode.SRC)
+                    }
+                })
+                TODO("changing color of icon")
+
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { _dialog, _which ->
@@ -87,5 +120,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
             finish()
+    }
+
+    private fun convertColorToHexString(): String{
+        var redValue = Integer.toHexString(red_seekbar.progress)
+        if(redValue.length==1)  redValue = "0$redValue"
+        var greenValue = Integer.toHexString(green_seekbar.progress)
+        if(greenValue.length==1)  greenValue = "0$greenValue"
+        var blueValue = Integer.toHexString(blue_seekbar.progress)
+        if(blueValue.length==1)  blueValue = "0$blueValue"
+        return "#$redValue$greenValue$blueValue"
     }
 }
