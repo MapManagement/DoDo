@@ -2,6 +2,7 @@ package com.example.dodo
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.ColorFilter
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         listViewItems = findViewById(R.id.todosListView)
 
-        fab_add_entry.setOnClickListener { showAlertDialog() }
+        fab_add_entry.setOnClickListener { openSetDataView() }
 
         toDoTaskList = mutableListOf()
         adapter = CustomListAdapter(this, toDoTaskList!!)
@@ -56,47 +57,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAlertDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.custom_entry_dialog, null)
-        AlertDialog.Builder(this)
-            .setTitle("Add New Task")
-            .setView(dialogView)
-            .setPositiveButton("Add") { dialog, _which ->
-                addNewToDoItem(dialogView.entry_text.text.toString())
-
-                red_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                        val colorValue = convertColorToHexString()
-                        item_color_preview.setColorFilter(Color.parseColor(colorValue), PorterDuff.Mode.SRC)
-                    }
-                })
-                green_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                        val colorValue = convertColorToHexString()
-                        println(colorValue)
-                        item_color_preview.setColorFilter(Color.parseColor(colorValue), PorterDuff.Mode.SRC)
-                    }
-                })
-                blue_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                        val colorValue = convertColorToHexString()
-                        item_color_preview.setColorFilter(Color.parseColor(colorValue), PorterDuff.Mode.SRC)
-                    }
-                })
-                TODO("changing color of icon")
-
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancel") { _dialog, _which ->
-                Toast.makeText(this, "Cancelled!", Toast.LENGTH_SHORT).show()
-            }
-            .show()
+    private fun openSetDataView() {
+        val intent = Intent(this, SetDataActivity::class.java)
+        startActivity(intent)
     }
 
     private fun addNewToDoItem(itemText: String) {
@@ -120,15 +83,5 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
             finish()
-    }
-
-    private fun convertColorToHexString(): String{
-        var redValue = Integer.toHexString(red_seekbar.progress)
-        if(redValue.length==1)  redValue = "0$redValue"
-        var greenValue = Integer.toHexString(green_seekbar.progress)
-        if(greenValue.length==1)  greenValue = "0$greenValue"
-        var blueValue = Integer.toHexString(blue_seekbar.progress)
-        if(blueValue.length==1)  blueValue = "0$blueValue"
-        return "#$redValue$greenValue$blueValue"
     }
 }

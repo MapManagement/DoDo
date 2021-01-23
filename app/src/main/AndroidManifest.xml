@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".NoteActivity" tools:ignore="Instantiatable"/>
         <activity android:name=".SettingsActivity" tools:ignore="Instantiatable"/>
+        <activity android:name=".SetDataActivity" tools:ignore="Instantiatable"/>
     </application>
 
 </manifest>
