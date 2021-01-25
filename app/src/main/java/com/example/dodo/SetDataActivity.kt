@@ -4,7 +4,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.set
+import kotlinx.android.synthetic.main.activity_set_data.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.*
+import kotlinx.android.synthetic.main.custom_entry_dialog.blue_seekbar
+import kotlinx.android.synthetic.main.custom_entry_dialog.color_preview_button
+import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar
+import kotlinx.android.synthetic.main.custom_entry_dialog.red_seekbar
 
 class SetDataActivity: AppCompatActivity() {
 
@@ -16,6 +22,7 @@ class SetDataActivity: AppCompatActivity() {
         green_seekbar.progress = green_seekbar.max / 2
         blue_seekbar.progress = blue_seekbar.max / 2
         val onStartColorValue = convertColorToHexString()
+        entry_hex_color_string.setText(onStartColorValue)
         color_preview_button.setBackgroundColor(Color.parseColor(onStartColorValue))
 
         red_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{

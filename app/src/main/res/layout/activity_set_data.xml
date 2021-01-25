@@ -7,11 +7,25 @@
         android:layout_height="match_parent"
         tools:context=".SetDataActivity">
 
+    <TextView android:id="@+id/entry_title_text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/title"
+              android:textSize="20sp"
+              android:layout_marginTop="8dp"
+              android:layout_marginStart="24dp"
+              android:layout_marginEnd="24dp"
+              android:layout_marginLeft="24dp"
+              android:layout_marginRight="24dp"
+
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toTopOf="parent"/>
+
     <EditText
             android:id="@+id/entry_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginLeft="24dp"
@@ -22,7 +36,21 @@
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/entry_title_text"/>
+
+    <TextView android:id="@+id/entry_color_text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/color"
+              android:textSize="20sp"
+              android:layout_marginTop="10dp"
+              android:layout_marginStart="24dp"
+              android:layout_marginEnd="24dp"
+              android:layout_marginLeft="24dp"
+              android:layout_marginRight="24dp"
+
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/entry_text"/>
 
     <SeekBar android:id="@+id/red_seekbar"
              android:layout_width="match_parent"
@@ -35,7 +63,7 @@
 
              app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintTop_toBottomOf="@id/entry_text"/>
+             app:layout_constraintTop_toBottomOf="@id/entry_color_text"/>
 
     <SeekBar android:id="@+id/green_seekbar"
              android:layout_width="match_parent"
@@ -72,6 +100,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/blue_seekbar" />
+
+    <EditText
+            android:id="@+id/entry_hex_color_string"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:autofillHints=""
+            android:text=""
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/color_preview_button"
+            tools:ignore="LabelFor"/>
 
 
 
