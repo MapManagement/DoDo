@@ -65,11 +65,12 @@ class MainActivity : AppCompatActivity() {
     private fun addNewToDoItem(itemText: String) {
         val taskItem = ToDoTask()
         taskItem.taskText = itemText
+        taskItem.taskColor = "#F0F0F0"
         taskItem.isDone = false
         taskItem.isDeleted = false
 
         layoutInflater.inflate(R.layout.custom_list_item, null)
-        dbConnector.insertNewTask(itemText)
+        dbConnector.insertNewTask(itemText, "#F0F0F0")
         toDoTaskList?.add(taskItem)
         adapter.notifyDataSetChanged()
     }

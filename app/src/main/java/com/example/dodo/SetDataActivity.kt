@@ -1,5 +1,6 @@
 package com.example.dodo
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.SeekBar
@@ -13,6 +14,8 @@ import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.red_seekbar
 
 class SetDataActivity: AppCompatActivity() {
+
+    private val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +52,17 @@ class SetDataActivity: AppCompatActivity() {
                 color_preview_button.setBackgroundColor(Color.parseColor(colorValue))
             }
         })
+
+        entry_submit_button.setOnClickListener {
+            insertNewTask()
+            val intent = Intent(this, NoteActivity::class.java)
+            startActivity(intent)
+        }
+
+        entry_leave_button.setOnClickListener {
+            val intent = Intent(this, NoteActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun convertColorToHexString(): String{
@@ -59,5 +73,10 @@ class SetDataActivity: AppCompatActivity() {
         var blueValue = Integer.toHexString(blue_seekbar.progress)
         if(blueValue.length==1)  blueValue = "0$blueValue"
         return "#$redValue$greenValue$blueValue"
+    }
+
+    private fun insertNewTask() {
+        dbConnector.insertNewTask(entry_task_text.text.toString(), convertColorToHexString())
+
     }
 }

@@ -15,6 +15,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
                 "$TASK_TEXT TEXT NOT NULL," +
                 "$TASK_DONE INTEGER NOT NULL," +
                 "$TASK_DELETED INTEGER NOT NULL" +
+                "$TASK_COLOR TEXT NOT NULL," +
                 ")")
 
         db?.execSQL("CREATE TABLE  $NOTE_TABLE_NAME (" +
@@ -28,7 +29,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
+       TODO("Not implemented yet")
     }
 
     fun getAllTasks(): ArrayList<ToDoTask> {
@@ -42,6 +43,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             toDoTask.taskText = cursor.getString(cursor.getColumnIndex(TASK_TEXT))
             toDoTask.isDone = cursor.getInt(cursor.getColumnIndex(TASK_DONE)) == 1
             toDoTask.isDeleted = cursor.getInt(cursor.getColumnIndex(TASK_DELETED)) == 1
+            toDoTask.taskColor = cursor.getString(cursor.getColumnIndex(TASK_COLOR))
             taskArray.add(toDoTask)
             cursor.moveToNext()
         }
@@ -49,9 +51,10 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         return taskArray
     }
 
-    fun insertNewTask(text: String) {
+    fun insertNewTask(text: String, color: String) {
         val values = ContentValues()
         values.put(TASK_TEXT, text)
+        values.put(TASK_COLOR, color)
         values.put(TASK_DONE, 0)
         values.put(TASK_DELETED, 0)
 
@@ -66,10 +69,11 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         db.close()
     }
 
-    fun updateTask(taskID: Int, text: String, isDone: Boolean) {
+    fun updateTask(taskID: Int, text: String, isDone: Boolean, color: String) {
         val intIsDone = if(isDone) 1 else 0
         val values = ContentValues()
         values.put(TASK_TEXT, text)
+        values.put(TASK_COLOR, color)
         values.put(TASK_DONE, intIsDone)
 
         val db = this.writableDatabase
@@ -138,6 +142,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
 
         const val TASK_ID = "task_id"
         const val TASK_TEXT = "task_text"
+        const val TASK_COLOR = "task_color"
         const val TASK_DONE = "is_done"
         const val TASK_DELETED = "is_deleted"
 

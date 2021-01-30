@@ -54,7 +54,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
 
         checkBox.setOnClickListener {
             isDone = checkBox.isChecked
-            dbConnector.updateTask(itemID, itemText, isDone)
+            dbConnector.updateTask(itemID, itemText, isDone, "#F0F0F0")
         }
 
         editButton.setOnClickListener {
@@ -66,7 +66,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
                     itemText = dialogView.entry_text.text.toString()
                     itemTextView.text = itemText
 
-                    dbConnector.updateTask(itemID, itemText, isDone)
+                    dbConnector.updateTask(itemID, itemText, isDone, "#F0F0F0")
                     adapter.notifyDataSetChanged()
                     dialog.dismiss()
                 }
