@@ -48,6 +48,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
 
-            app:srcCompat="@android:drawable/ic_delete"/>
+            app:srcCompat="@drawable/ic_delete"
+            tools:ignore="VectorDrawableCompat"/>
 
 </RelativeLayout>
