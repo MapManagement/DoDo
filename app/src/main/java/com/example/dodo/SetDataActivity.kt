@@ -55,12 +55,13 @@ class SetDataActivity: AppCompatActivity() {
 
         entry_submit_button.setOnClickListener {
             insertNewTask()
-            val intent = Intent(this, NoteActivity::class.java)
+
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
         entry_leave_button.setOnClickListener {
-            val intent = Intent(this, NoteActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
@@ -77,6 +78,5 @@ class SetDataActivity: AppCompatActivity() {
 
     private fun insertNewTask() {
         dbConnector.insertNewTask(entry_task_text.text.toString(), convertColorToHexString())
-
     }
 }

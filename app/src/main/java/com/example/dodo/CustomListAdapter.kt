@@ -41,6 +41,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
         var itemText: String = itemList[position].taskText
         var isDone: Boolean = itemList[position].isDone
         var isDeleted: Boolean = itemList[position].isDeleted
+        var itemColor: String = itemList[position].taskColor
 
         val rowView = layoutInflater.inflate(R.layout.custom_list_item, null)
 
@@ -84,7 +85,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
         }
 
         val drawableBackground: Drawable = rowView.background
-        drawableBackground.setColorFilter(Color.parseColor("#9966FF"), PorterDuff.Mode.SRC)
+        drawableBackground.setColorFilter(Color.parseColor(itemColor), PorterDuff.Mode.SRC)
         rowView.background = drawableBackground
 
 

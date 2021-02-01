@@ -62,20 +62,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun addNewToDoItem(itemText: String) {
-        val taskItem = ToDoTask()
-        taskItem.taskText = itemText
-        taskItem.taskColor = "#F0F0F0"
-        taskItem.isDone = false
-        taskItem.isDeleted = false
-
-        layoutInflater.inflate(R.layout.custom_list_item, null)
-        dbConnector.insertNewTask(itemText, "#F0F0F0")
-        toDoTaskList?.add(taskItem)
-        adapter.notifyDataSetChanged()
-    }
-
     private fun loadStoredTasks() {
+        adapter.notifyDataSetChanged()
         val storedTasks: ArrayList<ToDoTask> = dbConnector.getAllTasks()
         for(task in storedTasks) {
             toDoTaskList?.add(task)
