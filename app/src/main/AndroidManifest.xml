@@ -21,6 +21,7 @@
         <activity android:name=".NoteActivity" tools:ignore="Instantiatable"/>
         <activity android:name=".SettingsActivity" tools:ignore="Instantiatable"/>
         <activity android:name=".SetDataActivity" tools:ignore="Instantiatable"/>
+        <activity android:name=".EditDataActivity" tools:ignore="Instantiatable"/>
     </application>
 
 </manifest>

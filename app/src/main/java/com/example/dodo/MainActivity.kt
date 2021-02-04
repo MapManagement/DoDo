@@ -1,21 +1,11 @@
 package com.example.dodo
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.Dialog
+
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
-import android.net.sip.SipSession
 import android.os.Bundle
-import android.view.View
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.custom_entry_dialog.*
-import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
+
 
 class MainActivity : AppCompatActivity() {
 
