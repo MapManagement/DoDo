@@ -3,6 +3,8 @@ package com.example.dodo
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.set
@@ -136,17 +138,37 @@ class EditDataActivity: AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        TODO("set color of seekbars")
+
+        entry_hex_color_string.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (s.length == 7){
+                    red_seekbar.progress = Integer.parseInt(s.substring(1..2), 16)
+                    green_seekbar.progress = Integer.parseInt(s.substring(3..4), 16)
+                    blue_seekbar.progress = Integer.parseInt(s.substring(5..6), 16)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                return
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                return
+            }
+        })
     }
 
-    private fun convertColorToHexString(): String{
+    private fun convertColorToHexString(): String {
         var redValue = Integer.toHexString(red_seekbar.progress)
         if(redValue.length==1)  redValue = "0$redValue"
         var greenValue = Integer.toHexString(green_seekbar.progress)
         if(greenValue.length==1)  greenValue = "0$greenValue"
         var blueValue = Integer.toHexString(blue_seekbar.progress)
         if(blueValue.length==1)  blueValue = "0$blueValue"
-        return "#$redValue$greenValue$blueValue"
+
+        val colorValue = "#$redValue$greenValue$blueValue".toUpperCase()
+        entry_hex_color_string.setText(colorValue)
+        return colorValue
     }
 
     private fun updateTask(taskID: Int) {
