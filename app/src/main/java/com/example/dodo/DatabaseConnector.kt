@@ -14,8 +14,8 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
                 "$TASK_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$TASK_TEXT TEXT NOT NULL," +
                 "$TASK_DONE INTEGER NOT NULL," +
-                "$TASK_DELETED INTEGER NOT NULL" +
-                "$TASK_COLOR TEXT NOT NULL," +
+                "$TASK_DELETED INTEGER NOT NULL," +
+                "$TASK_COLOR TEXT NOT NULL" +
                 ")")
 
         db?.execSQL("CREATE TABLE  $NOTE_TABLE_NAME (" +

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
+import kotlinx.android.synthetic.main.custom_list_item.view.*
 
 var toDoTaskList: MutableList<ToDoTask>? = null
 lateinit var adapter: CustomListAdapter
@@ -75,7 +76,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
             this.notifyDataSetChanged()
         }
 
-        val drawableBackground: Drawable = rowView.background
+        val drawableBackground: Drawable = rowView.text_section.background
         drawableBackground.setColorFilter(Color.parseColor(task.taskColor), PorterDuff.Mode.SRC)
         rowView.background = drawableBackground
 
