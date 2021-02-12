@@ -76,10 +76,9 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
             this.notifyDataSetChanged()
         }
 
-        val drawableBackground: Drawable = rowView.text_section.background
-        drawableBackground.setColorFilter(Color.parseColor(task.taskColor), PorterDuff.Mode.SRC)
-        rowView.background = drawableBackground
-
+        val textSectionBackground: Drawable = rowView.text_section.background
+        textSectionBackground.setColorFilter(Color.parseColor(task.taskColor), PorterDuff.Mode.SRC)
+        rowView.background = textSectionBackground
 
         return rowView
 

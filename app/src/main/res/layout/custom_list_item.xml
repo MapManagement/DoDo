@@ -27,9 +27,11 @@
     </LinearLayout>
 
 
-    <RelativeLayout android:id="@+id/action_section"
+    <LinearLayout android:id="@+id/action_section"
                   android:layout_width="wrap_content"
                   android:layout_height="match_parent"
+                  android:layout_alignTop="@id/text_section"
+                  android:layout_alignBottom="@id/text_section"
                   android:layout_alignParentEnd="true"
                   android:layout_alignParentRight="true"
                   android:layout_centerVertical="true"
@@ -39,10 +41,7 @@
                   android:layout_width="wrap_content"
                   android:layout_height="match_parent"
                   android:layout_marginEnd="6dp"
-                  android:layout_marginRight="6dp"
-
-                  android:layout_alignParentLeft="true"
-                  android:layout_alignParentStart="true"/>
+                  android:layout_marginRight="6dp" />
 
         <ImageButton
                 android:id="@+id/item_edit_button"
@@ -52,9 +51,6 @@
                 android:contentDescription="@string/todo"
                 android:layout_marginEnd="6dp"
                 android:layout_marginRight="6dp"
-
-                android:layout_toRightOf="@id/item_checkbox"
-                android:layout_toEndOf="@id/item_checkbox"
 
                 app:srcCompat="@drawable/ic_edit_pen"
                 tools:ignore="VectorDrawableCompat" />
@@ -66,13 +62,10 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/todo"
 
-                android:layout_toRightOf="@id/item_edit_button"
-                android:layout_toEndOf="@id/item_edit_button"
-
                 app:srcCompat="@drawable/ic_delete"
-                tools:ignore="VectorDrawableCompat"/>
+                tools:ignore="VectorDrawableCompat" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>
