@@ -193,20 +193,6 @@ class EditDataActivity: AppCompatActivity() {
         return colorValue
     }
 
-    private fun getTextColor(colorValue: String): Int {
-        if (colorValue.length == 7){
-            val red = Integer.parseInt(colorValue.substring(1..2), 16)
-            val green = Integer.parseInt(colorValue.substring(3..4), 16)
-            val blue = Integer.parseInt(colorValue.substring(5..6), 16)
-
-            val brightness = red*red*0.241 + green*green*0.691 + blue*blue*0.068
-            return brightness.toInt()
-        }
-        else {
-            return 0
-        }
-    }
-
     private fun updateTask(taskID: Int) {
         dbConnector.updateTask(taskID, entry_task_text.text.toString(), false,
             convertColorToHexString())
