@@ -119,9 +119,9 @@ class EditDataActivity: AppCompatActivity() {
         red_seekbar.progress = red_seekbar.max / 2
         green_seekbar.progress = green_seekbar.max / 2
         blue_seekbar.progress = blue_seekbar.max / 2
-        val onStartColorValue = convertColorToHexString()
-        entry_hex_color_string.setText(onStartColorValue)
-        color_preview_button.setBackgroundColor(Color.parseColor(onStartColorValue))
+        entry_hex_color_string.setText(taskColor)
+        setSeekBars(taskColor!!)
+        color_preview_button.setBackgroundColor(Color.parseColor(taskColor))
 
         red_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -164,9 +164,7 @@ class EditDataActivity: AppCompatActivity() {
         entry_hex_color_string.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.length == 7){
-                    red_seekbar.progress = Integer.parseInt(s.substring(1..2), 16)
-                    green_seekbar.progress = Integer.parseInt(s.substring(3..4), 16)
-                    blue_seekbar.progress = Integer.parseInt(s.substring(5..6), 16)
+                    setSeekBars(s.toString())
                 }
             }
 
@@ -191,6 +189,12 @@ class EditDataActivity: AppCompatActivity() {
         val colorValue = "#$redValue$greenValue$blueValue".toUpperCase()
         entry_hex_color_string.setText(colorValue)
         return colorValue
+    }
+
+    private fun setSeekBars(colorString: String) {
+        red_seekbar.progress = Integer.parseInt(colorString.substring(1..2), 16)
+        green_seekbar.progress = Integer.parseInt(colorString.substring(3..4), 16)
+        blue_seekbar.progress = Integer.parseInt(colorString.substring(5..6), 16)
     }
 
     private fun updateTask(taskID: Int) {
