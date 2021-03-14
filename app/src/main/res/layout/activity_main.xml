@@ -7,34 +7,10 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <ListView
-            android:id="@+id/todosListView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="4dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_entry"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_add_entry"
-
-            app:maxImageSize="30dp"
-            app:backgroundTint="@color/colorPrimary"
-            app:fabSize="normal"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-            app:layout_constraintEnd_toEndOf="parent"/>
+    <FrameLayout android:id="@+id/fl_wrapper"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 app:layout_constraintBottom_toTopOf="@id/bottom_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -47,7 +23,6 @@
             app:elevation="2dp"
             app:menu="@menu/bottom_menu_navigation"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-    />
+            app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

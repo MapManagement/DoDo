@@ -16,14 +16,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         listViewItems = findViewById(R.id.todosListView)
 
-        fab_add_entry.setOnClickListener { openSetDataView() }
-
         toDoTaskList = mutableListOf()
         adapter = CustomListAdapter(this, toDoTaskList!!)
         listViewItems!!.adapter = adapter
         loadStoredTasks()
 
-        bottom_navigation.setOnNavigationItemSelectedListener {
+        /*bottom_navigation.setOnNavigationItemSelectedListener { // ToDo adding working bottom navigation
             when(it.itemId) {
                 R.id.nav_todos -> {
                     true
@@ -44,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> false
             }
-        }
+        }*/
     }
 
     private fun openSetDataView() {
