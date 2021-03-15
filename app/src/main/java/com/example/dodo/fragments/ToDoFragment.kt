@@ -1,11 +1,13 @@
 package com.example.dodo.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.dodo.R
+import com.example.dodo.*
+import kotlinx.android.synthetic.main.fragment_to_do.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -14,11 +16,40 @@ import com.example.dodo.R
  */
 class ToDoFragment : Fragment() {
 
+    private val dbConnector: DatabaseConnector = DatabaseConnector(context!!, null)
+
+    //ToDO: check this https://stackoverflow.com/questions/28929637/difference-and-uses-of-oncreate-oncreateview-and-onactivitycreated-in-fra
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_to_do, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        listViewItems = view.todosListView
+
+        toDoTaskList = mutableListOf()
+        adapter = CustomListAdapter(context!!, toDoTaskList!!)
+        listViewItems!!.adapter = adapter
+        loadStoredTasks()
+    }
+
+    private fun openSetDataView() {
+        activity!!.supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fl_wrapper, SetDataFragment())
+            commit()
+        }
+    }
+
+    private fun loadStoredTasks() {
+        adapter.notifyDataSetChanged()
+        val storedTasks: ArrayList<ToDoTask> = dbConnector.getAllTasks()
+        for(task in storedTasks) {
+            toDoTaskList?.add(task)
+        }
     }
 }

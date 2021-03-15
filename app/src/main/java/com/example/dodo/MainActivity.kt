@@ -4,6 +4,10 @@ package com.example.dodo
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.example.dodo.fragments.NoteFragment
+import com.example.dodo.fragments.SettingsFragment
+import com.example.dodo.fragments.ToDoFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -14,47 +18,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        listViewItems = findViewById(R.id.todosListView)
 
-        toDoTaskList = mutableListOf()
-        adapter = CustomListAdapter(this, toDoTaskList!!)
-        listViewItems!!.adapter = adapter
-        loadStoredTasks()
+        val toDoFragment = ToDoFragment()
+        val noteFragment = NoteFragment()
+        val settingsFragment = SettingsFragment()
 
-        /*bottom_navigation.setOnNavigationItemSelectedListener { // ToDo adding working bottom navigation
+        bottom_navigation.setOnNavigationItemSelectedListener { // ToDo adding working bottom navigation
             when(it.itemId) {
-                R.id.nav_todos -> {
-                    true
-                }
-                R.id.nav_notes -> {
-                    val activity: DoDoActivities = DoDoActivities()
-                    activity.MainAc = true
-                    val intent = Intent(this, NoteActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_settings -> {
-                    val activity: DoDoActivities = DoDoActivities()
-                    activity.MainAc = true
-                    val intent = Intent(this, SettingsActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                else -> false
+                R.id.nav_todos -> setFragment(toDoFragment)
+                R.id.nav_notes -> setFragment(noteFragment)
+                R.id.nav_settings -> setFragment(settingsFragment)
             }
-        }*/
+            true
+        }
     }
 
-    private fun openSetDataView() {
-        val intent = Intent(this, SetDataActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun loadStoredTasks() {
-        adapter.notifyDataSetChanged()
-        val storedTasks: ArrayList<ToDoTask> = dbConnector.getAllTasks()
-        for(task in storedTasks) {
-            toDoTaskList?.add(task)
+    private fun setFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fl_wrapper, fragment)
+            commit()
         }
     }
 
