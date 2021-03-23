@@ -1,5 +1,6 @@
 package com.example.dodo.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_to_do.view.*
  */
 class ToDoFragment : Fragment() {
 
-    private val dbConnector: DatabaseConnector = DatabaseConnector(context!!, null)
+    private lateinit var dbConnector: DatabaseConnector
 
     //ToDO: check this https://stackoverflow.com/questions/28929637/difference-and-uses-of-oncreate-oncreateview-and-onactivitycreated-in-fra
     override fun onCreateView(
@@ -33,9 +34,14 @@ class ToDoFragment : Fragment() {
         listViewItems = view.todosListView
 
         toDoTaskList = mutableListOf()
-        adapter = CustomListAdapter(context!!, toDoTaskList!!)
+        adapter = CustomListAdapter(requireContext(), toDoTaskList!!)
         listViewItems!!.adapter = adapter
         loadStoredTasks()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.dbConnector = DatabaseConnector(context, null)
     }
 
     private fun openSetDataView() {
