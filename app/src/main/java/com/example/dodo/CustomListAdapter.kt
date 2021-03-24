@@ -10,18 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.graphics.blue
-import androidx.core.graphics.green
-import androidx.core.graphics.red
-import androidx.core.graphics.toColorInt
-import kotlinx.android.synthetic.main.custom_entry_dialog.*
-import kotlinx.android.synthetic.main.custom_entry_dialog.view.*
 import kotlinx.android.synthetic.main.custom_list_item.view.*
 
 var toDoTaskList: MutableList<ToDoTask>? = null
 lateinit var adapter: CustomListAdapter
-var listViewItems: ListView? = null
 
 class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAdapter() {
 
@@ -85,30 +77,28 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
         textSectionBackground.setColorFilter(Color.parseColor(task.taskColor), PorterDuff.Mode.SRC)
         rowView.background = textSectionBackground
 
-        val textColor = (calcTextColor(task.taskColor) * 16777215).toInt()
-        val text = rowView.text_section.item_text
-        text.setTextColor(textColor)
+//        val textColor = calcTextColor(task.taskColor)
+//        println(textColor)
+//        val text = rowView.text_section.item_text
+//        text.setTextColor(textColor)
 
         return rowView
-
-        TODO("https://www.appsdeveloperblog.com/todo-list-app-kotlin-firebase/")
     }
 
-    private fun calcTextColor(color: String): Double {
-        if (color.length == 7) {
-            println(color)
-            val colorInt = color.toColorInt()
-            val red = colorInt.red
-            val green = colorInt.green
-            val blue = colorInt.blue
-            val brightness = red + green + blue
-            return when {
-                brightness > 574 -> 0.0
-                brightness > 383 -> 0.25
-                brightness > 191 -> 0.75
-                else -> 1.0
-            }
-        }
-        return 0.0
-    }
+//    private fun calcTextColor(color: String): Int {
+//        if (color.length == 7) {
+//            val colorInt = color.toColorInt()
+//            val red = colorInt.red
+//            val green = colorInt.green
+//            val blue = colorInt.blue
+//            val brightness = red + green + blue
+//            return when {
+//                brightness > 574 -> 0
+//                brightness > 383 -> 8421504
+//                brightness > 191 -> 8421504
+//                else -> 16777215
+//            }
+//        }
+//        return 0
+//    }
 }

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import com.example.dodo.*
 import kotlinx.android.synthetic.main.fragment_to_do.*
 import kotlinx.android.synthetic.main.fragment_to_do.view.*
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_to_do.view.*
 class ToDoFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
+    var listViewItems: ListView? = null
 
     //ToDO: check this https://stackoverflow.com/questions/28929637/difference-and-uses-of-oncreate-oncreateview-and-onactivitycreated-in-fra
     override fun onCreateView(
