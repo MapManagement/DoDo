@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.dodo.*
+import kotlinx.android.synthetic.main.fragment_to_do.*
 import kotlinx.android.synthetic.main.fragment_to_do.view.*
 
 /**
@@ -30,6 +31,10 @@ class ToDoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fab_add_entry.setOnClickListener {
+            openSetDataView()
+        }
 
         listViewItems = view.todosListView
 
