@@ -6,10 +6,14 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import com.example.dodo.fragments.EditDataFragment
+import com.example.dodo.fragments.SetDataFragment
 import kotlinx.android.synthetic.main.custom_list_item.view.*
 
 var toDoTaskList: MutableList<ToDoTask>? = null
@@ -59,11 +63,23 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
         }
 
         editButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("taskColor", task.taskColor)
+            bundle.putString("taskText", task.taskText)
+            bundle.putInt("taskID", task.taskID)
+            val activity: AppCompatActivity = convertView!!.context as AppCompatActivity
             val intent = Intent(parent.context, EditDataActivity::class.java)
-            intent.putExtra("taskColor", task.taskColor)
-            intent.putExtra("taskText", task.taskText)
-            intent.putExtra("taskID", task.taskID)
-            parent.context.startActivity(intent)
+            activity.supportFragmentManager.beginTransaction().apply {
+                val editDataFragment = EditDataFragment()
+                editDataFragment.arguments = bundle
+                replace(R.id.fl_wrapper, editDataFragment)
+                commit()
+            }
+
+//            intent.putExtra("taskColor", task.taskColor)
+//            intent.putExtra("taskText", task.taskText)
+//            intent.putExtra("taskID", task.taskID)
+//            parent.context.startActivity(intent)
         }
 
         deleteButton.setOnClickListener {

@@ -21,11 +21,6 @@ import kotlinx.android.synthetic.main.custom_entry_dialog.color_preview_button
 import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.red_seekbar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 /**
  * A simple [Fragment] subclass.
  * Use the [EditDataFragment.newInstance] factory method to
@@ -34,20 +29,24 @@ private const val ARG_PARAM2 = "param2"
 class EditDataFragment : Fragment() {
     private lateinit var dbConnector: DatabaseConnector
 
+    var taskText: String? = null
+    var taskID: Int? = null
+    var taskColor: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        taskText = arguments?.getString("taskText")
+        taskID = arguments?.getInt("taskID")
+        taskColor = arguments?.getString("taskColor")
+
         return inflater.inflate(R.layout.fragment_edit_data, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-       /* val taskColor = intent.getStringExtra("taskColor")
-        val taskText = intent.getStringExtra("taskText")
-        val taskID = intent.getIntExtra("taskID", 0)
         entry_task_text.setText(taskText)
 
         red_seekbar.progress = red_seekbar.max / 2
@@ -83,16 +82,20 @@ class EditDataFragment : Fragment() {
         })
 
         entry_submit_button.setOnClickListener {
-            if(!entry_task_text.text.toString().isBlank()) {
-                updateTask(taskID)
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+            if(entry_task_text.text.toString().isNotBlank() && taskID != null) {
+                updateTask(taskID!!)
+                activity!!.supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.fl_wrapper, ToDoFragment())
+                    commit()
+                }
             }
         }
 
         entry_leave_button.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            activity!!.supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl_wrapper, ToDoFragment())
+                commit()
+            }
         }
 
         entry_hex_color_string.addTextChangedListener(object : TextWatcher {
@@ -109,7 +112,7 @@ class EditDataFragment : Fragment() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 return
             }
-        })*/
+        })
     }
 
     override fun onAttach(context: Context) {
