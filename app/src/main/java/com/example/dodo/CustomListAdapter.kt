@@ -68,7 +68,6 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
             bundle.putString("taskText", task.taskText)
             bundle.putInt("taskID", task.taskID)
             val activity: AppCompatActivity = convertView!!.context as AppCompatActivity
-            val intent = Intent(parent.context, EditDataActivity::class.java)
             activity.supportFragmentManager.beginTransaction().apply {
                 val editDataFragment = EditDataFragment()
                 editDataFragment.arguments = bundle
