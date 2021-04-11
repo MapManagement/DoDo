@@ -19,8 +19,9 @@ be formatted to add bold, underline, colored text and so on. As soon as I'm able
 I will add one. 
 
 ## gRPC Sync
-I also had the idea to create a server program (probably with python but I'll see) that can be set up on a local server.
+I also had the idea to create a server program (probably with Python, but I'll see) that can be set up on a local server.
 It will store any text and can be synced with devices that are connected to the server. Everything will be based on
-gRPC. Further explanations and plans are already in the making.
+gRPC. You can find the whole program in another repo, just click [here](https://github.com/MapManagement/DoDo-Server).
+Further details, and of course the source code as well, can be found there.
 
 
