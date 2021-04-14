@@ -1,7 +1,6 @@
 package com.example.dodo
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -12,8 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.dodo.fragments.EditDataFragment
-import com.example.dodo.fragments.SetDataFragment
+import com.example.dodo.fragments.ToDoEditDataFragment
 import kotlinx.android.synthetic.main.custom_list_item.view.*
 
 var toDoTaskList: MutableList<ToDoTask>? = null
@@ -69,7 +67,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
             bundle.putInt("taskID", task.taskID)
             val activity: AppCompatActivity = convertView!!.context as AppCompatActivity
             activity.supportFragmentManager.beginTransaction().apply {
-                val editDataFragment = EditDataFragment()
+                val editDataFragment = ToDoEditDataFragment()
                 editDataFragment.arguments = bundle
                 replace(R.id.fl_wrapper, editDataFragment)
                 commit()

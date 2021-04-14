@@ -1,7 +1,6 @@
 package com.example.dodo.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -18,42 +17,33 @@ import kotlinx.android.synthetic.main.custom_entry_dialog.blue_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.color_preview_button
 import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.red_seekbar
-import kotlinx.android.synthetic.main.fragment_edit_data.*
+import kotlinx.android.synthetic.main.fragment_todo_set_data.*
 
 /**
  * A simple [Fragment] subclass.
- * Use the [EditDataFragment.newInstance] factory method to
+ * Use the [ToDoSetDataFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class EditDataFragment : Fragment() {
-    private lateinit var dbConnector: DatabaseConnector
+class ToDoSetDataFragment : Fragment() {
 
-    var taskText: String? = null
-    var taskID: Int? = null
-    var taskColor: String? = null
+    private lateinit var dbConnector: DatabaseConnector
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        taskText = arguments?.getString("taskText")
-        taskID = arguments?.getInt("taskID")
-        taskColor = arguments?.getString("taskColor")
-
-        return inflater.inflate(R.layout.fragment_edit_data, container, false)
+        return inflater.inflate(R.layout.fragment_todo_set_data, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        entry_task_text.setText(taskText)
-
         red_seekbar.progress = red_seekbar.max / 2
         green_seekbar.progress = green_seekbar.max / 2
         blue_seekbar.progress = blue_seekbar.max / 2
-        entry_hex_color_string.setText(taskColor)
-        setSeekBars(taskColor!!)
-        color_preview_button.setBackgroundColor(Color.parseColor(taskColor))
+        val onStartColorValue = convertColorToHexString()
+        entry_hex_color_string.setText(onStartColorValue)
+        color_preview_button.setBackgroundColor(Color.parseColor(onStartColorValue))
 
         red_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -81,8 +71,8 @@ class EditDataFragment : Fragment() {
         })
 
         entry_submit_button.setOnClickListener {
-            if(entry_task_text.text.toString().isNotBlank() && taskID != null) {
-                updateTask(taskID!!)
+            if(!entry_task_text.text.toString().isBlank()) {
+                insertNewTask()
                 activity!!.supportFragmentManager.beginTransaction().apply {
                     replace(R.id.fl_wrapper, ToDoFragment())
                     commit()
@@ -100,7 +90,9 @@ class EditDataFragment : Fragment() {
         entry_hex_color_string.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.length == 7){
-                    setSeekBars(s.toString())
+                    red_seekbar.progress = Integer.parseInt(s.substring(1..2), 16)
+                    green_seekbar.progress = Integer.parseInt(s.substring(3..4), 16)
+                    blue_seekbar.progress = Integer.parseInt(s.substring(5..6), 16)
                 }
             }
 
@@ -119,7 +111,7 @@ class EditDataFragment : Fragment() {
         this.dbConnector = DatabaseConnector(context, null)
     }
 
-    private fun convertColorToHexString(): String {
+    private fun convertColorToHexString(): String{
         var redValue = Integer.toHexString(red_seekbar.progress)
         if(redValue.length==1)  redValue = "0$redValue"
         var greenValue = Integer.toHexString(green_seekbar.progress)
@@ -132,14 +124,7 @@ class EditDataFragment : Fragment() {
         return colorValue
     }
 
-    private fun setSeekBars(colorString: String) {
-        red_seekbar.progress = Integer.parseInt(colorString.substring(1..2), 16)
-        green_seekbar.progress = Integer.parseInt(colorString.substring(3..4), 16)
-        blue_seekbar.progress = Integer.parseInt(colorString.substring(5..6), 16)
-    }
-
-    private fun updateTask(taskID: Int) {
-        dbConnector.updateTask(taskID, entry_task_text.text.toString(), false,
-            convertColorToHexString())
+    private fun insertNewTask() {
+        dbConnector.insertNewTask(entry_task_text.text.toString(), convertColorToHexString())
     }
 }

@@ -1,7 +1,6 @@
 package com.example.dodo.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -53,7 +52,7 @@ class ToDoFragment : Fragment() {
 
     private fun openSetDataView() {
         activity!!.supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_wrapper, SetDataFragment())
+            replace(R.id.fl_wrapper, ToDoSetDataFragment())
             commit()
         }
     }
