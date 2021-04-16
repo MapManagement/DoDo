@@ -6,8 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dodo.*
+import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.fragment_to_do.*
 import kotlinx.android.synthetic.main.fragment_to_do.view.*
 
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_to_do.view.*
 class NoteFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
-    var listViewItems: ListView? = null
+    var recyclerViewItems: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +37,11 @@ class NoteFragment : Fragment() {
             openSetDataView()
         }
 
-        listViewItems = view.todosListView
+        recyclerViewItems = view.recycler_view
 
         notesList = mutableListOf()
         noteAdapter = CustomRecyclerViewAdapter(requireContext(), notesList!!)
-        listViewItems!!.adapter = noteAdapter
+        recyclerViewItems!!.adapter = noteAdapter
         loadStoredNotes()
     }
 
@@ -51,7 +52,7 @@ class NoteFragment : Fragment() {
 
     private fun openSetDataView() {
         activity!!.supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_wrapper, ToDoSetDataFragment())
+            replace(R.id.fl_wrapper, NoteSetDataFragment())
             commit()
         }
     }
