@@ -20,6 +20,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
 
         db?.execSQL("CREATE TABLE  $NOTE_TABLE_NAME (" +
                 "$NOTE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$NOTE_TITLE TEXT NOT NULL," +
                 "$NOTE_TEXT TEXT NOT NULL," +
                 "$NOTE_VISIBLE INTEGER NOT NULL," +
                 "$NOTE_HIGHLIGHTED INTEGER NOT NULL," +
@@ -89,6 +90,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         while(!cursor.isAfterLast) {
             val note = Note()
             note.noteID = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+            note.noteTitle = cursor.getString(cursor.getColumnIndex(NOTE_TITLE))
             note.noteText = cursor.getString(cursor.getColumnIndex(NOTE_TEXT))
             note.isVisible = cursor.getInt(cursor.getColumnIndex(NOTE_VISIBLE)) == 1
             note.isHighlighted = cursor.getInt(cursor.getColumnIndex(NOTE_HIGHLIGHTED)) == 1
@@ -104,6 +106,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     fun insertNewNote(text: String, color: String) {
         val values = ContentValues()
         values.put(NOTE_TEXT, text)
+        values.put(NOTE_TITLE, text)
         values.put(NOTE_VISIBLE, 1)
         values.put(NOTE_HIGHLIGHTED, 0)
         values.put(NOTE_COLOR, color)
@@ -120,11 +123,12 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         db.close()
     }
 
-    fun updateNote(noteID: Int, text: String, visible: Boolean, highlighted: Boolean, color: String) {
+    fun updateNote(noteID: Int, title: String, text: String, visible: Boolean, highlighted: Boolean, color: String) {
         val intIsVisible = if(visible) 1 else 0
         val intIsHighlighted = if(highlighted) 1 else 0
         val values = ContentValues()
         values.put(NOTE_TEXT, text)
+        values.put(NOTE_TITLE, title)
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
         values.put(NOTE_COLOR, color)
@@ -147,6 +151,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         const val TASK_DELETED = "is_deleted"
 
         const val NOTE_ID = "note_id"
+        const val NOTE_TITLE = "note_title"
         const val NOTE_TEXT = "note_text"
         const val NOTE_VISIBLE = "is_visible"
         const val NOTE_HIGHLIGHTED = "is_highlighted"

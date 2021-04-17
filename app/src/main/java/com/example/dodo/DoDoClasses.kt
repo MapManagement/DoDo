@@ -10,6 +10,7 @@ class ToDoTask {
 
 class Note {
     var noteID: Int = 0
+    var noteTitle: String = ""
     var noteText: String = ""
     var isVisible: Boolean = true
     var isHighlighted: Boolean = false
