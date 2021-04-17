@@ -103,10 +103,10 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         return noteArray
     }
 
-    fun insertNewNote(text: String, color: String) {
+    fun insertNewNote(text: String, title: String, color: String) {
         val values = ContentValues()
         values.put(NOTE_TEXT, text)
-        values.put(NOTE_TITLE, text)
+        values.put(NOTE_TITLE, title)
         values.put(NOTE_VISIBLE, 1)
         values.put(NOTE_HIGHLIGHTED, 0)
         values.put(NOTE_COLOR, color)
