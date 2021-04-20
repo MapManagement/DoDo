@@ -26,12 +26,12 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
     private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
 
     inner class ViewHolder(rowView: View) : RecyclerView.ViewHolder(rowView) {
-        val itemTextView = rowView.findViewById(R.id.card_text) as TextView
-        val openArea = rowView.findViewById(R.id.card_view) as CardView
-        val highlightingButton = rowView.findViewById(R.id.card_highlight_button) as ImageButton
-        val visibilityButton = rowView.findViewById(R.id.card_visibility_button) as ImageButton
-        val deleteButton = rowView.findViewById(R.id.card_delete_button) as ImageButton
-        val relativeLayout = rowView.findViewById(R.id.card_relative_layout) as RelativeLayout
+        val itemTextView: TextView = rowView.findViewById(R.id.card_text)
+        val openArea: CardView = rowView.findViewById(R.id.card_view)
+        val highlightingButton: ImageButton = rowView.findViewById(R.id.card_highlight_button)
+        val visibilityButton: ImageButton = rowView.findViewById(R.id.card_visibility_button)
+        val deleteButton: ImageButton = rowView.findViewById(R.id.card_delete_button)
+        val relativeLayout: RelativeLayout = rowView.findViewById(R.id.card_relative_layout)
     }
 
     override fun getItemCount(): Int {
@@ -45,7 +45,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
-        val fragmentLayout = inflater.inflate(R.layout.fragment_note, parent, false)
+        val fragmentLayout = inflater.inflate(R.layout.custom_note_item, parent, false)
 
         return ViewHolder(fragmentLayout)
     }
@@ -83,8 +83,8 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
             this.notifyDataSetChanged()
         }
 
-        val relativeLayoutBackground: Drawable = holder.relativeLayout.background
-        relativeLayoutBackground.setColorFilter(Color.parseColor(note.noteColor), PorterDuff.Mode.SRC)
-        holder.relativeLayout.background = relativeLayoutBackground
+//        val relativeLayoutBackground: Drawable = holder.relativeLayout.background
+//        relativeLayoutBackground.setColorFilter(Color.parseColor(note.noteColor), PorterDuff.Mode.SRC)
+//        holder.relativeLayout.background = relativeLayoutBackground
     }
 }

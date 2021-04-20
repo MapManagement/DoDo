@@ -39,6 +39,17 @@ class NoteSetDataFragment : Fragment() {
 
         note_submit_button.setOnClickListener {
             insertNewNote()
+            activity!!.supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl_wrapper, NoteFragment())
+                commit()
+            }
+        }
+
+        note_leave_button.setOnClickListener {
+            activity!!.supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl_wrapper, NoteFragment())
+                commit()
+            }
         }
     }
 
