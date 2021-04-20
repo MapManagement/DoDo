@@ -20,7 +20,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
 
         db?.execSQL("CREATE TABLE  $NOTE_TABLE_NAME (" +
                 "$NOTE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "$NOTE_TITLE TEXT NOT NULL," +
+                "$NOTE_TITLE TEXT," +
                 "$NOTE_TEXT TEXT NOT NULL," +
                 "$NOTE_VISIBLE INTEGER NOT NULL," +
                 "$NOTE_HIGHLIGHTED INTEGER NOT NULL," +
@@ -30,7 +30,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-       TODO("Not implemented yet")
+
     }
 
     fun getAllTasks(): ArrayList<ToDoTask> {
@@ -139,6 +139,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     companion object {
+        // ToDo: adding missing fields
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "dodo.db"
         const val TASK_TABLE_NAME = "Tasks"

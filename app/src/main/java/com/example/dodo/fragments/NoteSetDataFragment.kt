@@ -36,6 +36,10 @@ class NoteSetDataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //ToDo: adding view stuff
+
+        note_submit_button.setOnClickListener {
+            insertNewNote()
+        }
     }
 
     override fun onAttach(context: Context) {
