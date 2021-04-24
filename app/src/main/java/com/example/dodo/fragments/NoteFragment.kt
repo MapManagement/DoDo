@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dodo.*
+import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.fragment_to_do.*
+import kotlinx.android.synthetic.main.fragment_to_do.fab_add_entry
 import kotlinx.android.synthetic.main.fragment_to_do.view.*
 
 /**
@@ -41,6 +44,7 @@ class NoteFragment : Fragment() {
 
         notesList = mutableListOf()
         noteAdapter = CustomRecyclerViewAdapter(requireContext(), notesList!!)
+        recycler_view.layoutManager = GridLayoutManager(requireContext(), 2)
         recyclerViewItems!!.adapter = noteAdapter
         loadStoredNotes()
     }

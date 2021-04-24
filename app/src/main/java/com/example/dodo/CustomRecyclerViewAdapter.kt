@@ -53,7 +53,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val note: Note = itemList[position]
 
-        holder.itemTextView.text = note.noteText
+        holder.itemTextView.text = note.noteTitle
         //ToDo: isHighlighted and isVisible
 
         //ToDo: isHighlighted in UI
@@ -79,7 +79,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
         holder.deleteButton.setOnClickListener {
             note.isDeleted = true
             itemList.removeAt(position)
-            dbConnector.deleteTask(note.noteID)
+            dbConnector.deleteNote(note.noteID)
             this.notifyDataSetChanged()
         }
 
