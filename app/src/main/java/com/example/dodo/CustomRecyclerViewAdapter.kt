@@ -54,6 +54,15 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
         val note: Note = itemList[position]
 
         holder.itemTextView.text = note.noteTitle
+        val cardBackground: RelativeLayout = holder.relativeLayout
+        if(note.noteColor == "") {
+            cardBackground.setBackgroundColor(Color.parseColor("#7c827f"))
+        }
+        else {
+            cardBackground.setBackgroundColor(Color.parseColor(note.noteColor))
+        }
+
+
         //ToDo: isHighlighted and isVisible
 
         //ToDo: isHighlighted in UI

@@ -51,6 +51,10 @@ class NoteSetDataFragment : Fragment() {
                 commit()
             }
         }
+
+        note_color_button.setOnClickListener {
+            //ToDo: alert dialog with color picker
+        }
     }
 
     override fun onAttach(context: Context) {
