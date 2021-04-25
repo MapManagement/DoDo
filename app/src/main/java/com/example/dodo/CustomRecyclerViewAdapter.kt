@@ -7,10 +7,7 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageButton
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.custom_list_item.view.*
@@ -26,12 +23,12 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
     private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
 
     inner class ViewHolder(rowView: View) : RecyclerView.ViewHolder(rowView) {
-        val itemTextView: TextView = rowView.findViewById(R.id.card_text)
-        val openArea: CardView = rowView.findViewById(R.id.card_view)
-        val highlightingButton: ImageButton = rowView.findViewById(R.id.card_highlight_button)
-        val visibilityButton: ImageButton = rowView.findViewById(R.id.card_visibility_button)
-        val deleteButton: ImageButton = rowView.findViewById(R.id.card_delete_button)
-        val relativeLayout: RelativeLayout = rowView.findViewById(R.id.card_relative_layout)
+        val itemTextView: TextView = rowView.findViewById(R.id.note_text)
+        val openArea: CardView = rowView.findViewById(R.id.note_card_view)
+        val highlightingButton: ImageButton = rowView.findViewById(R.id.note_highlight_button)
+        val visibilityButton: ImageButton = rowView.findViewById(R.id.note_visibility_button)
+        val deleteButton: ImageButton = rowView.findViewById(R.id.note_delete_button)
+        val linearLayout: LinearLayout = rowView.findViewById(R.id.note_linear_layout)
     }
 
     override fun getItemCount(): Int {
@@ -54,12 +51,12 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
         val note: Note = itemList[position]
 
         holder.itemTextView.text = note.noteTitle
-        val cardBackground: RelativeLayout = holder.relativeLayout
+        val noteBackground: LinearLayout = holder.linearLayout
         if(note.noteColor == "") {
-            cardBackground.setBackgroundColor(Color.parseColor("#7c827f"))
+            noteBackground.setBackgroundColor(Color.parseColor("#7c827f"))
         }
         else {
-            cardBackground.setBackgroundColor(Color.parseColor(note.noteColor))
+            noteBackground.setBackgroundColor(Color.parseColor(note.noteColor))
         }
 
 

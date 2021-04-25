@@ -63,7 +63,8 @@ class NoteSetDataFragment : Fragment() {
     }
 
     private fun insertNewNote() {
-        dbConnector.insertNewNote(note_data_text.text.toString(), note_title_text.text.toString(), "")
+        dbConnector.insertNewNote(note_data_text.text.toString().trim(), note_title_text.text.toString().trim(),
+            "")
         //ToDo: adding color
     }
 }

@@ -10,66 +10,85 @@
                 android:layout_marginTop="8dp">
 
     <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
+            android:id="@+id/note_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             app:cardElevation="4dp"
             app:cardCornerRadius="5dp">
 
-        <RelativeLayout android:id="@+id/card_relative_layout"
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/note_constraint_layout"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="match_parent">
+
+            <RelativeLayout android:id="@+id/note_relative_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/grey"
+
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/note_linear_layout">
+
+                <ImageButton
+                        android:id="@+id/note_delete_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="@string/todo"
+
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+
+                        app:srcCompat="@drawable/ic_delete_note"
+                        tools:ignore="VectorDrawableCompat"/>
+
+                <ImageButton
+                        android:id="@+id/note_highlight_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="@string/todo"
+
+                        android:layout_toLeftOf="@id/note_delete_button"
+                        android:layout_toStartOf="@id/note_delete_button"
+
+                        app:srcCompat="@drawable/ic_star_empty"
+                        tools:ignore="VectorDrawableCompat"/>
+
+                <ImageButton
+                        android:id="@+id/note_visibility_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="@string/todo"
+
+                        android:layout_toLeftOf="@id/note_highlight_button"
+                        android:layout_toStartOf="@id/note_highlight_button"
+
+                        app:srcCompat="@drawable/ic_visibility_on"
+                        tools:ignore="VectorDrawableCompat"/>
+
+            </RelativeLayout>
+
+            <LinearLayout android:id="@+id/note_linear_layout"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+
+                          app:layout_constraintTop_toBottomOf="@id/note_relative_layout"
+                          app:layout_constraintLeft_toLeftOf="parent"
+                          app:layout_constraintRight_toRightOf="parent">
+
+                <TextView
+                        android:id="@+id/note_text"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorPrimaryDark">
-            <ImageButton
-                    android:id="@+id/card_delete_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/todo"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:gravity="top"/>
 
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
+            </LinearLayout>
 
-                    app:srcCompat="@drawable/ic_delete_note"
-                    tools:ignore="VectorDrawableCompat"/>
-            <ImageButton
-                    android:id="@+id/card_highlight_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/todo"
-
-                    android:layout_toLeftOf="@id/card_delete_button"
-                    android:layout_toStartOf="@id/card_delete_button"
-
-                    app:srcCompat="@drawable/ic_star_empty"
-                    tools:ignore="VectorDrawableCompat" />
-            <ImageButton
-                    android:id="@+id/card_visibility_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/todo"
-
-                    android:layout_toLeftOf="@id/card_highlight_button"
-                    android:layout_toStartOf="@id/card_highlight_button"
-
-                    app:srcCompat="@drawable/ic_visibility_on"
-                    tools:ignore="VectorDrawableCompat"/>
-
-            <TextView
-                    android:id="@+id/card_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_delete_button"
-                    android:layout_margin="3dp"
-                    android:textColor="@color/white"/>
-        </RelativeLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
-
-
 
 </RelativeLayout>
