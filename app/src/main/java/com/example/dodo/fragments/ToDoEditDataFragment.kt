@@ -19,11 +19,7 @@ import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.red_seekbar
 import kotlinx.android.synthetic.main.fragment_todo_edit_data.*
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ToDoEditDataFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ToDoEditDataFragment : Fragment() {
     private lateinit var dbConnector: DatabaseConnector
 

@@ -37,7 +37,7 @@ class NoteSetDataFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //ToDo: adding view stuff
 
-        note_submit_button.setOnClickListener {
+        note_set_submit_button.setOnClickListener {
             insertNewNote()
             activity!!.supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fl_wrapper, NoteFragment())
@@ -45,14 +45,14 @@ class NoteSetDataFragment : Fragment() {
             }
         }
 
-        note_leave_button.setOnClickListener {
+        note_set_leave_button.setOnClickListener {
             activity!!.supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fl_wrapper, NoteFragment())
                 commit()
             }
         }
 
-        note_color_button.setOnClickListener {
+        note_set_color_button.setOnClickListener {
             //ToDo: alert dialog with color picker
         }
     }
@@ -63,7 +63,7 @@ class NoteSetDataFragment : Fragment() {
     }
 
     private fun insertNewNote() {
-        dbConnector.insertNewNote(note_data_text.text.toString().trim(), note_title_text.text.toString().trim(),
+        dbConnector.insertNewNote(note_set_data_text.text.toString().trim(), note_set_title_text.text.toString().trim(),
             "")
         //ToDo: adding color
     }
