@@ -4,12 +4,17 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.text.TextUtils.replace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dodo.fragments.NoteEditDataFragment
+import com.example.dodo.fragments.NoteSetDataFragment
 import kotlinx.android.synthetic.main.custom_list_item.view.*
 import kotlinx.android.synthetic.main.custom_note_item.view.*
 
@@ -65,7 +70,20 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
         //ToDo: isHighlighted in UI
 
         holder.openArea.setOnClickListener {
-            //ToDo: opening new fragment
+            val bundle = Bundle()
+            bundle.putString("noteColor", note.noteColor)
+            bundle.putString("noteText", note.noteText)
+            bundle.putString("noteTitle", note.noteTitle)
+            bundle.putInt("noteID", note.noteID)
+            bundle.putBoolean("noteVisible", note.isVisible)
+            bundle.putBoolean("noteHighlighted", note.isHighlighted)
+            val activity = it.context as AppCompatActivity
+            activity.supportFragmentManager.beginTransaction().apply {
+                val editDataFragment = NoteEditDataFragment()
+                editDataFragment.arguments = bundle
+                replace(R.id.fl_wrapper, editDataFragment)
+                commit()
+            }
         }
         /*editButton.setOnClickListener {
             val bundle = Bundle()
