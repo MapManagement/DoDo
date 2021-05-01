@@ -2,6 +2,7 @@ package com.example.dodo.fragments
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import com.example.dodo.DatabaseConnector
+import com.example.dodo.Note
 import com.example.dodo.R
 import kotlinx.android.synthetic.main.custom_entry_dialog.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.blue_seekbar
@@ -24,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_todo_set_data.*
 class NoteSetDataFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
+    private var NewNote: Note = Note()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +38,12 @@ class NoteSetDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //ToDo: adding view stuff
+
+        NewNote.noteTitle = ""
+        NewNote.noteText = ""
+        NewNote.isVisible = true
+        NewNote.isHighlighted = false
+        NewNote.noteColor = "#545454"
 
         note_set_submit_button.setOnClickListener {
             insertNewNote()
@@ -45,11 +53,12 @@ class NoteSetDataFragment : Fragment() {
             }
         }
 
-        note_set_leave_button.setOnClickListener {
-            activity!!.supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_wrapper, NoteFragment())
-                commit()
-            }
+        note_set_highlighting_button.setOnClickListener {
+
+        }
+
+        note_set_visibility_button.setOnClickListener {
+
         }
 
         note_set_color_button.setOnClickListener {
@@ -63,8 +72,9 @@ class NoteSetDataFragment : Fragment() {
     }
 
     private fun insertNewNote() {
-        dbConnector.insertNewNote(note_set_data_text.text.toString().trim(), note_set_title_text.text.toString().trim(),
-            "")
+        NewNote.noteText = note_set_data_text.text.toString().trim()
+        NewNote.noteTitle = note_set_title_text.text.toString().trim()
+        dbConnector.insertNewNote(NewNote)
         //ToDo: adding color
     }
 }

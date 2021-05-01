@@ -14,7 +14,6 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
                 "$TASK_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$TASK_TEXT TEXT NOT NULL," +
                 "$TASK_DONE INTEGER NOT NULL," +
-                "$TASK_DELETED INTEGER NOT NULL," +
                 "$TASK_COLOR TEXT NOT NULL" +
                 ")")
 
@@ -24,8 +23,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
                 "$NOTE_TEXT TEXT NOT NULL," +
                 "$NOTE_VISIBLE INTEGER NOT NULL," +
                 "$NOTE_HIGHLIGHTED INTEGER NOT NULL," +
-                "$NOTE_COLOR TEXT NOT NULL," +
-                "$NOTE_DELETED INTEGER NOT NULL" +
+                "$NOTE_COLOR TEXT NOT NULL" +
                 ")")
     }
 
@@ -43,7 +41,6 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             toDoTask.taskID = cursor.getInt(cursor.getColumnIndex(TASK_ID))
             toDoTask.taskText = cursor.getString(cursor.getColumnIndex(TASK_TEXT))
             toDoTask.isDone = cursor.getInt(cursor.getColumnIndex(TASK_DONE)) == 1
-            toDoTask.isDeleted = cursor.getInt(cursor.getColumnIndex(TASK_DELETED)) == 1
             toDoTask.taskColor = cursor.getString(cursor.getColumnIndex(TASK_COLOR))
             taskArray.add(toDoTask)
             cursor.moveToNext()
@@ -57,7 +54,6 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         values.put(TASK_TEXT, text)
         values.put(TASK_COLOR, color)
         values.put(TASK_DONE, 0)
-        values.put(TASK_DELETED, 0)
 
         val db = this.writableDatabase
         db.insert(TASK_TABLE_NAME, null, values)
@@ -95,7 +91,6 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             note.isVisible = cursor.getInt(cursor.getColumnIndex(NOTE_VISIBLE)) == 1
             note.isHighlighted = cursor.getInt(cursor.getColumnIndex(NOTE_HIGHLIGHTED)) == 1
             note.noteColor = cursor.getString(cursor.getColumnIndex(NOTE_COLOR))
-            note.isDeleted = cursor.getInt(cursor.getColumnIndex(NOTE_DELETED)) == 1
             noteArray.add(note)
             cursor.moveToNext()
         }
@@ -103,14 +98,13 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         return noteArray
     }
 
-    fun insertNewNote(text: String, title: String, color: String) {
+    fun insertNewNote(note: Note) {
         val values = ContentValues()
-        values.put(NOTE_TEXT, text)
-        values.put(NOTE_TITLE, title)
-        values.put(NOTE_VISIBLE, 1)
-        values.put(NOTE_HIGHLIGHTED, 0)
-        values.put(NOTE_COLOR, color)
-        values.put(NOTE_DELETED, 0)
+        values.put(NOTE_TEXT, note.noteText)
+        values.put(NOTE_TITLE, note.noteTitle)
+        values.put(NOTE_VISIBLE, note.isVisible)
+        values.put(NOTE_HIGHLIGHTED, note.isHighlighted)
+        values.put(NOTE_COLOR, note.noteColor)
 
         val db = this.writableDatabase
         db.insert(NOTE_TABLE_NAME, null, values)
@@ -123,18 +117,18 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         db.close()
     }
 
-    fun updateNote(noteID: Int, title: String, text: String, visible: Boolean, highlighted: Boolean, color: String) {
-        val intIsVisible = if(visible) 1 else 0
-        val intIsHighlighted = if(highlighted) 1 else 0
+    fun updateNote(note: Note) {
+        val intIsVisible = if(note.isVisible) 1 else 0
+        val intIsHighlighted = if(note.isHighlighted) 1 else 0
         val values = ContentValues()
-        values.put(NOTE_TEXT, text)
-        values.put(NOTE_TITLE, title)
+        values.put(NOTE_TEXT, note.noteText)
+        values.put(NOTE_TITLE, note.noteTitle)
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
-        values.put(NOTE_COLOR, color)
+        values.put(NOTE_COLOR, note.noteColor)
 
         val db = this.writableDatabase
-        db.update(NOTE_TABLE_NAME, values, "$NOTE_ID = ?", arrayOf(noteID.toString()))
+        db.update(NOTE_TABLE_NAME, values, "$NOTE_ID = ?", arrayOf(note.noteID.toString()))
         db.close()
     }
 
@@ -149,7 +143,6 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         const val TASK_TEXT = "task_text"
         const val TASK_COLOR = "task_color"
         const val TASK_DONE = "is_done"
-        const val TASK_DELETED = "is_deleted"
 
         const val NOTE_ID = "note_id"
         const val NOTE_TITLE = "note_title"
@@ -157,6 +150,5 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         const val NOTE_VISIBLE = "is_visible"
         const val NOTE_HIGHLIGHTED = "is_highlighted"
         const val NOTE_COLOR = "note_color"
-        const val NOTE_DELETED = "is_deleted"
     }
 }

@@ -5,7 +5,6 @@ class ToDoTask {
     var taskText: String = ""
     var taskColor: String = ""
     var isDone: Boolean = false
-    var isDeleted: Boolean = false
 }
 
 class Note {
@@ -15,5 +14,4 @@ class Note {
     var isVisible: Boolean = true
     var isHighlighted: Boolean = false
     var noteColor: String = "#84A5B9"
-    var isDeleted: Boolean = false
 }

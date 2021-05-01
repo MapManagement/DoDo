@@ -7,32 +7,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.dodo.DatabaseConnector
+import com.example.dodo.Note
 import com.example.dodo.R
 import kotlinx.android.synthetic.main.fragment_note_edit_data.*
+import kotlinx.android.synthetic.main.fragment_note_set_data.*
 
 
 class NoteEditDataFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
 
-    var noteID: Int? = null
-    var noteTitle: String? = null
-    var noteText: String? = null
-    var noteVisible: Boolean? = null
-    var noteHighlighted: Boolean? = null
-    var noteColor: String? = null
+    private var EditedNote: Note = Note()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        noteID = arguments?.getInt("noteID")
-        noteTitle = arguments?.getString("noteTitle")
-        noteText = arguments?.getString("noteText")
-        noteVisible = arguments?.getBoolean("noteVisible")
-        noteHighlighted = arguments?.getBoolean("noteHighlighted")
-        noteColor = arguments?.getString("noteColor")
+        EditedNote.noteID = arguments?.getInt("noteID")!!
+        EditedNote.noteTitle = arguments?.getString("noteTitle")!!
+        EditedNote.noteText = arguments?.getString("noteText")!!
+        EditedNote.isVisible = arguments?.getBoolean("noteVisible")!!
+        EditedNote.isHighlighted = arguments?.getBoolean("noteHighlighted")!!
+        EditedNote.noteColor = arguments?.getString("noteColor")!!
 
 
         return inflater.inflate(R.layout.fragment_note_edit_data, container, false)
@@ -40,8 +37,8 @@ class NoteEditDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        note_edit_title_text.setText(noteTitle)
-        note_edit_data_text.setText(noteText)
+        note_edit_title_text.setText(EditedNote.noteTitle)
+        note_edit_data_text.setText(EditedNote.noteText)
 
         note_edit_submit_button.setOnClickListener {
             insertNewNote()
@@ -69,8 +66,9 @@ class NoteEditDataFragment : Fragment() {
     }
 
     private fun insertNewNote() {
-        dbConnector.insertNewNote(note_edit_data_text.text.toString().trim(), note_edit_title_text.text.toString().trim(),
-            "")
+        EditedNote.noteText = note_edit_data_text.text.toString().trim()
+        EditedNote.noteTitle = note_edit_title_text.text.toString().trim()
+        dbConnector.updateNote(EditedNote)
         //ToDo: adding color
     }
 }

@@ -101,7 +101,6 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
         }*/
 
         holder.deleteButton.setOnClickListener {
-            note.isDeleted = true
             itemList.removeAt(position)
             dbConnector.deleteNote(note.noteID)
             this.notifyDataSetChanged()

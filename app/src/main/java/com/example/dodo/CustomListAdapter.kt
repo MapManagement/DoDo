@@ -42,7 +42,6 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
         task.taskID = itemList[position].taskID
         task.taskText = itemList[position].taskText
         task.isDone = itemList[position].isDone
-        task.isDeleted = itemList[position].isDeleted
         task.taskColor = itemList[position].taskColor
 
         val rowView = layoutInflater.inflate(R.layout.custom_list_item, null)
@@ -80,7 +79,6 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
         }
 
         deleteButton.setOnClickListener {
-            task.isDeleted = true
             itemList.removeAt(position)
             dbConnector.deleteTask(task.taskID)
             this.notifyDataSetChanged()
