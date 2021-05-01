@@ -99,11 +99,13 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     fun insertNewNote(note: Note) {
+        val intIsVisible = if(note.isVisible) 1 else 0
+        val intIsHighlighted = if(note.isHighlighted) 1 else 0
         val values = ContentValues()
         values.put(NOTE_TEXT, note.noteText)
         values.put(NOTE_TITLE, note.noteTitle)
-        values.put(NOTE_VISIBLE, note.isVisible)
-        values.put(NOTE_HIGHLIGHTED, note.isHighlighted)
+        values.put(NOTE_VISIBLE, intIsVisible)
+        values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
         values.put(NOTE_COLOR, note.noteColor)
 
         val db = this.writableDatabase

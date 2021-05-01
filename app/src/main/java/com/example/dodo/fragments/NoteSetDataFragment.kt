@@ -43,7 +43,7 @@ class NoteSetDataFragment : Fragment() {
         NewNote.noteText = ""
         NewNote.isVisible = true
         NewNote.isHighlighted = false
-        NewNote.noteColor = "#545454"
+        NewNote.noteColor = "#AAAAAA"
 
         note_set_submit_button.setOnClickListener {
             insertNewNote()
@@ -54,11 +54,23 @@ class NoteSetDataFragment : Fragment() {
         }
 
         note_set_highlighting_button.setOnClickListener {
-
+            if(NewNote.isHighlighted) {
+                note_set_highlighting_button.setImageResource(R.drawable.ic_star_empty)
+            }
+            else {
+                note_set_highlighting_button.setImageResource(R.drawable.ic_star_filled)
+            }
+            NewNote.isHighlighted = !NewNote.isHighlighted
         }
 
         note_set_visibility_button.setOnClickListener {
-
+            if(NewNote.isVisible) {
+                note_set_visibility_button.setImageResource(R.drawable.ic_visibility_off)
+            }
+            else {
+                note_set_visibility_button.setImageResource(R.drawable.ic_visibility_on)
+            }
+            NewNote.isVisible = !NewNote.isVisible
         }
 
         note_set_color_button.setOnClickListener {
