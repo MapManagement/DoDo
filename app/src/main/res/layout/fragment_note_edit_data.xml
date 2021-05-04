@@ -83,29 +83,45 @@
                               app:layout_constraintLeft_toLeftOf="parent"
                               app:layout_constraintLeft_toRightOf="parent">
 
-                    <Button android:id="@+id/note_edit_leave_button"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:text="@string/back"
-                            android:layout_weight="1"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:textColor="@color/white"/>
+                    <ImageButton android:id="@+id/note_edit_highlighting_button"
+                                 android:background="@android:color/transparent"
+                                 android:contentDescription="@string/todo"
+                                 android:layout_width="0dp"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="1"
 
-                    <Button android:id="@+id/note_edit_color_button"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:text="@string/color"
-                            android:layout_weight="1"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:textColor="@color/white"/>
+                                 app:srcCompat="@drawable/ic_star_filled"
+                                 tools:ignore="VectorDrawableCompat"/>
 
-                    <Button android:id="@+id/note_edit_submit_button"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:text="@string/submit"
-                            android:layout_weight="1"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:textColor="@color/white"/>
+                    <ImageButton android:id="@+id/note_edit_visibility_button"
+                                 android:background="@android:color/transparent"
+                                 android:contentDescription="@string/todo"
+                                 android:layout_width="0dp"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="1"
+
+                                 app:srcCompat="@drawable/ic_visibility_on"
+                                 tools:ignore="VectorDrawableCompat"/>
+
+                    <ImageButton android:id="@+id/note_edit_color_button"
+                                 android:background="@android:color/transparent"
+                                 android:contentDescription="@string/todo"
+                                 android:layout_width="0dp"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="1"
+
+                                 app:srcCompat="@drawable/ic_edit_pen"
+                                 tools:ignore="VectorDrawableCompat"/>
+
+                    <ImageButton android:id="@+id/note_edit_save_button"
+                                 android:background="@android:color/transparent"
+                                 android:contentDescription="@string/todo"
+                                 android:layout_width="0dp"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="1"
+
+                                 app:srcCompat="@drawable/ic_save"
+                                 tools:ignore="VectorDrawableCompat"/>
 
                 </LinearLayout>
 

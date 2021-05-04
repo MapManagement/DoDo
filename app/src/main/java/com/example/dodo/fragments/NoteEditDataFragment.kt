@@ -1,7 +1,9 @@
 package com.example.dodo.fragments
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -39,20 +41,34 @@ class NoteEditDataFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         note_edit_title_text.setText(EditedNote.noteTitle)
         note_edit_data_text.setText(EditedNote.noteText)
+        setResources()
 
-        note_edit_submit_button.setOnClickListener {
-            insertNewNote()
+        note_edit_save_button.setOnClickListener {
+            updateNote()
             activity!!.supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fl_wrapper, NoteFragment())
                 commit()
             }
         }
 
-        note_edit_leave_button.setOnClickListener {
-            activity!!.supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_wrapper, NoteFragment())
-                commit()
+        note_edit_highlighting_button.setOnClickListener {
+            if(EditedNote.isHighlighted) {
+                note_edit_highlighting_button.setImageResource(R.drawable.ic_star_empty)
             }
+            else {
+                note_edit_highlighting_button.setImageResource(R.drawable.ic_star_filled)
+            }
+            EditedNote.isHighlighted = !EditedNote.isHighlighted
+        }
+
+        note_edit_visibility_button.setOnClickListener {
+            if(EditedNote.isVisible) {
+                note_edit_visibility_button.setImageResource(R.drawable.ic_visibility_off)
+            }
+            else {
+                note_edit_visibility_button.setImageResource(R.drawable.ic_visibility_on)
+            }
+            EditedNote.isVisible = !EditedNote.isVisible
         }
 
         note_edit_color_button.setOnClickListener {
@@ -65,10 +81,19 @@ class NoteEditDataFragment : Fragment() {
         this.dbConnector = DatabaseConnector(context, null)
     }
 
-    private fun insertNewNote() {
+    private fun updateNote() {
         EditedNote.noteText = note_edit_data_text.text.toString().trim()
         EditedNote.noteTitle = note_edit_title_text.text.toString().trim()
         dbConnector.updateNote(EditedNote)
         //ToDo: adding color
+    }
+
+    private fun setResources() {
+        if(!EditedNote.isVisible) {
+            note_edit_visibility_button.setImageResource(R.drawable.ic_visibility_off)
+        }
+        if(!EditedNote.isHighlighted) {
+            note_edit_highlighting_button.setImageResource(R.drawable.ic_star_empty)
+        }
     }
 }
