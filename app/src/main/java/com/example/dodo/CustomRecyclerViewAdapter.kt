@@ -17,6 +17,7 @@ import com.example.dodo.fragments.NoteEditDataFragment
 import com.example.dodo.fragments.NoteSetDataFragment
 import kotlinx.android.synthetic.main.custom_list_item.view.*
 import kotlinx.android.synthetic.main.custom_note_item.view.*
+import kotlinx.android.synthetic.main.fragment_note_set_data.*
 
 var notesList: MutableList<Note>? = null
 lateinit var noteAdapter: CustomRecyclerViewAdapter
@@ -64,10 +65,28 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
             noteBackground.setBackgroundColor(Color.parseColor(note.noteColor))
         }
 
+        holder.visibilityButton.setOnClickListener {
+            if(note.isVisible) {
+                holder.visibilityButton.setImageResource(R.drawable.ic_visibility_off)
+                note.isVisible = false
+                dbConnector.updateNote(note)
+            }
+        }
+
+        holder.highlightingButton.setOnClickListener {
+            if(note.isHighlighted) {
+                holder.highlightingButton.setImageResource(R.drawable.ic_star_empty)
+                note.isHighlighted = false
+                dbConnector.updateNote(note)
+            }
+            else {
+                holder.highlightingButton.setImageResource(R.drawable.ic_star_filled)
+                note.isHighlighted = true
+                dbConnector.updateNote(note)
+            }
+        }
 
         //ToDo: isHighlighted and isVisible
-
-        //ToDo: isHighlighted in UI
 
         holder.openArea.setOnClickListener {
             val bundle = Bundle()
@@ -85,29 +104,11 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
                 commit()
             }
         }
-        /*editButton.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("noteColor", note.noteColor)
-            bundle.putString("noteText", note.noteColor)
-            bundle.putInt("noteID", note.noteID)
-
-            val activity: AppCompatActivity = convertView!!.context as AppCompatActivity
-            activity.supportFragmentManager.beginTransaction().apply {
-                val editDataFragment = EditDataFragment()
-                editDataFragment.arguments = bundle
-                replace(R.id.fl_wrapper, editDataFragment)
-                commit()
-            }
-        }*/
 
         holder.deleteButton.setOnClickListener {
             itemList.removeAt(position)
             dbConnector.deleteNote(note.noteID)
             this.notifyDataSetChanged()
         }
-
-//        val relativeLayoutBackground: Drawable = holder.relativeLayout.background
-//        relativeLayoutBackground.setColorFilter(Color.parseColor(note.noteColor), PorterDuff.Mode.SRC)
-//        holder.relativeLayout.background = relativeLayoutBackground
     }
 }
