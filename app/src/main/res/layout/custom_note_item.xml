@@ -21,7 +21,7 @@
                                                            android:layout_width="match_parent"
                                                            android:layout_height="match_parent">
 
-            <RelativeLayout android:id="@+id/note_relative_layout"
+            <LinearLayout android:id="@+id/note_relative_layout"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@color/grey"
@@ -30,55 +30,45 @@
                             app:layout_constraintBottom_toTopOf="@id/note_linear_layout">
 
                 <ImageButton
-                        android:id="@+id/note_delete_button"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/note_visibility_button"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/todo"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
 
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
 
-                        app:srcCompat="@drawable/ic_delete_note"
+                        app:srcCompat="@drawable/ic_visibility_on"
                         tools:ignore="VectorDrawableCompat"/>
 
                 <ImageButton
                         android:id="@+id/note_highlight_button"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/todo"
-
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
+                        android:layout_weight="1"
 
                         app:srcCompat="@drawable/ic_star_empty"
                         tools:ignore="VectorDrawableCompat"/>
 
                 <ImageButton
-                        android:id="@+id/note_visibility_button"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/note_delete_button"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/todo"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1"
 
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-
-                        app:srcCompat="@drawable/ic_visibility_on"
+                        app:srcCompat="@drawable/ic_delete_note"
                         tools:ignore="VectorDrawableCompat"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout android:id="@+id/note_linear_layout"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
+                          android:minHeight="75dp"
 
                           app:layout_constraintTop_toBottomOf="@id/note_relative_layout"
                           app:layout_constraintLeft_toLeftOf="parent"
