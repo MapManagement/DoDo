@@ -90,7 +90,7 @@
                                  android:layout_height="match_parent"
                                  android:layout_weight="1"
 
-                                 app:srcCompat="@drawable/ic_star_filled"
+                                 app:srcCompat="@drawable/ic_star_empty"
                                  tools:ignore="VectorDrawableCompat"/>
 
                     <ImageButton android:id="@+id/note_set_visibility_button"

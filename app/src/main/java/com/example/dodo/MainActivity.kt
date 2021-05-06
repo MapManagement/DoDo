@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val settingsFragment = SettingsFragment()
 
         setFragment(toDoFragment)
-        bottom_navigation.setOnNavigationItemSelectedListener { // ToDo adding working bottom navigation
+        bottom_navigation.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.nav_todos -> setFragment(toDoFragment)
                 R.id.nav_notes -> setFragment(noteFragment)

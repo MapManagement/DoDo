@@ -64,6 +64,8 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
         else {
             noteBackground.setBackgroundColor(Color.parseColor(note.noteColor))
         }
+        if(note.isHighlighted) holder.highlightingButton.setImageResource(R.drawable.ic_star_filled)
+        if(!note.isVisible) holder.visibilityButton.setImageResource(R.drawable.ic_visibility_off)
 
         holder.visibilityButton.setOnClickListener {
             if(note.isVisible) {
@@ -73,7 +75,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
             }
         }
 
-        holder.highlightingButton.setOnClickListener {
+        holder.highlightingButton.setOnClickListener { //ToDo: sort by highlighting
             if(note.isHighlighted) {
                 holder.highlightingButton.setImageResource(R.drawable.ic_star_empty)
                 note.isHighlighted = false
@@ -85,8 +87,6 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
                 dbConnector.updateNote(note)
             }
         }
-
-        //ToDo: isHighlighted and isVisible
 
         holder.openArea.setOnClickListener {
             val bundle = Bundle()
