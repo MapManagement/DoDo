@@ -48,7 +48,7 @@ class NoteSetDataFragment : Fragment() {
         note_set_submit_button.setOnClickListener {
             insertNewNote()
             activity!!.supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_wrapper, NoteFragment())
+                replace(R.id.fl_wrapper, NoteFragment(), "NOTES")
                 commit()
             }
         }

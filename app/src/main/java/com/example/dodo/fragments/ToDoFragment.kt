@@ -52,7 +52,7 @@ class ToDoFragment : Fragment() {
 
     private fun openSetDataView() {
         activity!!.supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_wrapper, ToDoSetDataFragment())
+            replace(R.id.fl_wrapper, ToDoSetDataFragment(), "TODO_SET")
             commit()
         }
     }

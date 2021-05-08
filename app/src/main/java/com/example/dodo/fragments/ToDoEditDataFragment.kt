@@ -79,7 +79,7 @@ class ToDoEditDataFragment : Fragment() {
             if(entry_task_text.text.toString().isNotBlank() && taskID != null) {
                 updateTask(taskID!!)
                 activity!!.supportFragmentManager.beginTransaction().apply {
-                    replace(R.id.fl_wrapper, ToDoFragment())
+                    replace(R.id.fl_wrapper, ToDoFragment(), "TODOS")
                     commit()
                 }
             }
@@ -87,7 +87,7 @@ class ToDoEditDataFragment : Fragment() {
 
         entry_leave_button.setOnClickListener {
             activity!!.supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_wrapper, ToDoFragment())
+                replace(R.id.fl_wrapper, ToDoFragment(), "TODOS")
                 commit()
             }
         }

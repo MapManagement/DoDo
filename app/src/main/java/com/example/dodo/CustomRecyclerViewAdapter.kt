@@ -2,10 +2,7 @@ package com.example.dodo
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.TextUtils.replace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dodo.fragments.NoteEditDataFragment
-import com.example.dodo.fragments.NoteSetDataFragment
-import kotlinx.android.synthetic.main.custom_list_item.view.*
-import kotlinx.android.synthetic.main.custom_note_item.view.*
-import kotlinx.android.synthetic.main.fragment_note_set_data.*
 
 var notesList: MutableList<Note>? = null
 lateinit var noteAdapter: CustomRecyclerViewAdapter
@@ -100,7 +93,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>):
             activity.supportFragmentManager.beginTransaction().apply {
                 val editDataFragment = NoteEditDataFragment()
                 editDataFragment.arguments = bundle
-                replace(R.id.fl_wrapper, editDataFragment)
+                replace(R.id.fl_wrapper, editDataFragment, "NOTE_EDiT")
                 commit()
             }
         }

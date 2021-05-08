@@ -68,7 +68,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
             activity.supportFragmentManager.beginTransaction().apply {
                 val editDataFragment = ToDoEditDataFragment()
                 editDataFragment.arguments = bundle
-                replace(R.id.fl_wrapper, editDataFragment)
+                replace(R.id.fl_wrapper, editDataFragment, "TODO_EDIT")
                 commit()
             }
 

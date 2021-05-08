@@ -56,7 +56,7 @@ class NoteFragment : Fragment() {
 
     private fun openSetDataView() {
         activity!!.supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_wrapper, NoteSetDataFragment())
+            replace(R.id.fl_wrapper, NoteSetDataFragment(), "NOTE_SET")
             commit()
         }
     }

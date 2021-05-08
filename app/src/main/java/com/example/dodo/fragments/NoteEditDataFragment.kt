@@ -46,7 +46,7 @@ class NoteEditDataFragment : Fragment() {
         note_edit_save_button.setOnClickListener {
             updateNote()
             activity!!.supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_wrapper, NoteFragment())
+                replace(R.id.fl_wrapper, NoteFragment(), "NOTES")
                 commit()
             }
         }
