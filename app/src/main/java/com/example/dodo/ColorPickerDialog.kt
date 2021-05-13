@@ -3,6 +3,7 @@ package com.example.dodo
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_todo_set_data.*
 
 class ColorPickerDialog(context: Context): Dialog(context){
@@ -32,7 +33,7 @@ class ColorPickerDialog(context: Context): Dialog(context){
         if(blueValue.length==1)  blueValue = "0$blueValue"
 
         val colorValue = "#$redValue$greenValue$blueValue".toUpperCase()
-        entry_hex_color_string.setText(colorValue)
+        dialog_hex_color_string.setText(colorValue)
         return colorValue
     }
 }

@@ -1,6 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:minWidth="250dp"
+            android:minHeight="325dp"
+            android:layout_height="match_parent"
+            android:padding="24dp">
+
+        <SeekBar android:id="@+id/dialog_red_seekbar"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="16dp"
+                 android:progressDrawable="@drawable/red_seekbar_style"
+                 android:max="255"
+                 android:maxHeight="3dp"
+                 android:minHeight="3dp"
+
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toTopOf="parent"/>
+
+        <SeekBar android:id="@+id/dialog_green_seekbar"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="16dp"
+                 android:progressDrawable="@drawable/green_seekbar_style"
+                 android:max="255"
+                 android:maxHeight="3dp"
+                 android:minHeight="3dp"
+
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toBottomOf="@id/dialog_red_seekbar"/>
+
+        <SeekBar android:id="@+id/dialog_blue_seekbar"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="16dp"
+                 android:progressDrawable="@drawable/blue_seekbar_style"
+                 android:max="255"
+                 android:maxHeight="3dp"
+                 android:minHeight="3dp"
+
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toBottomOf="@id/dialog_green_seekbar"/>
+
+        <Button android:id="@+id/dialog_color_preview_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF0F0FA"
+                android:layout_margin="16dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_blue_seekbar"/>
+
+        <EditText
+                android:id="@+id/dialog_hex_color_string"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:autofillHints=""
+                android:text=""
+                android:maxLength="7"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_color_preview_button"
+                tools:ignore="LabelFor"/>
+
+        <Button android:id="@+id/dialog_leave_button"
+                android:layout_width="72dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/back"
+                android:background="@drawable/round_corners_left"
+                android:shadowColor="@color/grey"
+                android:shadowDx="10"
+                android:shadowDy="10"
+                android:shadowRadius="10"
+
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_hex_color_string"/>
+
+        <Button android:id="@+id/dialog_ok_button"
+                android:layout_width="72dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/dialog_ok"
+                android:background="@drawable/round_corners_left"
+                android:shadowColor="@color/grey"
+                android:shadowDx="10"
+                android:shadowDy="10"
+                android:shadowRadius="10"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_hex_color_string"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

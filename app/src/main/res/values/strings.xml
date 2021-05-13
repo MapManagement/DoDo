@@ -19,10 +19,11 @@
     <string name="todos">ToDos</string>
     <string name="title">Title:</string>
     <string name="color">Color</string>
-    <string name="submit">Submit</string>
-    <string name="back">Back</string>
+    <string name="submit">SUBMIT</string>
+    <string name="back">BACK</string>
 
     <!-- note stuff -->
     <string name="note_title_preview">Note title…</string>
     <string name="note_text_preview">Note text…</string>
+    <string name="dialog_ok">OK</string>
 </resources>

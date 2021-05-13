@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import com.example.dodo.ColorPickerDialog
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.Note
 import com.example.dodo.R
@@ -74,7 +75,8 @@ class NoteSetDataFragment : Fragment() {
         }
 
         note_set_color_button.setOnClickListener {
-            //ToDo: alert dialog with color picker
+            val colorPicker = ColorPickerDialog(requireContext())
+            colorPicker.show()
         }
     }
 
