@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.custom_entry_dialog.blue_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.color_preview_button
 import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.red_seekbar
+import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
 import kotlinx.android.synthetic.main.fragment_todo_set_data.*
 
@@ -77,6 +78,10 @@ class NoteSetDataFragment : Fragment() {
         note_set_color_button.setOnClickListener {
             val colorPicker = ColorPickerDialog(requireContext())
             colorPicker.show()
+            colorPicker.dialog_ok_button.setOnClickListener {
+                NewNote.noteColor = colorPicker.colorHexString
+                colorPicker.cancel()
+            }
         }
     }
 
@@ -89,6 +94,5 @@ class NoteSetDataFragment : Fragment() {
         NewNote.noteText = note_set_data_text.text.toString().trim()
         NewNote.noteTitle = note_set_title_text.text.toString().trim()
         dbConnector.insertNewNote(NewNote)
-        //ToDo: adding color
     }
 }
