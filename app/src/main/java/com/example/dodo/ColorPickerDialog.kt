@@ -14,21 +14,18 @@ import kotlinx.android.synthetic.main.fragment_todo_set_data.entry_hex_color_str
 import kotlinx.android.synthetic.main.fragment_todo_set_data.green_seekbar
 import kotlinx.android.synthetic.main.fragment_todo_set_data.red_seekbar
 
-class ColorPickerDialog(context: Context): Dialog(context){
+class ColorPickerDialog(context: Context, startColor: String): Dialog(context){
     var red = 127
     var green = 127
     var blue = 127
-    var colorHexString = ""
+    var colorHexString = startColor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_color_picker)
 
-        red = dialog_red_seekbar.max / 2
-        green = dialog_green_seekbar.max / 2
-        blue = dialog_blue_seekbar.max / 2
-        convertColorToHexString()
         setSeekBars()
+        convertColorToHexString()
         dialog_hex_color_string.setText(colorHexString)
         dialog_color_preview_button.setBackgroundColor(Color.parseColor(colorHexString))
 
@@ -67,6 +64,7 @@ class ColorPickerDialog(context: Context): Dialog(context){
         dialog_hex_color_string.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (s.length == 7){
+                    colorHexString = s.toString()
                     setSeekBars()
                 }
             }
@@ -80,10 +78,6 @@ class ColorPickerDialog(context: Context): Dialog(context){
             }
         })
 
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
     }
 
     private fun convertColorToHexString() {
@@ -100,7 +94,10 @@ class ColorPickerDialog(context: Context): Dialog(context){
 
     private fun setSeekBars() {
         dialog_red_seekbar.progress = Integer.parseInt(colorHexString.substring(1..2), 16)
+        red = dialog_red_seekbar.progress
         dialog_green_seekbar.progress = Integer.parseInt(colorHexString.substring(3..4), 16)
+        green = dialog_green_seekbar.progress
         dialog_blue_seekbar.progress = Integer.parseInt(colorHexString.substring(5..6), 16)
+        blue = dialog_blue_seekbar.progress
     }
 }

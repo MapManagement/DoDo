@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.custom_entry_dialog.color_preview_button
 import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.red_seekbar
 import kotlinx.android.synthetic.main.dialog_color_picker.*
+import kotlinx.android.synthetic.main.fragment_note_edit_data.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
 import kotlinx.android.synthetic.main.fragment_todo_set_data.*
 
@@ -40,12 +41,13 @@ class NoteSetDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        note_set_data_constraint_layout.setBackgroundColor(Color.parseColor(NewNote.noteColor))
 
         NewNote.noteTitle = ""
         NewNote.noteText = ""
         NewNote.isVisible = true
         NewNote.isHighlighted = false
-        NewNote.noteColor = "#AAAAAA"
+        NewNote.noteColor = "#DFDFDF"
 
         note_set_submit_button.setOnClickListener {
             insertNewNote()
@@ -76,11 +78,12 @@ class NoteSetDataFragment : Fragment() {
         }
 
         note_set_color_button.setOnClickListener {
-            val colorPicker = ColorPickerDialog(requireContext())
+            val colorPicker = ColorPickerDialog(requireContext(), NewNote.noteColor)
             colorPicker.show()
             colorPicker.dialog_ok_button.setOnClickListener {
                 NewNote.noteColor = colorPicker.colorHexString
                 colorPicker.cancel()
+                note_set_data_constraint_layout.setBackgroundColor(Color.parseColor(NewNote.noteColor))
             }
         }
     }
