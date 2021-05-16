@@ -2,6 +2,7 @@ package com.example.dodo
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dodo.fragments.ToDoEditDataFragment
 import kotlinx.android.synthetic.main.custom_list_item.view.*
@@ -17,7 +19,7 @@ import kotlinx.android.synthetic.main.custom_list_item.view.*
 var toDoTaskList: MutableList<ToDoTask>? = null
 lateinit var adapter: CustomListAdapter
 
-class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAdapter() {
+class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>) : BaseAdapter() {
 
     private val itemList: MutableList<ToDoTask> = tasks
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
@@ -71,45 +73,28 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>): BaseAda
                 replace(R.id.fl_wrapper, editDataFragment, "TODO_EDIT")
                 commit()
             }
-
-//            intent.putExtra("taskColor", task.taskColor)
-//            intent.putExtra("taskText", task.taskText)
-//            intent.putExtra("taskID", task.taskID)
-//            parent.context.startActivity(intent)
         }
 
         deleteButton.setOnClickListener {
-            itemList.removeAt(position)
-            dbConnector.deleteTask(task.taskID)
-            this.notifyDataSetChanged()
+            val builder = AlertDialog.Builder(convertView!!.context)
+            builder.setTitle("Confirm Action")
+            builder.setMessage("Do you want to delete this ToDo?")
+            builder.setPositiveButton("Delete") { dialogInterface: DialogInterface, i: Int ->
+                itemList.removeAt(position)
+                dbConnector.deleteTask(task.taskID)
+                this.notifyDataSetChanged()
+                Toast.makeText(convertView.context, "Deleted ToDo", Toast.LENGTH_SHORT).show()
+            }
+            builder.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int ->
+                Toast.makeText(convertView.context, "Cancelled", Toast.LENGTH_SHORT).show()
+            }
+            builder.show()
         }
 
         val textSectionBackground: Drawable = rowView.text_section.background
         textSectionBackground.setColorFilter(Color.parseColor(task.taskColor), PorterDuff.Mode.SRC)
         rowView.background = textSectionBackground
 
-//        val textColor = calcTextColor(task.taskColor)
-//        println(textColor)
-//        val text = rowView.text_section.item_text
-//        text.setTextColor(textColor)
-
         return rowView
     }
-
-//    private fun calcTextColor(color: String): Int {
-//        if (color.length == 7) {
-//            val colorInt = color.toColorInt()
-//            val red = colorInt.red
-//            val green = colorInt.green
-//            val blue = colorInt.blue
-//            val brightness = red + green + blue
-//            return when {
-//                brightness > 574 -> 0
-//                brightness > 383 -> 8421504
-//                brightness > 191 -> 8421504
-//                else -> 16777215
-//            }
-//        }
-//        return 0
-//    }
 }

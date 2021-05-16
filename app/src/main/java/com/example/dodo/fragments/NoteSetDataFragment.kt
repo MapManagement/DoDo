@@ -41,13 +41,14 @@ class NoteSetDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        note_set_data_constraint_layout.setBackgroundColor(Color.parseColor(NewNote.noteColor))
 
         NewNote.noteTitle = ""
         NewNote.noteText = ""
         NewNote.isVisible = true
         NewNote.isHighlighted = false
         NewNote.noteColor = "#DFDFDF"
+
+        note_set_data_constraint_layout.setBackgroundColor(Color.parseColor(NewNote.noteColor))
 
         note_set_submit_button.setOnClickListener {
             insertNewNote()
