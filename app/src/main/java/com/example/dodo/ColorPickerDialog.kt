@@ -24,6 +24,7 @@ class ColorPickerDialog(context: Context, startColor: String): Dialog(context){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_color_picker)
 
+        //ToDO: some devices do not display all seekbars before clicking in the color textview
         setSeekBars()
         convertColorToHexString()
         dialog_hex_color_string.setText(colorHexString)
@@ -37,27 +38,33 @@ class ColorPickerDialog(context: Context, startColor: String): Dialog(context){
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                red = progress
-                convertColorToHexString()
-                dialog_color_preview_button.setBackgroundColor(Color.parseColor(colorHexString))
+                if(fromUser) {
+                    red = progress
+                    convertColorToHexString()
+                    dialog_color_preview_button.setBackgroundColor(Color.parseColor(colorHexString))
+                }
             }
         })
         dialog_green_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                green = progress
-                convertColorToHexString()
-                dialog_color_preview_button.setBackgroundColor(Color.parseColor(colorHexString))
+                if(fromUser) {
+                    green = progress
+                    convertColorToHexString()
+                    dialog_color_preview_button.setBackgroundColor(Color.parseColor(colorHexString))
+                }
             }
         })
         dialog_blue_seekbar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                blue = progress
-                convertColorToHexString()
-                dialog_color_preview_button.setBackgroundColor(Color.parseColor(colorHexString))
+                if(fromUser) {
+                    blue = progress
+                    convertColorToHexString()
+                    dialog_color_preview_button.setBackgroundColor(Color.parseColor(colorHexString))
+                }
             }
         })
 
@@ -66,6 +73,7 @@ class ColorPickerDialog(context: Context, startColor: String): Dialog(context){
                 if (s.length == 7){
                     colorHexString = s.toString()
                     setSeekBars()
+                    dialog_color_preview_button.setBackgroundColor(Color.parseColor(colorHexString))
                 }
             }
 
