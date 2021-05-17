@@ -34,11 +34,23 @@
                                                                android:layout_height="match_parent"
                                                                android:background="@color/lightgrey">
 
+                <TextView android:id="@+id/note_edit_date_time_text"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="start"
+                          android:text="@string/note_title_preview"
+                          android:layout_marginTop="2dp"
+                          android:layout_marginStart="2dp"
+                          android:layout_marginLeft="2dp"
+
+                          app:layout_constraintLeft_toLeftOf="parent"
+                          app:layout_constraintRight_toRightOf="parent"
+                          app:layout_constraintTop_toTopOf="parent"/>
+
                 <EditText
                         android:id="@+id/note_edit_title_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginStart="24dp"
                         android:layout_marginEnd="24dp"
                         android:layout_marginLeft="24dp"
@@ -51,7 +63,7 @@
 
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/note_edit_date_time_text"
                         app:layout_constraintBottom_toTopOf="@id/note_edit_data_text"/>
 
                 <EditText

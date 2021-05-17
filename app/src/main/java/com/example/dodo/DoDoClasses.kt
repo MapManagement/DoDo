@@ -14,4 +14,5 @@ class Note {
     var isVisible: Boolean = true
     var isHighlighted: Boolean = false
     var noteColor: String = "#84A5B9"
+    var noteEditedDatetime: String = ""
 }

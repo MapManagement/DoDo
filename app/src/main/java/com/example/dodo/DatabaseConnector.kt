@@ -5,6 +5,11 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
@@ -23,7 +28,8 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
                 "$NOTE_TEXT TEXT NOT NULL," +
                 "$NOTE_VISIBLE INTEGER NOT NULL," +
                 "$NOTE_HIGHLIGHTED INTEGER NOT NULL," +
-                "$NOTE_COLOR TEXT NOT NULL" +
+                "$NOTE_COLOR TEXT NOT NULL," +
+                "$NOTE_DATETIME TEXT NOT NULL" +
                 ")")
     }
 
@@ -78,11 +84,13 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         db.close()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getAllNotes(): ArrayList<Note> {
         val db = this.readableDatabase
         val noteArray = arrayListOf<Note>()
         val cursor = db.rawQuery("SELECT * FROM $NOTE_TABLE_NAME", null)
         cursor.moveToFirst()
+
         while(!cursor.isAfterLast) {
             val note = Note()
             note.noteID = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
@@ -91,6 +99,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             note.isVisible = cursor.getInt(cursor.getColumnIndex(NOTE_VISIBLE)) == 1
             note.isHighlighted = cursor.getInt(cursor.getColumnIndex(NOTE_HIGHLIGHTED)) == 1
             note.noteColor = cursor.getString(cursor.getColumnIndex(NOTE_COLOR))
+            note.noteEditedDatetime = cursor.getString(cursor.getColumnIndex(NOTE_DATETIME))
             noteArray.add(note)
             cursor.moveToNext()
         }
@@ -107,6 +116,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
         values.put(NOTE_COLOR, note.noteColor)
+        values.put(NOTE_DATETIME, note.noteEditedDatetime)
 
         val db = this.writableDatabase
         db.insert(NOTE_TABLE_NAME, null, values)
@@ -128,6 +138,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
         values.put(NOTE_COLOR, note.noteColor)
+        values.put(NOTE_DATETIME, note.noteEditedDatetime)
 
         val db = this.writableDatabase
         db.update(NOTE_TABLE_NAME, values, "$NOTE_ID = ?", arrayOf(note.noteID.toString()))
@@ -141,16 +152,17 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         const val TASK_TABLE_NAME = "Tasks"
         const val NOTE_TABLE_NAME = "Notes"
 
-        const val TASK_ID = "task_id"
-        const val TASK_TEXT = "task_text"
-        const val TASK_COLOR = "task_color"
+        const val TASK_ID = "id"
+        const val TASK_TEXT = "text"
+        const val TASK_COLOR = "color"
         const val TASK_DONE = "is_done"
 
-        const val NOTE_ID = "note_id"
-        const val NOTE_TITLE = "note_title"
-        const val NOTE_TEXT = "note_text"
+        const val NOTE_ID = "id"
+        const val NOTE_TITLE = "title"
+        const val NOTE_TEXT = "text"
         const val NOTE_VISIBLE = "is_visible"
         const val NOTE_HIGHLIGHTED = "is_highlighted"
-        const val NOTE_COLOR = "note_color"
+        const val NOTE_COLOR = "color"
+        const val NOTE_DATETIME = "edited_datetime"
     }
 }

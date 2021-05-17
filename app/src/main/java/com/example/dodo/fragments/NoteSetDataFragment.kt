@@ -2,28 +2,21 @@ package com.example.dodo.fragments
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
+import androidx.annotation.RequiresApi
 import com.example.dodo.ColorPickerDialog
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.Note
 import com.example.dodo.R
-import kotlinx.android.synthetic.main.custom_entry_dialog.*
-import kotlinx.android.synthetic.main.custom_entry_dialog.blue_seekbar
-import kotlinx.android.synthetic.main.custom_entry_dialog.color_preview_button
-import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar
-import kotlinx.android.synthetic.main.custom_entry_dialog.red_seekbar
 import kotlinx.android.synthetic.main.dialog_color_picker.*
-import kotlinx.android.synthetic.main.fragment_note_edit_data.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
-import kotlinx.android.synthetic.main.fragment_todo_set_data.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class NoteSetDataFragment : Fragment() {
@@ -39,6 +32,7 @@ class NoteSetDataFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_note_set_data, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -94,9 +88,19 @@ class NoteSetDataFragment : Fragment() {
         this.dbConnector = DatabaseConnector(context, null)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun insertNewNote() {
         NewNote.noteText = note_set_data_text.text.toString().trim()
         NewNote.noteTitle = note_set_title_text.text.toString().trim()
+        NewNote.noteEditedDatetime = getCurrentDatetimeString()
         dbConnector.insertNewNote(NewNote)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getCurrentDatetimeString(): String {
+        val currentDatetime = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+
+        return currentDatetime.format(formatter)
     }
 }
