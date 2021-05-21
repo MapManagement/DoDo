@@ -102,7 +102,7 @@ class NoteEditDataFragment : Fragment() {
     private fun setResources() {
         note_edit_title_text.setText(EditedNote.noteTitle)
         note_edit_data_text.setText(EditedNote.noteText)
-        note_edit_date_time_text.text = EditedNote.noteEditedDatetime
+        note_edit_date_time_text.text = EditedNote.noteEditedDatetime //ToDo: format datetime
         note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(EditedNote.noteColor))
         if(!EditedNote.isVisible) {
             note_edit_visibility_button.setImageResource(R.drawable.ic_visibility_off)

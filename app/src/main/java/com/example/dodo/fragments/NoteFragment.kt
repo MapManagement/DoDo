@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dodo.*
 import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
@@ -47,7 +48,7 @@ class NoteFragment : Fragment() {
 
         notesList = mutableListOf()
         noteAdapter = CustomRecyclerViewAdapter(requireContext(), notesList!!)
-        recycler_view.layoutManager = GridLayoutManager(requireContext(), 2)
+        recycler_view.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerViewItems!!.adapter = noteAdapter
         loadStoredNotes()
     }

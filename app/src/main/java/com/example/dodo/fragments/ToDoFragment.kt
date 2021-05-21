@@ -21,7 +21,6 @@ class ToDoFragment : Fragment() {
     private lateinit var dbConnector: DatabaseConnector
     var listViewItems: ListView? = null
 
-    //ToDO: check this https://stackoverflow.com/questions/28929637/difference-and-uses-of-oncreate-oncreateview-and-onactivitycreated-in-fra
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
