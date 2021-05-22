@@ -47,7 +47,7 @@ class NoteFragment : Fragment() {
         recyclerViewItems = view.recycler_view
 
         notesList = mutableListOf()
-        noteAdapter = CustomRecyclerViewAdapter(requireContext(), notesList!!)
+        noteAdapter = CustomRecyclerViewAdapter(requireContext(), notesList!!, this)
         recycler_view.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerViewItems!!.adapter = noteAdapter
         loadStoredNotes()
@@ -66,11 +66,13 @@ class NoteFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun loadStoredNotes() {
-        adapter.notifyDataSetChanged()
+    fun loadStoredNotes() {
+        notesList?.clear()
         val storedTasks: ArrayList<Note> = dbConnector.getAllNotes()
         for(note in storedTasks) {
             notesList?.add(note)
         }
+        notesList?.sortBy { !it.isHighlighted }
+        adapter.notifyDataSetChanged()
     }
 }

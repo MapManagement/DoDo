@@ -3,29 +3,34 @@ package com.example.dodo
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dodo.fragments.NoteEditDataFragment
+import com.example.dodo.fragments.NoteFragment
 
 var notesList: MutableList<Note>? = null
 lateinit var noteAdapter: CustomRecyclerViewAdapter
 
 //ToDo: RecyclerView does not use empty space dynamically
-class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>) :
+class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>, fragment: Fragment) :
     RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>() {
 
     private val itemList: MutableList<Note> = notes
     private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
+    private val viewFragment = fragment
 
     inner class ViewHolder(rowView: View) : RecyclerView.ViewHolder(rowView) {
-        val viewContext = rowView.context
+        val viewContext: Context = rowView.context
         val itemTextView: TextView = rowView.findViewById(R.id.note_text)
         val openArea: CardView = rowView.findViewById(R.id.note_card_view)
         val highlightingButton: ImageButton = rowView.findViewById(R.id.note_highlight_button)
@@ -50,6 +55,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>) :
         return ViewHolder(fragmentLayout)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val note: Note = itemList[position]
 
@@ -91,6 +97,8 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>) :
                 note.isHighlighted = true
                 dbConnector.updateNote(note)
             }
+            val noteFragment = viewFragment as NoteFragment
+            noteFragment.loadStoredNotes()
         }
 
         holder.openArea.setOnClickListener {
