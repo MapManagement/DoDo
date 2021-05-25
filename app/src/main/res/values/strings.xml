@@ -26,4 +26,5 @@
     <string name="note_title_preview">Note title…</string>
     <string name="note_text_preview">Note text…</string>
     <string name="dialog_ok">OK</string>
+    <string name="refresh">Refresh</string>
 </resources>

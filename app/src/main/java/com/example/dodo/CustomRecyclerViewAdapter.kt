@@ -97,8 +97,6 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>, frag
                 note.isHighlighted = true
                 dbConnector.updateNote(note)
             }
-            val noteFragment = viewFragment as NoteFragment
-            noteFragment.loadStoredNotes()
         }
 
         holder.openArea.setOnClickListener {

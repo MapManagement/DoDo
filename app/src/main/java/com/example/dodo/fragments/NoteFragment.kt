@@ -66,13 +66,13 @@ class NoteFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun loadStoredNotes() {
+    private fun loadStoredNotes() {
         notesList?.clear()
         val storedTasks: ArrayList<Note> = dbConnector.getAllNotes()
         for(note in storedTasks) {
             notesList?.add(note)
         }
         notesList?.sortBy { !it.isHighlighted }
-        adapter.notifyDataSetChanged()
+        recyclerViewItems!!.adapter?.notifyDataSetChanged()
     }
 }
