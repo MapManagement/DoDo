@@ -1,6 +1,7 @@
 package com.example.dodo.fragments
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import com.example.dodo.*
+import kotlinx.android.synthetic.main.dialog_color_picker.*
+import kotlinx.android.synthetic.main.fragment_note_set_data.*
 import kotlinx.android.synthetic.main.fragment_to_do.*
 import kotlinx.android.synthetic.main.fragment_to_do.view.*
 
@@ -33,7 +36,11 @@ class ToDoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fab_add_entry.setOnClickListener {
-            openSetDataView()
+            val colorPicker = ColorPickerDialog(requireContext(), "#F1F1F1")
+            colorPicker.show()
+            colorPicker.dialog_ok_button.setOnClickListener {
+
+            }
         }
 
         listViewItems = view.todosListView

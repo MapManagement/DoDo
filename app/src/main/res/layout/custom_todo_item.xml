@@ -17,11 +17,17 @@
                   android:layout_toLeftOf="@id/action_section"
                   android:layout_toStartOf="@id/action_section" >
 
-        <TextView android:id="@+id/item_text"
+        <EditText android:id="@+id/item_text"
                   android:textSize="20sp"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_margin="3dp" />
+                  android:layout_margin="3dp"
+                  android:hint="@string/description"
+                  android:maxLength="64"
+                  android:inputType="textMultiLine"
+                  android:autofillHints=""
+                  android:background="@null"
+                  android:gravity="start" />
 
     </LinearLayout>
 

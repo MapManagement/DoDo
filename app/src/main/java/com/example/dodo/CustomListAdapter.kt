@@ -9,12 +9,14 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dodo.fragments.ToDoEditDataFragment
-import kotlinx.android.synthetic.main.custom_list_item.view.*
+import kotlinx.android.synthetic.main.custom_todo_item.view.*
+
 
 var toDoTaskList: MutableList<ToDoTask>? = null
 lateinit var adapter: CustomListAdapter
@@ -46,14 +48,14 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>) : BaseAd
         task.isDone = itemList[position].isDone
         task.taskColor = itemList[position].taskColor
 
-        val rowView = layoutInflater.inflate(R.layout.custom_list_item, null)
+        val rowView = layoutInflater.inflate(R.layout.custom_todo_item, null)
 
-        val itemTextView = rowView.findViewById(R.id.item_text) as TextView
+        val itemEditText = rowView.findViewById(R.id.item_text) as TextView
         val checkBox = rowView.findViewById(R.id.item_checkbox) as CheckBox
         val editButton = rowView.findViewById(R.id.item_edit_button) as ImageButton
         val deleteButton = rowView.findViewById(R.id.item_delete_button) as ImageButton
 
-        itemTextView.text = task.taskText
+        itemEditText.text = task.taskText
         checkBox.isChecked = task.isDone
 
         checkBox.setOnClickListener {
