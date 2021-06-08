@@ -1,0 +1,87 @@
+syntax="proto3";
+
+package grpc;
+
+option java_package = "com.example.proto";
+option java_outer_classname = "DoDoProto";
+
+
+service DoDo {
+  rpc InsertToDo(ToDo) returns (SuccessResponse);
+  rpc UpdateToDo(ToDo) returns (SuccessResponse);
+  rpc DeleteToDo(ToDoIdentifier) returns (SuccessResponse);
+
+  rpc InsertNote(Note) returns (SuccessResponse);
+  rpc UpdateNote(Note) returns (SuccessResponse);
+  rpc DeleteNote(NoteIdentifier) returns (SuccessResponse);
+
+
+  rpc InsertProfile(Profile) returns (SuccessResponse);
+  rpc DeleteProfile(Profile) returns (SuccessResponse);
+
+  rpc InsertTag(Tag) returns (SuccessResponse);
+  rpc DeleteTag(Tag) returns (SuccessResponse);
+
+  rpc InsertNoteTagRel(NoteTagRel) returns (SuccessResponse);
+  rpc DeleteNoteTagRel(NoteTagRel) returns (SuccessResponse);
+}
+
+message SuccessResponse {
+  bool success= 1;
+}
+
+message ToDo {
+  uint32 tid = 1;
+  uint32 creatorID = 2;
+  string text = 3;
+  bool isDone = 4;
+  string color = 6;
+}
+
+message ToDoIdentifier {
+  uint32 tid = 1;
+  uint32 creatorID = 2;
+}
+
+message Note {
+  uint32 nid = 1;
+  uint32 creatorID = 2;
+  string title = 3;
+  string content = 4;
+  bool isVisible = 5;
+  bool isHighlighted = 6;
+  string color = 7;
+  DateTime creationDate = 8;
+}
+
+message NoteIdentifier {
+  uint32 nid = 1;
+  uint32 creatorID = 2;
+}
+
+message Profile {
+  uint32 pid = 1;
+  string name = 2;
+  DateTime creationDate = 3;
+}
+
+message Tag {
+  uint32 taid = 1;
+  string name = 2;
+}
+
+message NoteTagRel {
+  uint32 nid = 1;
+  uint32 taid = 2;
+}
+
+message DateTime {
+  uint32 year = 1;
+  uint32 month = 2;
+  uint32 day = 3;
+  uint32 hour = 4;
+  uint32 minute = 5;
+  uint32 second = 6;
+}
+
+message Empty { }
