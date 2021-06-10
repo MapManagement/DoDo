@@ -2,13 +2,16 @@ package com.example.dodo.fragments
 
 import android.content.Context
 import android.graphics.Color
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import androidx.core.view.isVisible
 import com.example.dodo.*
+import com.example.proto.DoDoGrpc
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
 import kotlinx.android.synthetic.main.fragment_to_do.*
@@ -19,9 +22,10 @@ import kotlinx.android.synthetic.main.fragment_to_do.view.*
  * Use the [ToDoFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ToDoFragment : Fragment() {
+class ToDoFragment(serverConnection: DoDoGrpc.DoDoStub) : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
+    private var serverConnector = serverConnection
     var listViewItems: ListView? = null
 
     override fun onCreateView(
@@ -40,6 +44,23 @@ class ToDoFragment : Fragment() {
             colorPicker.show()
             colorPicker.dialog_ok_button.setOnClickListener {
 
+            }
+        }
+
+        fab_upload_todos.setOnClickListener {
+            //ToDo: updating server instance
+        }
+
+        fab_open_others.setOnClickListener {
+            if(fab_add_entry.isVisible)
+            {
+                fab_add_entry.visibility = View.INVISIBLE
+                fab_upload_todos.visibility = View.INVISIBLE
+            }
+            else
+            {
+                fab_add_entry.visibility = View.VISIBLE
+                fab_upload_todos.visibility = View.VISIBLE
             }
         }
 

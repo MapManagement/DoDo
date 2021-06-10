@@ -12,12 +12,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
+    private val serverConnector = ServerConnector().connectToServer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val toDoFragment = ToDoFragment()
+        val toDoFragment = ToDoFragment(serverConnector)
         val noteFragment = NoteFragment()
         val settingsFragment = SettingsFragment()
 
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val lastFragment = supportFragmentManager.fragments.last()
 
         if(lastFragment is ToDoEditDataFragment || lastFragment is ToDoSetDataFragment){
-            setFragment(ToDoFragment(), "TODOS")
+            setFragment(ToDoFragment(serverConnector), "TODOS")
         }
         else if(lastFragment is NoteEditDataFragment || lastFragment is NoteSetDataFragment) {
             setFragment(NoteFragment(), "NOTES")
