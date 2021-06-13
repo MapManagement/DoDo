@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.dodo.*
 import com.example.proto.DoDoGrpc
@@ -16,16 +17,17 @@ import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
 import kotlinx.android.synthetic.main.fragment_to_do.*
 import kotlinx.android.synthetic.main.fragment_to_do.view.*
+import kotlin.reflect.typeOf
 
 /**
  * A simple [Fragment] subclass.
  * Use the [ToDoFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ToDoFragment(serverConnection: DoDoGrpc.DoDoStub) : Fragment() {
+class ToDoFragment() : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
-    private var serverConnector = serverConnection
+    private lateinit var serverConnector: String
     var listViewItems: ListView? = null
 
     override fun onCreateView(
@@ -33,6 +35,8 @@ class ToDoFragment(serverConnection: DoDoGrpc.DoDoStub) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        dbConnector =  (activity as MainActivity).dbConnector
+        serverConnector = (activity as MainActivity).serverConnector
         return inflater.inflate(R.layout.fragment_to_do, container, false)
     }
 
@@ -72,10 +76,6 @@ class ToDoFragment(serverConnection: DoDoGrpc.DoDoStub) : Fragment() {
         loadStoredTasks()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        this.dbConnector = DatabaseConnector(context, null)
-    }
 
     private fun openSetDataView() {
         activity!!.supportFragmentManager.beginTransaction().apply {

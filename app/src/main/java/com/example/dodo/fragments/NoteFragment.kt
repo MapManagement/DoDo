@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_to_do.view.*
 class NoteFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
+    private lateinit var serverConnector: String
     var recyclerViewItems: RecyclerView? = null
 
     override fun onCreateView(
@@ -33,6 +34,8 @@ class NoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        dbConnector =  (activity as MainActivity).dbConnector
+        serverConnector = (activity as MainActivity).serverConnector
         return inflater.inflate(R.layout.fragment_note, container, false)
     }
 
@@ -51,11 +54,6 @@ class NoteFragment : Fragment() {
         recycler_view.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerViewItems!!.adapter = noteAdapter
         loadStoredNotes()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        this.dbConnector = DatabaseConnector(context, null)
     }
 
     private fun openSetDataView() {

@@ -9,16 +9,16 @@ import com.example.dodo.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problem concerning the UI -> check it
 
-    private val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
-    private val serverConnector = ServerConnector().connectToServer()
+    val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
+    val serverConnector = "test"//ServerConnector().connectToServer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val toDoFragment = ToDoFragment(serverConnector)
+        val toDoFragment = ToDoFragment()
         val noteFragment = NoteFragment()
         val settingsFragment = SettingsFragment()
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val lastFragment = supportFragmentManager.fragments.last()
 
         if(lastFragment is ToDoEditDataFragment || lastFragment is ToDoSetDataFragment){
-            setFragment(ToDoFragment(serverConnector), "TODOS")
+            setFragment(ToDoFragment(), "TODOS")
         }
         else if(lastFragment is NoteEditDataFragment || lastFragment is NoteSetDataFragment) {
             setFragment(NoteFragment(), "NOTES")
