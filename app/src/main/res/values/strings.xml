@@ -27,4 +27,9 @@
     <string name="note_text_preview">Note text…</string>
     <string name="dialog_ok">OK</string>
     <string name="refresh">Refresh</string>
+
+    <!-- settings -->
+    <string name="server_addr">Server Address:</string>
+    <string name="server_hint">dodo-server.example</string>
+
 </resources>
