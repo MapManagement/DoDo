@@ -29,7 +29,14 @@
     <string name="refresh">Refresh</string>
 
     <!-- settings -->
-    <string name="server_addr">Server Address:</string>
+    <string name="server_addr">Server Address</string>
     <string name="server_hint">dodo-server.example</string>
+    <string name="server_category">Server Connection</string>
+    <string name="enable_server">Enable Server Upload</string>
+
+    <string name="profile_category">Profile</string>
+    <string name="profile_id">Profile-ID</string>
+    <string name="profile_name">Profile-Name</string>
+    <string name="profile_creation_date">Creation Date</string>
 
 </resources>
