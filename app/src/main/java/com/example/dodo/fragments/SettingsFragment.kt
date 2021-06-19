@@ -47,5 +47,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             PreferenceManager
                 .getDefaultSharedPreferences(preference.context)
                 .getString(preference.key, ""))
+            //ToDo: non-editable values need to be set at start
     }
 }
