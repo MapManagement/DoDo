@@ -29,6 +29,7 @@
     <string name="refresh">Refresh</string>
 
     <!-- settings -->
+    <string name="server_sum_upload">Check if you want to use a server</string>
     <string name="server_addr">Server Address</string>
     <string name="server_hint">dodo-server.example</string>
     <string name="server_category">Server Connection</string>

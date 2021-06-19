@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.MainActivity
 import com.example.dodo.R
@@ -24,5 +26,26 @@ class SettingsFragment : PreferenceFragmentCompat() {
         dbConnector =  (activity as MainActivity).dbConnector
         serverConnector = (activity as MainActivity).serverConnector
         setPreferencesFromResource(R.xml.fragment_settings, rootKey)
+
+        findPreference<Preference>("server_addr_pref")?.let { bindPreferenceSummaryToValue(it) }
+        findPreference<Preference>("profile_name_pref")?.let { bindPreferenceSummaryToValue(it) }
+    }
+
+    private val prefListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+        if(preference.key == "server_addr_pref") {
+            preference.summary = newValue.toString()
+        }
+        else if(preference.key == "profile_name_pref") {
+            preference.summary = newValue.toString()
+        }
+        true
+    }
+
+    private fun bindPreferenceSummaryToValue(preference: Preference) {
+        preference.onPreferenceChangeListener = prefListener
+        prefListener.onPreferenceChange(preference,
+            PreferenceManager
+                .getDefaultSharedPreferences(preference.context)
+                .getString(preference.key, ""))
     }
 }

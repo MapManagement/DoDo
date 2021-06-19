@@ -21,7 +21,6 @@ import com.example.dodo.fragments.NoteFragment
 var notesList: MutableList<Note>? = null
 lateinit var noteAdapter: CustomRecyclerViewAdapter
 
-//ToDo: RecyclerView does not use empty space dynamically
 class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>, fragment: Fragment) :
     RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>() {
 
