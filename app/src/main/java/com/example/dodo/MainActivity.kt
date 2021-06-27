@@ -1,6 +1,7 @@
 package com.example.dodo
 
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problem co
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        showStartDialog()
 
         val toDoFragment = ToDoFragment()
         val noteFragment = NoteFragment()
@@ -38,6 +40,14 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problem co
             replace(R.id.fl_wrapper, fragment, tag)
             commit()
         }
+    }
+
+    private fun showStartDialog() {
+        val dialog = Dialog(this)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.profile_dialog)
+        dialog.show()
+
     }
 
     override fun onBackPressed() {

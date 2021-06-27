@@ -48,13 +48,7 @@
     <string name="dial_prof_label_name">Name:</string>
     <string name="dial_prof_label_pass">Password:</string>
     <string name="dial_prof_label_reppass">Repeat Password:</string>
-    <string name="dial_prof_info_text">
-        Your todos and notes are stored by profiles. Therefore you must create a profile, no matter if you decide to use
-        a self hosted server instance later on or not. Even if you only use it on your local device, you can create
-        multiple profiles and switch between them to ensure a better organization and structure. To create such a
-        profile, you have to choose a name and a password. You can also just leave the fields empty but be aware, the
-        created profile cannot be uploaded to server before you entered credentials.
-    </string>
+    <string name="dial_prof_info_text">Create a profile to divide your data by profiles!</string>
 
 
 </resources>

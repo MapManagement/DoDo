@@ -44,11 +44,7 @@ class ToDoFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fab_add_entry.setOnClickListener {
-            val colorPicker = ColorPickerDialog(requireContext(), "#F1F1F1")
-            colorPicker.show()
-            colorPicker.dialog_ok_button.setOnClickListener {
-
-            }
+            openSetDataView()
         }
 
         fab_upload_todos.setOnClickListener {
