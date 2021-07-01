@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto">
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_margin="12dp">
+    <!--ToDo: fix full width-->
     <TextView android:id="@+id/dialog_prof_info_text"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_margin="10dp"
               android:text="@string/dial_prof_info_text"
               android:textStyle="bold"
-              android:gravity="start"
 
-              app:layout_constraintTop_toTopOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"/>
+              app:layout_constraintTop_toTopOf="parent" />
 
     <TextView android:id="@+id/dialog_prof_label_id"
               android:layout_width="match_parent"
@@ -21,21 +21,15 @@
               android:layout_margin="10dp"
               android:text="@string/dial_prof_label_id"
               android:textStyle="bold"
-              android:gravity="start"
 
-              app:layout_constraintTop_toBottomOf="@id/dialog_prof_info_text"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"/>
+              app:layout_constraintTop_toBottomOf="@id/dialog_prof_info_text" />
 
     <TextView android:id="@+id/dialog_prof_id"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_margin="10dp"
-              android:gravity="start"
 
-              app:layout_constraintTop_toBottomOf="@id/dialog_prof_label_id"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"/>
+              app:layout_constraintTop_toBottomOf="@id/dialog_prof_label_id" />
 
     <TextView android:id="@+id/dialog_prof_label_name"
               android:layout_width="match_parent"
@@ -43,11 +37,8 @@
               android:layout_margin="10dp"
               android:text="@string/dial_prof_label_name"
               android:textStyle="bold"
-              android:gravity="start"
 
-              app:layout_constraintTop_toBottomOf="@id/dialog_prof_id"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"/>
+              app:layout_constraintTop_toBottomOf="@id/dialog_prof_id" />
 
     <EditText android:id="@+id/dialog_prof_name"
               android:layout_width="match_parent"
@@ -57,11 +48,8 @@
               android:inputType="textCapCharacters"
               android:maxLength="16"
               android:layout_margin="10dp"
-              android:gravity="start"
 
-              app:layout_constraintTop_toBottomOf="@id/dialog_prof_label_name"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"/>
+              app:layout_constraintTop_toBottomOf="@id/dialog_prof_label_name" />
 
     <TextView android:id="@+id/dialog_prof_label_pass"
               android:layout_width="match_parent"
@@ -69,11 +57,8 @@
               android:layout_margin="10dp"
               android:text="@string/dial_prof_label_pass"
               android:textStyle="bold"
-              android:gravity="start"
 
-              app:layout_constraintTop_toBottomOf="@id/dialog_prof_name"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"/>
+              app:layout_constraintTop_toBottomOf="@id/dialog_prof_name" />
 
     <EditText android:id="@+id/dialog_prof_pass"
               android:layout_width="match_parent"
@@ -83,11 +68,8 @@
               android:inputType="textPassword"
               android:maxLength="32"
               android:layout_margin="10dp"
-              android:gravity="start"
 
-              app:layout_constraintTop_toBottomOf="@id/dialog_prof_label_pass"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"/>
+              app:layout_constraintTop_toBottomOf="@id/dialog_prof_label_pass" />
 
     <TextView android:id="@+id/dialog_prof_label_rep_pass"
               android:layout_width="match_parent"
@@ -95,11 +77,8 @@
               android:layout_margin="10dp"
               android:text="@string/dial_prof_label_reppass"
               android:textStyle="bold"
-              android:gravity="start"
 
-              app:layout_constraintTop_toBottomOf="@id/dialog_prof_pass"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"/>
+              app:layout_constraintTop_toBottomOf="@id/dialog_prof_pass" />
 
     <EditText android:id="@+id/dialog_prof_rep_pass"
               android:layout_width="match_parent"
@@ -109,19 +88,18 @@
               android:inputType="textPassword"
               android:maxLength="32"
               android:layout_margin="10dp"
-              android:gravity="start"
 
               app:layout_constraintTop_toBottomOf="@id/dialog_prof_label_rep_pass"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent" tools:ignore="MissingPrefix"/>
+              tools:ignore="MissingPrefix" />
 
 
     <Button android:id="@+id/dialog_prof_leave_button"
             android:layout_width="72dp"
             android:layout_height="32dp"
             android:layout_marginTop="24dp"
-            android:layout_marginLeft="64dp"
-            android:layout_marginStart="64dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/back"
             android:background="@drawable/round_corners_left"
             android:shadowColor="@color/grey"
@@ -131,14 +109,16 @@
 
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_prof_rep_pass"/>
+            app:layout_constraintTop_toBottomOf="@id/dialog_prof_rep_pass"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     <Button android:id="@+id/dialog_prof_submit_button"
             android:layout_width="72dp"
             android:layout_height="32dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="64dp"
-            android:layout_marginRight="64dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/submit"
             android:background="@drawable/round_corners_left"
             android:shadowColor="@color/grey"
@@ -147,6 +127,7 @@
             android:shadowRadius="10"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_prof_rep_pass"/>
+            app:layout_constraintTop_toBottomOf="@id/dialog_prof_rep_pass"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
