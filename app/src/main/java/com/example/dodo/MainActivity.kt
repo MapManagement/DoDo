@@ -18,13 +18,13 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problem co
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        showStartDialog()
+        showFirstProfileFragment()
 
         val toDoFragment = ToDoFragment()
         val noteFragment = NoteFragment()
         val settingsFragment = SettingsFragment()
 
-        setFragment(toDoFragment, "TODOS")
+        //setFragment(toDoFragment, "TODOS")
         bottom_navigation.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.nav_todos -> setFragment(toDoFragment, "TODOS")
@@ -42,12 +42,8 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problem co
         }
     }
 
-    private fun showStartDialog() {
-        val dialog = Dialog(this)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.profile_dialog)
-        dialog.show()
-
+    private fun showFirstProfileFragment() {
+        setFragment(FirstProfileFragment(), "FIRSTPROFILE")
     }
 
     override fun onBackPressed() {
