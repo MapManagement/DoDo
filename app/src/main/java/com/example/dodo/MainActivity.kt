@@ -4,13 +4,14 @@ package com.example.dodo
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.dodo.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problem concerning the UI -> check it
+class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problems concerning the UI -> check it
 
     val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
     val serverConnector = "test"//ServerConnector().connectToServer()
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problem co
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        bottom_navigation.visibility = View.INVISIBLE
         showFirstProfileFragment()
 
         val toDoFragment = ToDoFragment()

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.proto.DoDoProto
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -30,6 +31,12 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
                 "$NOTE_HIGHLIGHTED INTEGER NOT NULL," +
                 "$NOTE_COLOR TEXT NOT NULL," +
                 "$NOTE_DATETIME TEXT NOT NULL" +
+                ")")
+
+        db?.execSQL("CREATE TABLE  $PROIFLE_TABLE_NAME (" +
+                "$PROFILE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$PROFILE_NAME TEXT," +
+                "$PROFILE_DATETIME TEXT NOT NULL" +
                 ")")
     }
 
@@ -145,12 +152,25 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         db.close()
     }
 
+    fun insertNewProfile(profile: DoDoProto.Profile) {
+       // ToDo: insert profile method
+    }
+
+    fun deleteProfile(profileID: Int) {
+        // ToDo: delete profile method
+    }
+
+    fun updateProfile(profile: DoDoProto.Profile) {
+        // ToDo: update profile method
+    }
+
     companion object {
-        // ToDo: adding missing fields
+        // ToDo: adding missing fields and update field names (analog to server)
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "dodo.db"
         const val TASK_TABLE_NAME = "Tasks"
         const val NOTE_TABLE_NAME = "Notes"
+        const val PROIFLE_TABLE_NAME = "Profiles"
 
         const val TASK_ID = "id"
         const val TASK_TEXT = "text"
@@ -164,5 +184,9 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         const val NOTE_HIGHLIGHTED = "is_highlighted"
         const val NOTE_COLOR = "color"
         const val NOTE_DATETIME = "edited_datetime"
+
+        const val PROFILE_ID = "id"
+        const val PROFILE_NAME = "name"
+        const val PROFILE_DATETIME = "creation_datetime"
     }
 }

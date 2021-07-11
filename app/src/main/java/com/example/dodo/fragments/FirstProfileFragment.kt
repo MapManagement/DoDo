@@ -1,13 +1,17 @@
 package com.example.dodo.fragments
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.R
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_first_profile.*
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -24,12 +28,22 @@ class FirstProfileFragment : Fragment()  {
         return inflater.inflate(R.layout.fragment_first_profile, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         dialog_prof_submit_button.setOnClickListener {
-            storeNewProfile()
-            startDoDo()
+            if(checkInput()) {
+                storeNewProfile()
+                startDoDo()
+            }
+            else {
+                val red = ColorStateList.valueOf(resources.getColor(R.color.red))
+
+                dialog_prof_name.backgroundTintList = red
+                dialog_prof_pass.backgroundTintList = red
+                dialog_prof_rep_pass.backgroundTintList = red
+            }
         }
     }
 
@@ -55,7 +69,19 @@ class FirstProfileFragment : Fragment()  {
     }
 
     private fun startDoDo() {
-
+        requireActivity().supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fl_wrapper, ToDoFragment(), tag)
+            commit()
+        }
+        val parentActivity = requireActivity()
+        parentActivity.bottom_navigation.visibility = View.VISIBLE
     }
 
+    private fun checkInput(): Boolean {
+        val editedName = dialog_prof_name.text.trim()
+        val validName = editedName.isNotBlank()
+        val validPassword = dialog_prof_pass.text.isNotBlank() && dialog_prof_label_rep_pass.text.isNotBlank()
+
+        return  validName && validPassword
+    }
 }
