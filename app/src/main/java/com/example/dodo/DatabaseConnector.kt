@@ -18,25 +18,40 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL("CREATE TABLE  $TASK_TABLE_NAME (" +
                 "$TASK_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$TASK_CREATOR_ID INTEGER," +
                 "$TASK_TEXT TEXT NOT NULL," +
                 "$TASK_DONE INTEGER NOT NULL," +
-                "$TASK_COLOR TEXT NOT NULL" +
+                "$TASK_COLOR TEXT NOT NULL," +
+                "FOREIGN KEY($TASK_CREATOR_ID) REFERENCES $PROIFLE_TABLE_NAME($PROFILE_ID)" +
                 ")")
 
         db?.execSQL("CREATE TABLE  $NOTE_TABLE_NAME (" +
                 "$NOTE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$NOTE_CREATOR_ID INTEGER," +
                 "$NOTE_TITLE TEXT," +
-                "$NOTE_TEXT TEXT NOT NULL," +
+                "$NOTE_CONTENT TEXT NOT NULL," +
                 "$NOTE_VISIBLE INTEGER NOT NULL," +
                 "$NOTE_HIGHLIGHTED INTEGER NOT NULL," +
                 "$NOTE_COLOR TEXT NOT NULL," +
-                "$NOTE_DATETIME TEXT NOT NULL" +
+                "$NOTE_DATE TEXT NOT NULL," +
+                "FOREIGN KEY($NOTE_CREATOR_ID) REFERENCES $PROIFLE_TABLE_NAME($PROFILE_ID)" +
                 ")")
 
         db?.execSQL("CREATE TABLE  $PROIFLE_TABLE_NAME (" +
                 "$PROFILE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$PROFILE_NAME TEXT," +
-                "$PROFILE_DATETIME TEXT NOT NULL" +
+                "$PROFILE_DATE TEXT NOT NULL" +
+                ")")
+
+        db?.execSQL("CREATE TABLE  $TAG_TABLE_NAME (" +
+                "$TAG_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$TAG_NAME TEXT" +
+                ")")
+
+        db?.execSQL("CREATE TABLE  $NOTE_TAG_REL_TABLE_NAME (" +
+                "$NOTE_TAG_REL_NID INTEGER," +
+                "$NOTE_TAG_REL_TAID INTEGER," +
+                "FOREIGN KEY($NOTE_TAG_REL_NID) REFERENCES $NOTE_TABLE_NAME($NOTE_ID)" +
                 ")")
     }
 
@@ -67,6 +82,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         values.put(TASK_TEXT, text)
         values.put(TASK_COLOR, color)
         values.put(TASK_DONE, 0)
+        //ToDo: insert creator_id
 
         val db = this.writableDatabase
         db.insert(TASK_TABLE_NAME, null, values)
@@ -102,11 +118,11 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             val note = Note()
             note.noteID = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
             note.noteTitle = cursor.getString(cursor.getColumnIndex(NOTE_TITLE))
-            note.noteText = cursor.getString(cursor.getColumnIndex(NOTE_TEXT))
+            note.noteText = cursor.getString(cursor.getColumnIndex(NOTE_CONTENT))
             note.isVisible = cursor.getInt(cursor.getColumnIndex(NOTE_VISIBLE)) == 1
             note.isHighlighted = cursor.getInt(cursor.getColumnIndex(NOTE_HIGHLIGHTED)) == 1
             note.noteColor = cursor.getString(cursor.getColumnIndex(NOTE_COLOR))
-            note.noteEditedDatetime = cursor.getString(cursor.getColumnIndex(NOTE_DATETIME))
+            note.noteEditedDatetime = cursor.getString(cursor.getColumnIndex(NOTE_DATE))
             noteArray.add(note)
             cursor.moveToNext()
         }
@@ -118,12 +134,13 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         val intIsVisible = if(note.isVisible) 1 else 0
         val intIsHighlighted = if(note.isHighlighted) 1 else 0
         val values = ContentValues()
-        values.put(NOTE_TEXT, note.noteText)
+        values.put(NOTE_CONTENT, note.noteText)
         values.put(NOTE_TITLE, note.noteTitle)
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
         values.put(NOTE_COLOR, note.noteColor)
-        values.put(NOTE_DATETIME, note.noteEditedDatetime)
+        values.put(NOTE_DATE, note.noteEditedDatetime)
+        //ToDo: insert creator_id
 
         val db = this.writableDatabase
         db.insert(NOTE_TABLE_NAME, null, values)
@@ -140,12 +157,12 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         val intIsVisible = if(note.isVisible) 1 else 0
         val intIsHighlighted = if(note.isHighlighted) 1 else 0
         val values = ContentValues()
-        values.put(NOTE_TEXT, note.noteText)
+        values.put(NOTE_CONTENT, note.noteText)
         values.put(NOTE_TITLE, note.noteTitle)
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
         values.put(NOTE_COLOR, note.noteColor)
-        values.put(NOTE_DATETIME, note.noteEditedDatetime)
+        values.put(NOTE_DATE, note.noteEditedDatetime)
 
         val db = this.writableDatabase
         db.update(NOTE_TABLE_NAME, values, "$NOTE_ID = ?", arrayOf(note.noteID.toString()))
@@ -165,28 +182,38 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     companion object {
-        // ToDo: adding missing fields and update field names (analog to server)
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "dodo.db"
-        const val TASK_TABLE_NAME = "Tasks"
-        const val NOTE_TABLE_NAME = "Notes"
-        const val PROIFLE_TABLE_NAME = "Profiles"
+        const val TASK_TABLE_NAME = "Task"
+        const val NOTE_TABLE_NAME = "Note"
+        const val PROIFLE_TABLE_NAME = "Profile"
+        const val TAG_TABLE_NAME = "Tag"
+        const val NOTE_TAG_REL_TABLE_NAME = "NoteTagRel"
 
-        const val TASK_ID = "id"
+        const val TASK_ID = "t_id"
+        const val TASK_CREATOR_ID = "creator_id"
         const val TASK_TEXT = "text"
         const val TASK_COLOR = "color"
         const val TASK_DONE = "is_done"
 
-        const val NOTE_ID = "id"
+        const val NOTE_ID = "n_id"
+        const val NOTE_CREATOR_ID = "creator_id"
         const val NOTE_TITLE = "title"
-        const val NOTE_TEXT = "text"
+        const val NOTE_CONTENT= "content"
         const val NOTE_VISIBLE = "is_visible"
         const val NOTE_HIGHLIGHTED = "is_highlighted"
         const val NOTE_COLOR = "color"
-        const val NOTE_DATETIME = "edited_datetime"
+        const val NOTE_DATE = "creation_date"
 
         const val PROFILE_ID = "id"
+        const val PROFILE_PASSWORD = "password"
         const val PROFILE_NAME = "name"
-        const val PROFILE_DATETIME = "creation_datetime"
+        const val PROFILE_DATE = "creation_date"
+
+        const val TAG_ID = "ta_id"
+        const val TAG_NAME = "name"
+
+        const val NOTE_TAG_REL_NID = "n_id"
+        const val NOTE_TAG_REL_TAID = "ta_id"
     }
 }
