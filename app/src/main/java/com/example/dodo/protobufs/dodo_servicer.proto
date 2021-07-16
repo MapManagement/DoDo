@@ -63,6 +63,7 @@ message Profile {
   uint32 pid = 1;
   string name = 2;
   DateTime creationDate = 3;
+  string password = 4;
 }
 
 message Tag {

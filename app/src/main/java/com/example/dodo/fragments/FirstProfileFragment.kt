@@ -7,15 +7,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.R
+import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_first_profile.*
 import java.math.BigInteger
 import java.security.MessageDigest
-import kotlin.system.exitProcess
+import java.util.*
+
 
 class FirstProfileFragment : Fragment()  {
     private lateinit var dbConnector: DatabaseConnector
@@ -37,13 +40,6 @@ class FirstProfileFragment : Fragment()  {
                 storeNewProfile()
                 startDoDo()
             }
-            else {
-                val red = ColorStateList.valueOf(resources.getColor(R.color.red))
-
-                dialog_prof_name.backgroundTintList = red
-                dialog_prof_pass.backgroundTintList = red
-                dialog_prof_rep_pass.backgroundTintList = red
-            }
         }
     }
 
@@ -61,11 +57,10 @@ class FirstProfileFragment : Fragment()  {
 
     private fun storeNewProfile() {
         val hashedPass = hashPassword(dialog_prof_pass.text.toString())
-        val hashedRepPass = hashPassword(dialog_prof_rep_pass.text.toString())
-        if (hashedPass == hashedRepPass) {
-            //new profile needs to be stored on local database
-        }
-        //throw error
+        val newProfile = DoDoProto.Profile.newBuilder()
+        newProfile.name = ""
+        newProfile.password = hashedPass
+        newProfile.creationDate = getDodoDatetimeNow()
     }
 
     private fun startDoDo() {
@@ -77,11 +72,44 @@ class FirstProfileFragment : Fragment()  {
         parentActivity.bottom_navigation.visibility = View.VISIBLE
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun checkInput(): Boolean {
         val editedName = dialog_prof_name.text.trim()
         val validName = editedName.isNotBlank()
         val validPassword = dialog_prof_pass.text.isNotBlank() && dialog_prof_label_rep_pass.text.isNotBlank()
+        val samePasswords = hashPassword(dialog_prof_pass.text.toString()) == hashPassword(dialog_prof_rep_pass.text.toString())
 
-        return  validName && validPassword
+        val red = ColorStateList.valueOf(resources.getColor(R.color.red))
+
+        if(!validName) {
+            Toast.makeText(requireContext(), "Given profile Name is not valid!", Toast.LENGTH_SHORT).show()
+            dialog_prof_name.backgroundTintList = red
+        }
+        else if(!validPassword) {
+            Toast.makeText(requireContext(), "There is no password given!", Toast.LENGTH_SHORT).show()
+            dialog_prof_pass.backgroundTintList = red
+            dialog_prof_rep_pass.backgroundTintList = red
+        }
+        else if(!samePasswords) {
+            Toast.makeText(requireContext(), "The given passswords do not match!", Toast.LENGTH_SHORT).show()
+            dialog_prof_pass.backgroundTintList = red
+            dialog_prof_rep_pass.backgroundTintList = red
+        }
+
+        return  validName && validPassword && samePasswords
+    }
+
+    private fun getDodoDatetimeNow(): DoDoProto.DateTime? {
+        val datetime = DoDoProto.DateTime.newBuilder()
+        val datetimeNow = Calendar.getInstance().time
+
+        datetime.year = datetimeNow.year
+        datetime.month = datetimeNow.month
+        datetime.day = datetimeNow.day
+        datetime.hour = datetimeNow.hours
+        datetime.minute = datetimeNow.minutes
+        datetime.second = datetimeNow.seconds
+
+        return datetime.build()
     }
 }

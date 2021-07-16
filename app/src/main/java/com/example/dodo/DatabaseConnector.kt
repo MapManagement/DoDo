@@ -206,7 +206,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         const val NOTE_DATE = "creation_date"
 
         const val PROFILE_ID = "id"
-        const val PROFILE_PASSWORD = "password"
+        const val PROFILE_PASSWORD = "password" //ToDo: hashing?
         const val PROFILE_NAME = "name"
         const val PROFILE_DATE = "creation_date"
 
