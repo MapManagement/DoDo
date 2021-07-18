@@ -1,8 +1,7 @@
 package com.example.dodo
 
 
-import android.app.Dialog
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +19,9 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problems c
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bottom_navigation.visibility = View.INVISIBLE
-        showFirstProfileFragment()
+        if(!profileAvailable()) {
+            showFirstProfileFragment()
+        }
 
         val toDoFragment = ToDoFragment()
         val noteFragment = NoteFragment()
@@ -46,6 +47,11 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problems c
 
     private fun showFirstProfileFragment() {
         setFragment(FirstProfileFragment(), "FIRSTPROFILE")
+    }
+
+    private fun profileAvailable(): Boolean {
+        val preferences = getPreferences(Context.MODE_PRIVATE)
+        return preferences.getInt("profile_id_pref", -1) != -1
     }
 
     override fun onBackPressed() {

@@ -35,6 +35,8 @@ class FirstProfileFragment : Fragment()  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        resetEdiTextColor()
+
         dialog_prof_submit_button.setOnClickListener {
             if(checkInput()) {
                 storeNewProfile()
@@ -56,11 +58,19 @@ class FirstProfileFragment : Fragment()  {
     }
 
     private fun storeNewProfile() {
+        //ToDo: check if the entered profile name already exists
         val hashedPass = hashPassword(dialog_prof_pass.text.toString())
         val newProfile = DoDoProto.Profile.newBuilder()
-        newProfile.name = ""
+        newProfile.name = dialog_prof_name.text.toString()
         newProfile.password = hashedPass
         newProfile.creationDate = getDodoDatetimeNow()
+
+        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val editor = preferences.edit()
+        editor.putString("profile_name_pref", dialog_prof_name.text.toString())
+        editor.putInt("profile_id_pref", 0) //ToDo: get ID of newly created profile
+        editor.putString("profile_creation_date_pref", "") //ToDo: set creation date
+        editor.apply()
     }
 
     private fun startDoDo() {
@@ -79,10 +89,11 @@ class FirstProfileFragment : Fragment()  {
         val validPassword = dialog_prof_pass.text.isNotBlank() && dialog_prof_label_rep_pass.text.isNotBlank()
         val samePasswords = hashPassword(dialog_prof_pass.text.toString()) == hashPassword(dialog_prof_rep_pass.text.toString())
 
+        resetEdiTextColor()
         val red = ColorStateList.valueOf(resources.getColor(R.color.red))
 
         if(!validName) {
-            Toast.makeText(requireContext(), "Given profile Name is not valid!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Given profile name is not valid!", Toast.LENGTH_SHORT).show()
             dialog_prof_name.backgroundTintList = red
         }
         else if(!validPassword) {
@@ -111,5 +122,13 @@ class FirstProfileFragment : Fragment()  {
         datetime.second = datetimeNow.seconds
 
         return datetime.build()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun resetEdiTextColor() {
+        val black = ColorStateList.valueOf(resources.getColor(R.color.black))
+        dialog_prof_name.backgroundTintList = black
+        dialog_prof_pass.backgroundTintList = black
+        dialog_prof_rep_pass.backgroundTintList = black
     }
 }
