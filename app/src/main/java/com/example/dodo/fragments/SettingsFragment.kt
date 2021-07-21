@@ -25,7 +25,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         dbConnector =  (activity as MainActivity).dbConnector
         serverConnector = (activity as MainActivity).serverConnector
-        setPreferencesFromResource(R.xml.fragment_settings, rootKey)
+        addPreferencesFromResource(R.xml.fragment_settings) //ToDo: app crashed because of wrong cast?
 
         findPreference<Preference>("server_addr_pref")?.let { bindPreferenceSummaryToValue(it) }
         findPreference<Preference>("profile_name_pref")?.let { bindPreferenceSummaryToValue(it) }
@@ -46,7 +46,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         prefListener.onPreferenceChange(preference,
             PreferenceManager
                 .getDefaultSharedPreferences(preference.context)
-                .getString(preference.key, ""))
+                .getString(preference.key, " "))
             //ToDo: non-editable values need to be set at start
     }
 }

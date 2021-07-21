@@ -10,17 +10,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.R
 import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_first_profile.*
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.util.*
 
 
-class FirstProfileFragment : Fragment()  {
+class SignUpFragment : Fragment()  {
     private lateinit var dbConnector: DatabaseConnector
 
     override fun onCreateView(
@@ -28,7 +29,7 @@ class FirstProfileFragment : Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first_profile, container, false)
+        return inflater.inflate(R.layout.fragment_sign_up, container, false)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -65,8 +66,8 @@ class FirstProfileFragment : Fragment()  {
         newProfile.password = hashedPass
         newProfile.creationDate = getDodoDatetimeNow()
 
-        val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        val editor = preferences.edit()
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val editor = pref.edit()
         editor.putString("profile_name_pref", dialog_prof_name.text.toString())
         editor.putInt("profile_id_pref", 0) //ToDo: get ID of newly created profile
         editor.putString("profile_creation_date_pref", "") //ToDo: set creation date

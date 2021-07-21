@@ -4,13 +4,11 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".fragments.FirstProfileFragment">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                       xmlns:tools="http://schemas.android.com/tools"
-                                                       android:layout_width="match_parent"
-                                                       android:layout_height="wrap_content"
-                                                       xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                       android:layout_margin="12dp">
+             tools:context=".fragments.SignUpFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp">
         <TextView android:id="@+id/dialog_prof_info_text"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -50,7 +48,7 @@
                   android:layout_height="wrap_content"
                   android:hint="@string/dial_prof_name_hint"
                   android:autofillHints=""
-                  android:inputType="textCapCharacters"
+                  android:inputType="text"
                   android:maxLength="16"
                   android:layout_margin="10dp"
 
@@ -96,7 +94,6 @@
 
                   app:layout_constraintTop_toBottomOf="@id/dialog_prof_label_rep_pass"
                   tools:ignore="MissingPrefix"/>
-
 
 
         <Button android:id="@+id/dialog_prof_submit_button"
