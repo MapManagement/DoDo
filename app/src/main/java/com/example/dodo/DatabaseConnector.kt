@@ -16,13 +16,13 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("CREATE TABLE  $TASK_TABLE_NAME (" +
+        db?.execSQL("CREATE TABLE  $TODO_TABLE_NAME (" +
                 "$TASK_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$TASK_CREATOR_ID INTEGER," +
                 "$TASK_TEXT TEXT NOT NULL," +
                 "$TASK_DONE INTEGER NOT NULL," +
                 "$TASK_COLOR TEXT NOT NULL," +
-                "FOREIGN KEY($TASK_CREATOR_ID) REFERENCES $PROIFLE_TABLE_NAME($PROFILE_ID)" +
+                "FOREIGN KEY($TASK_CREATOR_ID) REFERENCES $PROFILE_TABLE_NAME($PROFILE_ID)" +
                 ")")
 
         db?.execSQL("CREATE TABLE  $NOTE_TABLE_NAME (" +
@@ -34,12 +34,13 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
                 "$NOTE_HIGHLIGHTED INTEGER NOT NULL," +
                 "$NOTE_COLOR TEXT NOT NULL," +
                 "$NOTE_DATE TEXT NOT NULL," +
-                "FOREIGN KEY($NOTE_CREATOR_ID) REFERENCES $PROIFLE_TABLE_NAME($PROFILE_ID)" +
+                "FOREIGN KEY($NOTE_CREATOR_ID) REFERENCES $PROFILE_TABLE_NAME($PROFILE_ID)" +
                 ")")
 
-        db?.execSQL("CREATE TABLE  $PROIFLE_TABLE_NAME (" +
+        db?.execSQL("CREATE TABLE  $PROFILE_TABLE_NAME (" +
                 "$PROFILE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$PROFILE_NAME TEXT," +
+                "$PROFILE_PASSWORD TEXT," +
                 "$PROFILE_DATE TEXT NOT NULL" +
                 ")")
 
@@ -62,7 +63,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     fun getAllTasks(): ArrayList<ToDoTask> {
         val db = this.readableDatabase
         val taskArray = arrayListOf<ToDoTask>()
-        val cursor = db.rawQuery("SELECT * FROM $TASK_TABLE_NAME", null)
+        val cursor = db.rawQuery("SELECT * FROM $TODO_TABLE_NAME", null)
         cursor.moveToFirst()
         while(!cursor.isAfterLast) {
             val toDoTask = ToDoTask()
@@ -85,13 +86,13 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         //ToDo: insert creator_id
 
         val db = this.writableDatabase
-        db.insert(TASK_TABLE_NAME, null, values)
+        db.insert(TODO_TABLE_NAME, null, values)
         db.close()
     }
 
     fun deleteTask(taskID: Int) {
         val db = this.writableDatabase
-        db.delete(TASK_TABLE_NAME, "$TASK_ID = ?", arrayOf(taskID.toString()))
+        db.delete(TODO_TABLE_NAME, "$TASK_ID = ?", arrayOf(taskID.toString()))
         db.close()
     }
 
@@ -103,7 +104,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         values.put(TASK_DONE, intIsDone)
 
         val db = this.writableDatabase
-        db.update(TASK_TABLE_NAME, values, "$TASK_ID = ?", arrayOf(taskID.toString()))
+        db.update(TODO_TABLE_NAME, values, "$TASK_ID = ?", arrayOf(taskID.toString()))
         db.close()
     }
 
@@ -170,7 +171,14 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     fun insertNewProfile(profile: DoDoProto.Profile) {
-       // ToDo: insert profile method
+        val values = ContentValues()
+        values.put(PROFILE_NAME, profile.name)
+        values.put(PROFILE_PASSWORD, profile.password)
+        values.put(PROFILE_DATE, profile.creationDate.toString()) //ToDo: gRPC class to readable datetime
+
+        val db = this.writableDatabase
+        db.insert(PROFILE_TABLE_NAME, null, values)
+        db.close()
     }
 
     fun deleteProfile(profileID: Int) {
@@ -184,9 +192,9 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "dodo.db"
-        const val TASK_TABLE_NAME = "Task"
+        const val TODO_TABLE_NAME = "Todo"
         const val NOTE_TABLE_NAME = "Note"
-        const val PROIFLE_TABLE_NAME = "Profile"
+        const val PROFILE_TABLE_NAME = "Profile"
         const val TAG_TABLE_NAME = "Tag"
         const val NOTE_TAG_REL_TABLE_NAME = "NoteTagRel"
 

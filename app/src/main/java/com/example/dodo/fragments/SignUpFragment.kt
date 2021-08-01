@@ -66,6 +66,8 @@ class SignUpFragment : Fragment()  {
         newProfile.password = hashedPass
         newProfile.creationDate = getDodoDatetimeNow()
 
+        dbConnector.insertNewProfile(newProfile.build())
+
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val editor = pref.edit()
         editor.putString("profile_name_pref", dialog_prof_name.text.toString())
