@@ -32,7 +32,7 @@ class SignUpFragment : Fragment()  {
         return inflater.inflate(R.layout.fragment_sign_up, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -40,7 +40,7 @@ class SignUpFragment : Fragment()  {
 
         dialog_prof_submit_button.setOnClickListener {
             if(checkInput()) {
-                storeNewProfile()
+                if(!storeNewProfile()) return@setOnClickListener
                 startDoDo()
             }
         }
@@ -58,13 +58,19 @@ class SignUpFragment : Fragment()  {
         return bigInt.toString()
     }
 
-    private fun storeNewProfile() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun storeNewProfile(): Boolean {
         //ToDo: check if the entered profile name already exists
         val hashedPass = hashPassword(dialog_prof_pass.text.toString())
         val newProfile = DoDoProto.Profile.newBuilder()
         newProfile.name = dialog_prof_name.text.toString()
         newProfile.password = hashedPass
         newProfile.creationDate = getDodoDatetimeNow()
+
+        if (!nameAvailable()) {
+            Toast.makeText(requireContext(), "Profile name is already taken!", Toast.LENGTH_SHORT).show()
+            return false
+        }
 
         dbConnector.insertNewProfile(newProfile.build())
 
@@ -74,6 +80,7 @@ class SignUpFragment : Fragment()  {
         editor.putInt("profile_id_pref", 0) //ToDo: get ID of newly created profile
         editor.putString("profile_creation_date_pref", "") //ToDo: set creation date
         editor.apply()
+        return true
     }
 
     private fun startDoDo() {
@@ -133,5 +140,14 @@ class SignUpFragment : Fragment()  {
         dialog_prof_name.backgroundTintList = black
         dialog_prof_pass.backgroundTintList = black
         dialog_prof_rep_pass.backgroundTintList = black
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun nameAvailable(): Boolean {
+        val profiles = dbConnector.getAllProfiles()
+        for (profile in profiles) {
+            if(dialog_prof_name.text.toString() == profile.name) return false
+        }
+        return true
     }
 }

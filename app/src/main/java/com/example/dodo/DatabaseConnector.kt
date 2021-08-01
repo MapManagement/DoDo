@@ -1,5 +1,6 @@
 package com.example.dodo
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -187,6 +188,25 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
 
     fun updateProfile(profile: DoDoProto.Profile) {
         // ToDo: update profile method
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getAllProfiles(): ArrayList<DoDoProto.Profile> {
+        val db = this.readableDatabase
+        val profileArray = arrayListOf<DoDoProto.Profile>()
+        val cursor = db.rawQuery("SELECT * FROM $PROFILE_TABLE_NAME", null)
+        cursor.moveToFirst()
+
+        while(!cursor.isAfterLast) {
+            val profile= DoDoProto.Profile.newBuilder()
+            profile.pid = cursor.getInt(cursor.getColumnIndex(PROFILE_ID))
+            profile.name = cursor.getString(cursor.getColumnIndex(PROFILE_NAME))
+            //ToDO: datetime
+            profileArray.add(profile.build())
+            cursor.moveToNext()
+        }
+        cursor.close()
+        return profileArray
     }
 
     companion object {
