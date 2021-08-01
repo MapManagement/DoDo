@@ -61,22 +61,23 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
 
     }
 
-    fun getAllTasks(): ArrayList<ToDoTask> {
+    fun getAllTodos(): ArrayList<DoDoProto.ToDo> {
         val db = this.readableDatabase
-        val taskArray = arrayListOf<ToDoTask>()
+        val todoArray = arrayListOf<DoDoProto.ToDo>()
         val cursor = db.rawQuery("SELECT * FROM $TODO_TABLE_NAME", null)
         cursor.moveToFirst()
         while(!cursor.isAfterLast) {
-            val toDoTask = ToDoTask()
-            toDoTask.taskID = cursor.getInt(cursor.getColumnIndex(TASK_ID))
-            toDoTask.taskText = cursor.getString(cursor.getColumnIndex(TASK_TEXT))
+            val toDoTask = DoDoProto.ToDo.newBuilder()
+            toDoTask.tid = cursor.getInt(cursor.getColumnIndex(TASK_ID))
+            toDoTask.text = cursor.getString(cursor.getColumnIndex(TASK_TEXT))
             toDoTask.isDone = cursor.getInt(cursor.getColumnIndex(TASK_DONE)) == 1
-            toDoTask.taskColor = cursor.getString(cursor.getColumnIndex(TASK_COLOR))
-            taskArray.add(toDoTask)
+            toDoTask.color = cursor.getString(cursor.getColumnIndex(TASK_COLOR))
+            //ToDo: add creator_id
+            todoArray.add(toDoTask.build())
             cursor.moveToNext()
         }
         cursor.close()
-        return taskArray
+        return todoArray
     }
 
     fun insertNewTask(text: String, color: String) {
@@ -110,39 +111,38 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getAllNotes(): ArrayList<Note> {
+    fun getAllNotes(): ArrayList<DoDoProto.Note> {
         val db = this.readableDatabase
-        val noteArray = arrayListOf<Note>()
+        val noteArray = arrayListOf<DoDoProto.Note>()
         val cursor = db.rawQuery("SELECT * FROM $NOTE_TABLE_NAME", null)
         cursor.moveToFirst()
 
         while(!cursor.isAfterLast) {
-            val note = Note()
-            note.noteID = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
-            note.noteTitle = cursor.getString(cursor.getColumnIndex(NOTE_TITLE))
-            note.noteText = cursor.getString(cursor.getColumnIndex(NOTE_CONTENT))
+            val note = DoDoProto.Note.newBuilder()
+            note.nid = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+            note.title = cursor.getString(cursor.getColumnIndex(NOTE_TITLE))
+            note.content = cursor.getString(cursor.getColumnIndex(NOTE_CONTENT))
             note.isVisible = cursor.getInt(cursor.getColumnIndex(NOTE_VISIBLE)) == 1
             note.isHighlighted = cursor.getInt(cursor.getColumnIndex(NOTE_HIGHLIGHTED)) == 1
-            note.noteColor = cursor.getString(cursor.getColumnIndex(NOTE_COLOR))
-            note.noteEditedDatetime = cursor.getString(cursor.getColumnIndex(NOTE_DATE))
-            noteArray.add(note)
+            note.color = cursor.getString(cursor.getColumnIndex(NOTE_COLOR))
+            //ToDo: add creation_date
+            noteArray.add(note.build())
             cursor.moveToNext()
         }
         cursor.close()
         return noteArray
     }
 
-    fun insertNewNote(note: Note) {
+    fun insertNewNote(note: DoDoProto.Note) {
         val intIsVisible = if(note.isVisible) 1 else 0
         val intIsHighlighted = if(note.isHighlighted) 1 else 0
         val values = ContentValues()
-        values.put(NOTE_CONTENT, note.noteText)
-        values.put(NOTE_TITLE, note.noteTitle)
+        values.put(NOTE_CONTENT, note.content)
+        values.put(NOTE_TITLE, note.title)
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
-        values.put(NOTE_COLOR, note.noteColor)
-        values.put(NOTE_DATE, note.noteEditedDatetime)
-        //ToDo: insert creator_id
+        values.put(NOTE_COLOR, note.color)
+        //ToDo: insert creator_id & creation_date
 
         val db = this.writableDatabase
         db.insert(NOTE_TABLE_NAME, null, values)
@@ -155,19 +155,18 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         db.close()
     }
 
-    fun updateNote(note: Note) {
+    fun updateNote(note: DoDoProto.Note) {
         val intIsVisible = if(note.isVisible) 1 else 0
         val intIsHighlighted = if(note.isHighlighted) 1 else 0
         val values = ContentValues()
-        values.put(NOTE_CONTENT, note.noteText)
-        values.put(NOTE_TITLE, note.noteTitle)
+        values.put(NOTE_CONTENT, note.content)
+        values.put(NOTE_TITLE, note.title)
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
-        values.put(NOTE_COLOR, note.noteColor)
-        values.put(NOTE_DATE, note.noteEditedDatetime)
+        values.put(NOTE_COLOR, note.color)
 
         val db = this.writableDatabase
-        db.update(NOTE_TABLE_NAME, values, "$NOTE_ID = ?", arrayOf(note.noteID.toString()))
+        db.update(NOTE_TABLE_NAME, values, "$NOTE_ID = ?", arrayOf(note.nid.toString()))
         db.close()
     }
 

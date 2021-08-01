@@ -17,14 +17,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dodo.fragments.NoteEditDataFragment
 import com.example.dodo.fragments.NoteFragment
+import com.example.proto.DoDoProto
 
-var notesList: MutableList<Note>? = null
+var notesList: MutableList<DoDoProto.Note>? = null
 lateinit var noteAdapter: CustomRecyclerViewAdapter
 
-class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>, fragment: Fragment) :
+class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.Note>, fragment: Fragment) :
     RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>() {
 
-    private val itemList: MutableList<Note> = notes
+    private val itemList: MutableList<DoDoProto.Note> = notes
     private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
     private val viewFragment = fragment
 
@@ -56,24 +57,24 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>, frag
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val note: Note = itemList[position]
+        val note: DoDoProto.Note.Builder = itemList[position].newBuilderForType()
 
         //ToDo: beautify if-else
-        if (note.noteTitle.isBlank()) {
-            if (note.noteText.length > 253) {
-                val text = "${note.noteText.subSequence(0, 252)}..."
+        if (note.title.isBlank()) {
+            if (note.content.length > 253) {
+                val text = "${note.content.subSequence(0, 252)}..."
                 holder.itemTextView.text = text
             } else {
-                holder.itemTextView.text = note.noteText
+                holder.itemTextView.text = note.content
             }
         } else {
-            holder.itemTextView.text = note.noteTitle
+            holder.itemTextView.text = note.title
         }
         val noteBackground: LinearLayout = holder.linearLayout
-        if (note.noteColor == "") {
+        if (note.color == "") {
             noteBackground.setBackgroundColor(Color.parseColor("#7c827f"))
         } else {
-            noteBackground.setBackgroundColor(Color.parseColor(note.noteColor))
+            noteBackground.setBackgroundColor(Color.parseColor(note.color))
         }
         if (note.isHighlighted) holder.highlightingButton.setImageResource(R.drawable.ic_star_filled)
         if (!note.isVisible) holder.visibilityButton.setImageResource(R.drawable.ic_visibility_off)
@@ -82,7 +83,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>, frag
             if (note.isVisible) {
                 holder.visibilityButton.setImageResource(R.drawable.ic_visibility_off)
                 note.isVisible = false
-                dbConnector.updateNote(note)
+                dbConnector.updateNote(note.build())
             }
         }
 
@@ -90,23 +91,23 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>, frag
             if (note.isHighlighted) {
                 holder.highlightingButton.setImageResource(R.drawable.ic_star_empty)
                 note.isHighlighted = false
-                dbConnector.updateNote(note)
+                dbConnector.updateNote(note.build())
             } else {
                 holder.highlightingButton.setImageResource(R.drawable.ic_star_filled)
                 note.isHighlighted = true
-                dbConnector.updateNote(note)
+                dbConnector.updateNote(note.build())
             }
         }
 
         holder.openArea.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("noteColor", note.noteColor)
-            bundle.putString("noteText", note.noteText)
-            bundle.putString("noteTitle", note.noteTitle)
-            bundle.putInt("noteID", note.noteID)
+            bundle.putString("noteColor", note.color)
+            bundle.putString("noteText", note.content)
+            bundle.putString("noteTitle", note.title)
+            bundle.putInt("noteID", note.nid)
             bundle.putBoolean("noteVisible", note.isVisible)
             bundle.putBoolean("noteHighlighted", note.isHighlighted)
-            bundle.putString("noteDatetime", note.noteEditedDatetime)
+            //ToDo: bundle.putString("noteDatetime", note.noteEditedDatetime)
             val activity = it.context as AppCompatActivity
             activity.supportFragmentManager.beginTransaction().apply {
                 val editDataFragment = NoteEditDataFragment()
@@ -122,7 +123,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<Note>, frag
             builder.setMessage("Do you want to delete this note?")
             builder.setPositiveButton("Delete") { dialogInterface: DialogInterface, i: Int ->
                 itemList.removeAt(position)
-                dbConnector.deleteNote(note.noteID)
+                dbConnector.deleteNote(note.nid)
                 this.notifyDataSetChanged()
                 Toast.makeText(holder.viewContext, "Deleted Note", Toast.LENGTH_SHORT).show()
             }

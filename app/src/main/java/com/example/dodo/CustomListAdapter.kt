@@ -9,21 +9,21 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dodo.fragments.ToDoEditDataFragment
+import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.custom_todo_item.view.*
 
 
-var toDoTaskList: MutableList<ToDoTask>? = null
+var toDoTaskList: MutableList<DoDoProto.ToDo>? = null
 lateinit var adapter: CustomListAdapter
 
-class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>) : BaseAdapter() {
+class CustomListAdapter(context: Context, tasks: MutableList<DoDoProto.ToDo>) : BaseAdapter() {
 
-    private val itemList: MutableList<ToDoTask> = tasks
+    private val itemList: MutableList<DoDoProto.ToDo> = tasks
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
 
@@ -42,11 +42,11 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>) : BaseAd
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
-        val task = ToDoTask()
-        task.taskID = itemList[position].taskID
-        task.taskText = itemList[position].taskText
-        task.isDone = itemList[position].isDone
-        task.taskColor = itemList[position].taskColor
+        val todo = DoDoProto.ToDo.newBuilder()
+        todo.tid = itemList[position].tid
+        todo.text = itemList[position].text
+        todo.isDone = itemList[position].isDone
+        todo.color = itemList[position].color
 
         val rowView = layoutInflater.inflate(R.layout.custom_todo_item, null)
 
@@ -55,19 +55,19 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>) : BaseAd
         val editButton = rowView.findViewById(R.id.item_edit_button) as ImageButton
         val deleteButton = rowView.findViewById(R.id.item_delete_button) as ImageButton
 
-        itemEditText.text = task.taskText
-        checkBox.isChecked = task.isDone
+        itemEditText.text = todo.text
+        checkBox.isChecked = todo.isDone
 
         checkBox.setOnClickListener {
-            task.isDone = checkBox.isChecked
-            dbConnector.updateTask(task.taskID, task.taskText, task.isDone, "#F0F0F0")
+            todo.isDone = checkBox.isChecked
+            dbConnector.updateTask(todo.tid, todo.text, todo.isDone, "#F0F0F0")
         }
 
         editButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("taskColor", task.taskColor)
-            bundle.putString("taskText", task.taskText)
-            bundle.putInt("taskID", task.taskID)
+            bundle.putString("taskColor", todo.color)
+            bundle.putString("taskText", todo.text)
+            bundle.putInt("taskID", todo.tid)
             val activity: AppCompatActivity = convertView!!.context as AppCompatActivity
             activity.supportFragmentManager.beginTransaction().apply {
                 val editDataFragment = ToDoEditDataFragment()
@@ -83,7 +83,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>) : BaseAd
             builder.setMessage("Do you want to delete this ToDo?")
             builder.setPositiveButton("Delete") { dialogInterface: DialogInterface, i: Int ->
                 itemList.removeAt(position)
-                dbConnector.deleteTask(task.taskID)
+                dbConnector.deleteTask(todo.tid)
                 this.notifyDataSetChanged()
                 Toast.makeText(convertView.context, "Deleted ToDo", Toast.LENGTH_SHORT).show()
             }
@@ -94,7 +94,7 @@ class CustomListAdapter(context: Context, tasks: MutableList<ToDoTask>) : BaseAd
         }
 
         val textSectionBackground: Drawable = rowView.text_section.background
-        textSectionBackground.setColorFilter(Color.parseColor(task.taskColor), PorterDuff.Mode.SRC)
+        textSectionBackground.setColorFilter(Color.parseColor(todo.color), PorterDuff.Mode.SRC)
         rowView.background = textSectionBackground
 
         return rowView

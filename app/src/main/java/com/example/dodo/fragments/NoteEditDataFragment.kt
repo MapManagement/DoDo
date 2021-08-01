@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.dodo.ColorPickerDialog
 import com.example.dodo.DatabaseConnector
-import com.example.dodo.Note
 import com.example.dodo.R
+import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_note_edit_data.*
 import java.time.LocalDateTime
@@ -23,20 +23,20 @@ class NoteEditDataFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
 
-    private var EditedNote: Note = Note()
+    private var EditedNote: DoDoProto.Note.Builder= DoDoProto.Note.newBuilder()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        EditedNote.noteID = arguments?.getInt("noteID")!!
-        EditedNote.noteTitle = arguments?.getString("noteTitle")!!
-        EditedNote.noteText = arguments?.getString("noteText")!!
+        EditedNote.nid = arguments?.getInt("noteID")!!
+        EditedNote.title = arguments?.getString("noteTitle")!!
+        EditedNote.content = arguments?.getString("noteText")!!
         EditedNote.isVisible = arguments?.getBoolean("noteVisible")!!
         EditedNote.isHighlighted = arguments?.getBoolean("noteHighlighted")!!
-        EditedNote.noteColor = arguments?.getString("noteColor")!!
-        EditedNote.noteEditedDatetime = arguments?.getString("noteDatetime")!!
+        EditedNote.color = arguments?.getString("noteColor")!!
+        //ToDo: EditedNote.creationDate = arguments?.getString("noteDatetime")!!
 
 
         return inflater.inflate(R.layout.fragment_note_edit_data, container, false)
@@ -49,7 +49,7 @@ class NoteEditDataFragment : Fragment() {
 
         note_edit_save_button.setOnClickListener {
             updateNote()
-            activity!!.supportFragmentManager.beginTransaction().apply {
+            requireActivity().supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fl_wrapper, NoteFragment(), "NOTES")
                 commit()
             }
@@ -76,12 +76,12 @@ class NoteEditDataFragment : Fragment() {
         }
 
         note_edit_color_button.setOnClickListener {
-            val colorPicker = ColorPickerDialog(requireContext(), EditedNote.noteColor)
+            val colorPicker = ColorPickerDialog(requireContext(), EditedNote.color)
             colorPicker.show()
             colorPicker.dialog_ok_button.setOnClickListener {
-                EditedNote.noteColor = colorPicker.colorHexString
+                EditedNote.color = colorPicker.colorHexString
                 colorPicker.cancel()
-                note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(EditedNote.noteColor))
+                note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(EditedNote.color))
             }
         }
     }
@@ -93,17 +93,17 @@ class NoteEditDataFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateNote() {
-        EditedNote.noteText = note_edit_data_text.text.toString().trim()
-        EditedNote.noteTitle = note_edit_title_text.text.toString().trim()
-        EditedNote.noteEditedDatetime = getCurrentDatetimeString()
-        dbConnector.updateNote(EditedNote)
+        EditedNote.content = note_edit_data_text.text.toString().trim()
+        EditedNote.title = note_edit_title_text.text.toString().trim()
+        //ToDo: EditedNote.noteEditedDatetime = getCurrentDatetimeString()
+        dbConnector.updateNote(EditedNote.build())
     }
 
     private fun setResources() {
-        note_edit_title_text.setText(EditedNote.noteTitle)
-        note_edit_data_text.setText(EditedNote.noteText)
-        note_edit_date_time_text.text = EditedNote.noteEditedDatetime //ToDo: format datetime
-        note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(EditedNote.noteColor))
+        note_edit_title_text.setText(EditedNote.title)
+        note_edit_data_text.setText(EditedNote.content)
+        //ToDo: note_edit_date_time_text.text = EditedNote.noteEditedDatetime
+        note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(EditedNote.color))
         if(!EditedNote.isVisible) {
             note_edit_visibility_button.setImageResource(R.drawable.ic_visibility_off)
         }

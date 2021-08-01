@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dodo.*
+import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.fragment_to_do.*
@@ -57,7 +58,7 @@ class NoteFragment : Fragment() {
     }
 
     private fun openSetDataView() {
-        activity!!.supportFragmentManager.beginTransaction().apply {
+        requireActivity().supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_wrapper, NoteSetDataFragment(), "NOTE_SET")
             commit()
         }
@@ -66,7 +67,7 @@ class NoteFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadStoredNotes() {
         notesList?.clear()
-        val storedTasks: ArrayList<Note> = dbConnector.getAllNotes()
+        val storedTasks: ArrayList<DoDoProto.Note> = dbConnector.getAllNotes()
         for(note in storedTasks) {
             notesList?.add(note)
         }

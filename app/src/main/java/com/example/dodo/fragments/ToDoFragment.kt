@@ -1,23 +1,18 @@
 package com.example.dodo.fragments
 
-import android.content.Context
-import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.dodo.*
-import com.example.proto.DoDoGrpc
+import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
 import kotlinx.android.synthetic.main.fragment_to_do.*
 import kotlinx.android.synthetic.main.fragment_to_do.view.*
-import kotlin.reflect.typeOf
 
 /**
  * A simple [Fragment] subclass.
@@ -74,7 +69,7 @@ class ToDoFragment() : Fragment() {
 
 
     private fun openSetDataView() {
-        activity!!.supportFragmentManager.beginTransaction().apply {
+        requireActivity().supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_wrapper, ToDoSetDataFragment(), "TODO_SET")
             commit()
         }
@@ -82,7 +77,7 @@ class ToDoFragment() : Fragment() {
 
     private fun loadStoredTasks() {
         adapter.notifyDataSetChanged()
-        val storedTasks: ArrayList<ToDoTask> = dbConnector.getAllTasks()
+        val storedTasks: ArrayList<DoDoProto.ToDo> = dbConnector.getAllTodos()
         for(task in storedTasks) {
             toDoTaskList?.add(task)
         }

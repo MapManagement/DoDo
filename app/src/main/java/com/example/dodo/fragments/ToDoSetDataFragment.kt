@@ -73,7 +73,7 @@ class ToDoSetDataFragment : Fragment() {
         entry_submit_button.setOnClickListener {
             if(!entry_task_text.text.toString().isBlank()) {
                 insertNewTask()
-                activity!!.supportFragmentManager.beginTransaction().apply {
+                requireActivity().supportFragmentManager.beginTransaction().apply {
                     replace(R.id.fl_wrapper, ToDoFragment(), "TODOS")
                     commit()
                 }
@@ -81,7 +81,7 @@ class ToDoSetDataFragment : Fragment() {
         }
 
         entry_leave_button.setOnClickListener {
-            activity!!.supportFragmentManager.beginTransaction().apply {
+            requireActivity().supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fl_wrapper, ToDoFragment(), "TODOS")
                 commit()
             }

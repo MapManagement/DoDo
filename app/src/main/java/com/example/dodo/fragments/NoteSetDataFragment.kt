@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.dodo.ColorPickerDialog
 import com.example.dodo.DatabaseConnector
-import com.example.dodo.Note
 import com.example.dodo.R
+import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
 import java.time.LocalDateTime
@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter
 class NoteSetDataFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
-    private var NewNote: Note = Note()
+    private var NewNote: DoDoProto.Note.Builder = DoDoProto.Note.newBuilder()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,17 +36,17 @@ class NoteSetDataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NewNote.noteTitle = ""
-        NewNote.noteText = ""
+        NewNote.title = ""
+        NewNote.content = ""
         NewNote.isVisible = true
         NewNote.isHighlighted = false
-        NewNote.noteColor = "#DFDFDF"
+        NewNote.color = "#DFDFDF"
 
-        note_set_data_constraint_layout.setBackgroundColor(Color.parseColor(NewNote.noteColor))
+        note_set_data_constraint_layout.setBackgroundColor(Color.parseColor(NewNote.color))
 
         note_set_submit_button.setOnClickListener {
             insertNewNote()
-            activity!!.supportFragmentManager.beginTransaction().apply {
+            requireActivity().supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fl_wrapper, NoteFragment(), "NOTES")
                 commit()
             }
@@ -73,12 +73,12 @@ class NoteSetDataFragment : Fragment() {
         }
 
         note_set_color_button.setOnClickListener {
-            val colorPicker = ColorPickerDialog(requireContext(), NewNote.noteColor)
+            val colorPicker = ColorPickerDialog(requireContext(), NewNote.color)
             colorPicker.show()
             colorPicker.dialog_ok_button.setOnClickListener {
-                NewNote.noteColor = colorPicker.colorHexString
+                NewNote.color = colorPicker.colorHexString
                 colorPicker.cancel()
-                note_set_data_constraint_layout.setBackgroundColor(Color.parseColor(NewNote.noteColor))
+                note_set_data_constraint_layout.setBackgroundColor(Color.parseColor(NewNote.color))
             }
         }
     }
@@ -90,10 +90,10 @@ class NoteSetDataFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun insertNewNote() {
-        NewNote.noteText = note_set_data_text.text.toString().trim()
-        NewNote.noteTitle = note_set_title_text.text.toString().trim()
-        NewNote.noteEditedDatetime = getCurrentDatetimeString()
-        dbConnector.insertNewNote(NewNote)
+        NewNote.content = note_set_data_text.text.toString().trim()
+        NewNote.title = note_set_title_text.text.toString().trim()
+        //ToDo: NewNote.noteEditedDatetime = getCurrentDatetimeString()
+        dbConnector.insertNewNote(NewNote.build())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
