@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.proto.DoDoProto
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -182,11 +183,23 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     fun deleteProfile(profileID: Int) {
-        // ToDo: delete profile method
+        val db = this.writableDatabase
+        db.delete(PROFILE_TABLE_NAME, "$PROFILE_ID = ?", arrayOf(profileID.toString()))
+        db.close()
     }
 
-    fun updateProfile(profile: DoDoProto.Profile) {
-        // ToDo: update profile method
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateProfile(profile: DoDoProto.Profile): Boolean {
+        if(!isProfileNameAvailable(profile.name)) return false
+
+        val values = ContentValues()
+        values.put(PROFILE_NAME, profile.name)
+        values.put(PROFILE_PASSWORD, profile.password)
+
+        val db = this.writableDatabase
+        db.update(PROFILE_TABLE_NAME, values, "$PROFILE_ID = ?", arrayOf(profile.pid.toString()))
+        db.close()
+        return true
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -206,6 +219,15 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         }
         cursor.close()
         return profileArray
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isProfileNameAvailable(name: String): Boolean {
+        val profiles = getAllProfiles()
+        for (profile in profiles) {
+            if(name == profile.name) return false
+        }
+        return true
     }
 
     companion object {

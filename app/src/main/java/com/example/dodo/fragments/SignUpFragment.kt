@@ -60,14 +60,13 @@ class SignUpFragment : Fragment()  {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun storeNewProfile(): Boolean {
-        //ToDo: check if the entered profile name already exists
         val hashedPass = hashPassword(dialog_prof_pass.text.toString())
         val newProfile = DoDoProto.Profile.newBuilder()
         newProfile.name = dialog_prof_name.text.toString()
         newProfile.password = hashedPass
         newProfile.creationDate = getDodoDatetimeNow()
 
-        if (!nameAvailable()) {
+        if (!dbConnector.isProfileNameAvailable(dialog_prof_name.text.toString())) {
             Toast.makeText(requireContext(), "Profile name is already taken!", Toast.LENGTH_SHORT).show()
             return false
         }
@@ -140,14 +139,5 @@ class SignUpFragment : Fragment()  {
         dialog_prof_name.backgroundTintList = black
         dialog_prof_pass.backgroundTintList = black
         dialog_prof_rep_pass.backgroundTintList = black
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun nameAvailable(): Boolean {
-        val profiles = dbConnector.getAllProfiles()
-        for (profile in profiles) {
-            if(dialog_prof_name.text.toString() == profile.name) return false
-        }
-        return true
     }
 }
