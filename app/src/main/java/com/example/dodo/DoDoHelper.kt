@@ -3,28 +3,36 @@ package com.example.dodo
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.proto.DoDoProto
-import java.lang.Exception
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
 
 class DoDoHelper {
     companion object Factory {
         fun create(): DoDoHelper = DoDoHelper()
     }
 
+    fun grpcToStringDateTime(grpcDateTime: DoDoProto.DateTime): String {
+
+        val timeString = "${grpcDateTime.hour}:${grpcDateTime.minute}:${grpcDateTime.second}"
+        val dateString = "${grpcDateTime.year}-${grpcDateTime.month}-${grpcDateTime.day}"
+
+        return "${dateString}T${timeString}"
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun grpcToKtDatetime(grpcDateTime: DoDoProto.DateTime): LocalDateTime {
-        val formatter = DateTimeFormatter.ofPattern("ss:mm:HH dd-MM-yyyy")
+    fun stringTogrpcDateTime(stringDateTime: String): DoDoProto.DateTime? {
+        // format: yyyy-MM-ddTHH:mm:ss
+        val ktDateTime= LocalDateTime.parse(stringDateTime, DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss"))
 
-        val timeString = "${grpcDateTime.second}:${grpcDateTime.minute}:${grpcDateTime.hour}"
-        val dateString ="${grpcDateTime.day}-${grpcDateTime.month}-${grpcDateTime.year}"
-        val datetimeString = "$timeString $dateString"
+        val grpcDateTime = DoDoProto.DateTime.newBuilder()
+        grpcDateTime.year = ktDateTime.year
+        grpcDateTime.month = ktDateTime.monthValue
+        grpcDateTime.day = ktDateTime.dayOfMonth
+        grpcDateTime.hour = ktDateTime.hour
+        grpcDateTime.minute = ktDateTime.minute
+        grpcDateTime.second = ktDateTime.second
 
-        return try {
-            LocalDateTime.parse(datetimeString, formatter)
-        } catch (e: Exception) {
-            LocalDateTime.now()
-        }
+        return grpcDateTime.build()
     }
 }

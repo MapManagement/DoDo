@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter
 
 class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
+    private var doDoHelper = DoDoHelper.create()
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL("CREATE TABLE  $TODO_TABLE_NAME (" +
@@ -126,7 +127,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             note.isVisible = cursor.getInt(cursor.getColumnIndex(NOTE_VISIBLE)) == 1
             note.isHighlighted = cursor.getInt(cursor.getColumnIndex(NOTE_HIGHLIGHTED)) == 1
             note.color = cursor.getString(cursor.getColumnIndex(NOTE_COLOR))
-            //ToDo: add creation_date
+            note.creationDate = doDoHelper.stringTogrpcDateTime(cursor.getString(cursor.getColumnIndex(NOTE_DATE)))
             noteArray.add(note.build())
             cursor.moveToNext()
         }
@@ -143,7 +144,8 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
         values.put(NOTE_COLOR, note.color)
-        //ToDo: insert creator_id & creation_date
+        values.put(NOTE_DATE, doDoHelper.grpcToStringDateTime(note.creationDate))
+        //ToDo: insert creator_id
 
         val db = this.writableDatabase
         db.insert(NOTE_TABLE_NAME, null, values)

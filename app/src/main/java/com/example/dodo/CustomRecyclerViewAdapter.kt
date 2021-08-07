@@ -107,7 +107,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
             bundle.putInt("noteID", note.nid)
             bundle.putBoolean("noteVisible", note.isVisible)
             bundle.putBoolean("noteHighlighted", note.isHighlighted)
-            //ToDo: bundle.putString("noteDatetime", note.noteEditedDatetime)
+            bundle.putString("noteDatetime", note.creationDate.toString())
             val activity = it.context as AppCompatActivity
             activity.supportFragmentManager.beginTransaction().apply {
                 val editDataFragment = NoteEditDataFragment()

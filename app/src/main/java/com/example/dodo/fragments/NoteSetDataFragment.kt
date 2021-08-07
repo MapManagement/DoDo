@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.dodo.ColorPickerDialog
 import com.example.dodo.DatabaseConnector
+import com.example.dodo.DoDoHelper
 import com.example.dodo.R
 import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.dialog_color_picker.*
@@ -22,6 +23,7 @@ import java.time.format.DateTimeFormatter
 class NoteSetDataFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
+    private var dodoHelper: DoDoHelper = DoDoHelper()
     private var NewNote: DoDoProto.Note.Builder = DoDoProto.Note.newBuilder()
 
     override fun onCreateView(
@@ -92,6 +94,7 @@ class NoteSetDataFragment : Fragment() {
     private fun insertNewNote() {
         NewNote.content = note_set_data_text.text.toString().trim()
         NewNote.title = note_set_title_text.text.toString().trim()
+        NewNote.creationDate = dodoHelper.stringTogrpcDateTime(getCurrentDatetimeString())
         //ToDo: NewNote.noteEditedDatetime = getCurrentDatetimeString()
         dbConnector.insertNewNote(NewNote.build())
     }
@@ -99,8 +102,7 @@ class NoteSetDataFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getCurrentDatetimeString(): String {
         val currentDatetime = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
-        return currentDatetime.format(formatter)
+        return currentDatetime.toString()
     }
 }
