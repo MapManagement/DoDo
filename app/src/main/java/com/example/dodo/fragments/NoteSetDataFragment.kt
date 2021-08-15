@@ -16,8 +16,10 @@ import com.example.dodo.R
 import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
+import java.io.Console
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class NoteSetDataFragment : Fragment() {
@@ -94,15 +96,9 @@ class NoteSetDataFragment : Fragment() {
     private fun insertNewNote() {
         NewNote.content = note_set_data_text.text.toString().trim()
         NewNote.title = note_set_title_text.text.toString().trim()
-        NewNote.creationDate = dodoHelper.stringTogrpcDateTime(getCurrentDatetimeString())
+        NewNote.creationDate = dodoHelper.getCurrentDatetimeString()
         //ToDo: NewNote.noteEditedDatetime = getCurrentDatetimeString()
         dbConnector.insertNewNote(NewNote.build())
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getCurrentDatetimeString(): String {
-        val currentDatetime = LocalDateTime.now()
-
-        return currentDatetime.toString()
-    }
 }

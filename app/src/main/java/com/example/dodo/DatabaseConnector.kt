@@ -127,7 +127,8 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             note.isVisible = cursor.getInt(cursor.getColumnIndex(NOTE_VISIBLE)) == 1
             note.isHighlighted = cursor.getInt(cursor.getColumnIndex(NOTE_HIGHLIGHTED)) == 1
             note.color = cursor.getString(cursor.getColumnIndex(NOTE_COLOR))
-            note.creationDate = doDoHelper.stringTogrpcDateTime(cursor.getString(cursor.getColumnIndex(NOTE_DATE)))
+            val localDT = doDoHelper.stringToDateTime(cursor.getString(cursor.getColumnIndex(NOTE_DATE)))
+            note.creationDate = localDT.toString()
             noteArray.add(note.build())
             cursor.moveToNext()
         }
@@ -144,7 +145,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         values.put(NOTE_VISIBLE, intIsVisible)
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
         values.put(NOTE_COLOR, note.color)
-        values.put(NOTE_DATE, doDoHelper.grpcToStringDateTime(note.creationDate))
+        values.put(NOTE_DATE, note.creationDate)
         //ToDo: insert creator_id
 
         val db = this.writableDatabase

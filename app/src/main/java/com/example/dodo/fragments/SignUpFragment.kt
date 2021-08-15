@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.example.dodo.DatabaseConnector
+import com.example.dodo.DoDoHelper
 import com.example.dodo.R
 import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,6 +24,7 @@ import java.util.*
 
 class SignUpFragment : Fragment()  {
     private lateinit var dbConnector: DatabaseConnector
+    private var dodoHelper: DoDoHelper = DoDoHelper()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +66,7 @@ class SignUpFragment : Fragment()  {
         val newProfile = DoDoProto.Profile.newBuilder()
         newProfile.name = dialog_prof_name.text.toString()
         newProfile.password = hashedPass
-        newProfile.creationDate = getDodoDatetimeNow()
+        newProfile.creationDate = dodoHelper.getCurrentDatetimeString()
 
         if (!dbConnector.isProfileNameAvailable(dialog_prof_name.text.toString())) {
             Toast.makeText(requireContext(), "Profile name is already taken!", Toast.LENGTH_SHORT).show()
@@ -117,20 +119,6 @@ class SignUpFragment : Fragment()  {
         }
 
         return  validName && validPassword && samePasswords
-    }
-
-    private fun getDodoDatetimeNow(): DoDoProto.DateTime? {
-        val datetime = DoDoProto.DateTime.newBuilder()
-        val datetimeNow = Calendar.getInstance().time
-
-        datetime.year = datetimeNow.year
-        datetime.month = datetimeNow.month
-        datetime.day = datetimeNow.day
-        datetime.hour = datetimeNow.hours
-        datetime.minute = datetimeNow.minutes
-        datetime.second = datetimeNow.seconds
-
-        return datetime.build()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
