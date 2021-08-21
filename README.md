@@ -6,7 +6,7 @@ decided to create one on my own. This repository represents that application, an
 "DoDo".
 ## What does it do?
 <img src="resources/todos_sample_image.png" width="231" height="500" align="right"/>
-
+ 
 ### Tasks / ToDos
 Saving simple todos and "tasks" how I called them in my code, is one feature of DoDo. Some simple text with a checkbox
 to mark the item as done, an edit button, and a delete button. All of them will be displayed in a list. Each task's

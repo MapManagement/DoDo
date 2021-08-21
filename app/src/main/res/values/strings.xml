@@ -50,5 +50,8 @@
     <string name="dial_prof_label_reppass">Repeat Password:</string>
     <string name="dial_prof_info_text">Create a profile to divide your data by profiles!</string>
 
+    <string name="dial_log_login">LOGIN</string>
+    <string name="dial_log_info_text">Login using your name and password:</string>
+
 
 </resources>
