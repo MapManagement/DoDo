@@ -233,6 +233,24 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         return true
     }
 
+    fun isProfileLoginCorrect(profileName: String, hashedPassword: String): Boolean {
+        val db = this.readableDatabase
+        val columns = arrayOf(PROFILE_ID, PROFILE_NAME)
+        val where = "$PROFILE_NAME = ? AND $PROFILE_PASSWORD = ?"
+        val whereArgs = arrayOf(profileName, hashedPassword)
+        val cursor = db.query(
+            PROFILE_TABLE_NAME,
+            columns,
+            where,
+            whereArgs,
+            null,
+            null,
+            null
+            )
+
+        return  cursor.count == 1
+    }
+
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "dodo.db"

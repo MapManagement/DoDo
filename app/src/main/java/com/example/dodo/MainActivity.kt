@@ -19,9 +19,8 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problems c
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bottom_navigation.visibility = View.INVISIBLE
-        if(!profileAvailable()) {
-            showSignUpFragment()
-        }
+
+        showLogInFragment()
 
         val toDoFragment = ToDoFragment()
         val noteFragment = NoteFragment()
@@ -45,11 +44,12 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problems c
         }
     }
 
-    private fun showSignUpFragment() {
-        setFragment(SignUpFragment(), "SIGNUP")
+    private fun showLogInFragment() {
+        setFragment(LogInFragment(), "LOGIN")
     }
 
     private fun profileAvailable(): Boolean {
+        //ToDo: preferences
         val preferences = getPreferences(Context.MODE_PRIVATE)
         return preferences.getInt("profile_id_pref", -1) != -1
     }

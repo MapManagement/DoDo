@@ -38,8 +38,18 @@ class LogInFragment: Fragment() {
 
         dialog_log_login_button.setOnClickListener {
             if(checkInput()) {
-                //ToDo: check credentials
-                startDoDo()
+                if(dbConnector.isProfileLoginCorrect(
+                        dialog_log_name.text.toString(),
+                        hashPassword(dialog_log_pass.text.toString()))) {
+                    startDoDo()
+                }
+            }
+        }
+
+        dialog_log_signup_button.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl_wrapper, SignUpFragment(), "SIGNUP")
+                commit()
             }
         }
     }
@@ -69,7 +79,7 @@ class LogInFragment: Fragment() {
     private fun checkInput(): Boolean {
         val editedName = dialog_log_name.text.trim()
         val validName = editedName.isNotBlank()
-        val validPassword = dialog_log_pass.text.isNotBlank()
+        val validPassword = hashPassword(dialog_log_pass.text.toString()).isNotBlank()
         resetEdiTextColor()
         val red = ColorStateList.valueOf(resources.getColor(R.color.red))
 
@@ -84,6 +94,7 @@ class LogInFragment: Fragment() {
 
         return  validName && validPassword
     }
+
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun resetEdiTextColor() {
