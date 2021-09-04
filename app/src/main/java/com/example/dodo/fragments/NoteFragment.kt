@@ -28,6 +28,7 @@ class NoteFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
     private lateinit var serverConnector: String
+    private lateinit var mainActivity: MainActivity
     var recyclerViewItems: RecyclerView? = null
 
     override fun onCreateView(
@@ -43,6 +44,7 @@ class NoteFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity = activity as MainActivity
 
         fab_add_entry.setOnClickListener {
             openSetDataView()
@@ -67,7 +69,7 @@ class NoteFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadStoredNotes() {
         notesList?.clear()
-        val storedTasks: ArrayList<DoDoProto.Note> = dbConnector.getAllNotes()
+        val storedTasks: ArrayList<DoDoProto.Note> = dbConnector.getAllNotes(mainActivity.usedProfile!!.pid)
         for(note in storedTasks) {
             notesList?.add(note)
         }

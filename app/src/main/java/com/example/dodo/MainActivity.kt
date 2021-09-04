@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.dodo.fragments.*
+import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problems c
 
     val dbConnector: DatabaseConnector = DatabaseConnector(this, null)
     val serverConnector = "test"//ServerConnector().connectToServer()
+    var usedProfile: DoDoProto.Profile? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

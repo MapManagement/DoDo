@@ -63,10 +63,22 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
 
     }
 
-    fun getAllTodos(): ArrayList<DoDoProto.ToDo> {
+    fun getAllTodos(profileID: Int): ArrayList<DoDoProto.ToDo> {
         val db = this.readableDatabase
+        val columns = arrayOf(TASK_ID, TASK_TEXT, TASK_DONE, TASK_COLOR, TASK_CREATOR_ID)
+        val where = "$TASK_CREATOR_ID = ?"
+        val whereArgs = arrayOf(profileID.toString())
+        val cursor = db.query(
+            TODO_TABLE_NAME,
+            columns,
+            where,
+            whereArgs,
+            null,
+            null, null
+        )
+
         val todoArray = arrayListOf<DoDoProto.ToDo>()
-        val cursor = db.rawQuery("SELECT * FROM $TODO_TABLE_NAME", null)
+
         cursor.moveToFirst()
         while(!cursor.isAfterLast) {
             val toDoTask = DoDoProto.ToDo.newBuilder()
@@ -74,7 +86,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             toDoTask.text = cursor.getString(cursor.getColumnIndex(TASK_TEXT))
             toDoTask.isDone = cursor.getInt(cursor.getColumnIndex(TASK_DONE)) == 1
             toDoTask.color = cursor.getString(cursor.getColumnIndex(TASK_COLOR))
-            //ToDo: add creator_id
+            toDoTask.creatorID = cursor.getString(cursor.getColumnIndex(TASK_CREATOR_ID)).toInt()
             todoArray.add(toDoTask.build())
             cursor.moveToNext()
         }
@@ -113,12 +125,24 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getAllNotes(): ArrayList<DoDoProto.Note> {
+    fun getAllNotes(profileID: Int): ArrayList<DoDoProto.Note> {
         val db = this.readableDatabase
-        val noteArray = arrayListOf<DoDoProto.Note>()
-        val cursor = db.rawQuery("SELECT * FROM $NOTE_TABLE_NAME", null)
-        cursor.moveToFirst()
+        val columns = arrayOf(NOTE_ID, NOTE_TITLE, NOTE_CONTENT, NOTE_VISIBLE, NOTE_HIGHLIGHTED, NOTE_COLOR,
+            NOTE_CREATOR_ID, NOTE_DATE)
+        val where = "$NOTE_CREATOR_ID = ?"
+        val whereArgs = arrayOf(profileID.toString())
+        val cursor = db.query(
+            NOTE_TABLE_NAME,
+            columns,
+            where,
+            whereArgs,
+            null,
+            null, null
+        )
 
+        val noteArray = arrayListOf<DoDoProto.Note>()
+
+        cursor.moveToFirst()
         while(!cursor.isAfterLast) {
             val note = DoDoProto.Note.newBuilder()
             note.nid = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
@@ -233,7 +257,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         return true
     }
 
-    fun isProfileLoginCorrect(profileName: String, hashedPassword: String): Boolean {
+    fun checkProfileLogin(profileName: String, hashedPassword: String): DoDoProto.Profile? {
         val db = this.readableDatabase
         val columns = arrayOf(PROFILE_ID, PROFILE_NAME)
         val where = "$PROFILE_NAME = ? AND $PROFILE_PASSWORD = ?"
@@ -248,8 +272,18 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             null
             )
 
-        return  cursor.count == 1
+        return if(cursor.count != 1) {
+            null
+        } else {
+            //ToDo: dodohelper to build object of DoDo classes
+            val profile = DoDoProto.Profile.newBuilder()
+            cursor.moveToFirst()
+            profile.pid = cursor.getInt(cursor.getColumnIndex(PROFILE_ID))
+            profile.name = cursor.getString(cursor.getColumnIndex(PROFILE_NAME))
+            profile.build()
+        }
     }
+
 
     companion object {
         const val DATABASE_VERSION = 1

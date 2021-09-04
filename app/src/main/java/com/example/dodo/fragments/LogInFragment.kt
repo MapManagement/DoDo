@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.DoDoHelper
+import com.example.dodo.MainActivity
 import com.example.dodo.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_log_in.*
@@ -38,10 +39,17 @@ class LogInFragment: Fragment() {
 
         dialog_log_login_button.setOnClickListener {
             if(checkInput()) {
-                if(dbConnector.isProfileLoginCorrect(
-                        dialog_log_name.text.toString(),
-                        hashPassword(dialog_log_pass.text.toString()))) {
+
+                val profile = dbConnector.checkProfileLogin(dialog_log_name.text.toString(), hashPassword(dialog_log_pass.text.toString()))
+                if(profile != null) {
+                    val mainActivity = activity as MainActivity
+                    mainActivity.usedProfile = profile
                     startDoDo()
+                }
+                else {
+                    Toast.makeText(requireContext(),
+                        "Your username or password is incorrect.",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         }

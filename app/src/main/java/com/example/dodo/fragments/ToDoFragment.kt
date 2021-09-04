@@ -23,7 +23,9 @@ class ToDoFragment() : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
     private lateinit var serverConnector: String
+    private lateinit var mainActivity: MainActivity
     var listViewItems: ListView? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,7 @@ class ToDoFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity = activity as MainActivity
 
         fab_add_entry.setOnClickListener {
             openSetDataView()
@@ -77,7 +80,7 @@ class ToDoFragment() : Fragment() {
 
     private fun loadStoredTasks() {
         adapter.notifyDataSetChanged()
-        val storedTasks: ArrayList<DoDoProto.ToDo> = dbConnector.getAllTodos()
+        val storedTasks: ArrayList<DoDoProto.ToDo> = dbConnector.getAllTodos(mainActivity.usedProfile!!.pid)
         for(task in storedTasks) {
             toDoTaskList?.add(task)
         }

@@ -43,7 +43,7 @@ class SignUpFragment : Fragment()  {
         dialog_prof_submit_button.setOnClickListener {
             if(checkInput()) {
                 if(!storeNewProfile()) return@setOnClickListener
-                startDoDo()
+                startLoginFragment()
             }
         }
     }
@@ -84,13 +84,11 @@ class SignUpFragment : Fragment()  {
         return true
     }
 
-    private fun startDoDo() {
+    private fun startLoginFragment() {
         requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_wrapper, ToDoFragment(), tag)
+            replace(R.id.fl_wrapper, LogInFragment(), tag)
             commit()
         }
-        val parentActivity = requireActivity()
-        parentActivity.bottom_navigation.visibility = View.VISIBLE
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
