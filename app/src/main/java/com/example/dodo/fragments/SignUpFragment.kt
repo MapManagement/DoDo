@@ -46,6 +46,10 @@ class SignUpFragment : Fragment()  {
                 startLoginFragment()
             }
         }
+
+        dialog_prof_login_button.setOnClickListener {
+            startLoginFragment()
+        }
     }
 
     override fun onAttach(context: Context) {

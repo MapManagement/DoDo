@@ -9,10 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import com.example.dodo.ColorPickerDialog
-import com.example.dodo.DatabaseConnector
-import com.example.dodo.DoDoHelper
-import com.example.dodo.R
+import com.example.dodo.*
 import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
@@ -25,6 +22,8 @@ import java.util.*
 class NoteSetDataFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
+    private lateinit var mainActivity: MainActivity
+
     private var dodoHelper: DoDoHelper = DoDoHelper()
     private var NewNote: DoDoProto.Note.Builder = DoDoProto.Note.newBuilder()
 
@@ -39,6 +38,7 @@ class NoteSetDataFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity = activity as MainActivity
 
         NewNote.title = ""
         NewNote.content = ""
@@ -97,6 +97,7 @@ class NoteSetDataFragment : Fragment() {
         NewNote.content = note_set_data_text.text.toString().trim()
         NewNote.title = note_set_title_text.text.toString().trim()
         NewNote.creationDate = dodoHelper.getCurrentDatetimeString()
+        NewNote.creatorID = mainActivity.usedProfile!!.pid
         //ToDo: NewNote.noteEditedDatetime = getCurrentDatetimeString()
         dbConnector.insertNewNote(NewNote.build())
     }

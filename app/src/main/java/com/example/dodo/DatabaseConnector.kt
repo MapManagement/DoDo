@@ -94,12 +94,12 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         return todoArray
     }
 
-    fun insertNewTask(text: String, color: String) {
+    fun insertNewTask(text: String, color: String, creatorID: Int) {
         val values = ContentValues()
         values.put(TASK_TEXT, text)
         values.put(TASK_COLOR, color)
         values.put(TASK_DONE, 0)
-        //ToDo: insert creator_id
+        values.put(TASK_CREATOR_ID, creatorID)
 
         val db = this.writableDatabase
         db.insert(TODO_TABLE_NAME, null, values)
@@ -170,7 +170,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         values.put(NOTE_HIGHLIGHTED, intIsHighlighted)
         values.put(NOTE_COLOR, note.color)
         values.put(NOTE_DATE, note.creationDate)
-        //ToDo: insert creator_id
+        values.put(NOTE_CREATOR_ID, note.creatorID)
 
         val db = this.writableDatabase
         db.insert(NOTE_TABLE_NAME, null, values)

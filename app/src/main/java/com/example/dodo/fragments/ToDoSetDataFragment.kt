@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import com.example.dodo.DatabaseConnector
+import com.example.dodo.MainActivity
 import com.example.dodo.R
 import kotlinx.android.synthetic.main.custom_entry_dialog.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.blue_seekbar
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_todo_set_data.*
 class ToDoSetDataFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +40,8 @@ class ToDoSetDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity = activity as MainActivity
+
         red_seekbar.progress = red_seekbar.max / 2
         green_seekbar.progress = green_seekbar.max / 2
         blue_seekbar.progress = blue_seekbar.max / 2
@@ -125,6 +129,8 @@ class ToDoSetDataFragment : Fragment() {
     }
 
     private fun insertNewTask() {
-        dbConnector.insertNewTask(entry_task_text.text.toString(), convertColorToHexString())
+        dbConnector.insertNewTask(entry_task_text.text.toString(),
+            convertColorToHexString(),
+            mainActivity.usedProfile!!.pid)
     }
 }
