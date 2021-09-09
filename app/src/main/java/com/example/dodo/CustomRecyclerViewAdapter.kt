@@ -57,7 +57,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val note: DoDoProto.Note.Builder = itemList[position].newBuilderForType()
+        val note: DoDoProto.Note= itemList[position]
 
         //ToDo: beautify if-else
         if (note.title.isBlank()) {
@@ -82,20 +82,23 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
         holder.visibilityButton.setOnClickListener {
             if (note.isVisible) {
                 holder.visibilityButton.setImageResource(R.drawable.ic_visibility_off)
-                note.isVisible = false
-                dbConnector.updateNote(note.build())
+                val newNote = note.toBuilder()
+                newNote.isVisible = false
+                dbConnector.updateNote(newNote.build())
             }
         }
 
         holder.highlightingButton.setOnClickListener { //ToDo: sort by highlighting
             if (note.isHighlighted) {
                 holder.highlightingButton.setImageResource(R.drawable.ic_star_empty)
-                note.isHighlighted = false
-                dbConnector.updateNote(note.build())
+                val newNote = note.toBuilder()
+                newNote.isHighlighted = false
+                dbConnector.updateNote(newNote.build())
             } else {
                 holder.highlightingButton.setImageResource(R.drawable.ic_star_filled)
-                note.isHighlighted = true
-                dbConnector.updateNote(note.build())
+                val newNote = note.toBuilder()
+                newNote.isHighlighted = true
+                dbConnector.updateNote(newNote.build())
             }
         }
 

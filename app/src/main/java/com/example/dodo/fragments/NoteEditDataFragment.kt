@@ -23,19 +23,20 @@ class NoteEditDataFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
 
-    private var EditedNote: DoDoProto.Note.Builder= DoDoProto.Note.newBuilder()
+    private var editedNote: DoDoProto.Note.Builder = DoDoProto.Note.newBuilder()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        EditedNote.nid = arguments?.getInt("noteID")!!
-        EditedNote.title = arguments?.getString("noteTitle")!!
-        EditedNote.content = arguments?.getString("noteText")!!
-        EditedNote.isVisible = arguments?.getBoolean("noteVisible")!!
-        EditedNote.isHighlighted = arguments?.getBoolean("noteHighlighted")!!
-        EditedNote.color = arguments?.getString("noteColor")!!
+        editedNote.nid = arguments?.getInt("noteID")!!
+        editedNote.title = arguments?.getString("noteTitle")!!
+        editedNote.content = arguments?.getString("noteText")!!
+        editedNote.isVisible = arguments?.getBoolean("noteVisible")!!
+        editedNote.isHighlighted = arguments?.getBoolean("noteHighlighted")!!
+        editedNote.color = arguments?.getString("noteColor")!!
+        editedNote.build()
         //ToDo: EditedNote.creationDate = arguments?.getString("noteDatetime")!!
 
 
@@ -56,32 +57,32 @@ class NoteEditDataFragment : Fragment() {
         }
 
         note_edit_highlighting_button.setOnClickListener {
-            if(EditedNote.isHighlighted) {
+            if(editedNote.isHighlighted) {
                 note_edit_highlighting_button.setImageResource(R.drawable.ic_star_empty)
             }
             else {
                 note_edit_highlighting_button.setImageResource(R.drawable.ic_star_filled)
             }
-            EditedNote.isHighlighted = !EditedNote.isHighlighted
+            editedNote.isHighlighted = !editedNote.isHighlighted
         }
 
         note_edit_visibility_button.setOnClickListener {
-            if(EditedNote.isVisible) {
+            if(editedNote.isVisible) {
                 note_edit_visibility_button.setImageResource(R.drawable.ic_visibility_off)
             }
             else {
                 note_edit_visibility_button.setImageResource(R.drawable.ic_visibility_on)
             }
-            EditedNote.isVisible = !EditedNote.isVisible
+            editedNote.isVisible = !editedNote.isVisible
         }
 
         note_edit_color_button.setOnClickListener {
-            val colorPicker = ColorPickerDialog(requireContext(), EditedNote.color)
+            val colorPicker = ColorPickerDialog(requireContext(), editedNote.color)
             colorPicker.show()
             colorPicker.dialog_ok_button.setOnClickListener {
-                EditedNote.color = colorPicker.colorHexString
+                editedNote.color = colorPicker.colorHexString
                 colorPicker.cancel()
-                note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(EditedNote.color))
+                note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(editedNote.color))
             }
         }
     }
@@ -93,21 +94,21 @@ class NoteEditDataFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateNote() {
-        EditedNote.content = note_edit_data_text.text.toString().trim()
-        EditedNote.title = note_edit_title_text.text.toString().trim()
+        editedNote.content = note_edit_data_text.text.toString().trim()
+        editedNote.title = note_edit_title_text.text.toString().trim()
         //ToDo: EditedNote.noteEditedDatetime = getCurrentDatetimeString()
-        dbConnector.updateNote(EditedNote.build())
+        dbConnector.updateNote(editedNote.build())
     }
 
     private fun setResources() {
-        note_edit_title_text.setText(EditedNote.title)
-        note_edit_data_text.setText(EditedNote.content)
+        note_edit_title_text.setText(editedNote.title)
+        note_edit_data_text.setText(editedNote.content)
         //ToDo: note_edit_date_time_text.text = EditedNote.noteEditedDatetime
-        note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(EditedNote.color))
-        if(!EditedNote.isVisible) {
+        note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(editedNote.color))
+        if(!editedNote.isVisible) {
             note_edit_visibility_button.setImageResource(R.drawable.ic_visibility_off)
         }
-        if(!EditedNote.isHighlighted) {
+        if(!editedNote.isHighlighted) {
             note_edit_highlighting_button.setImageResource(R.drawable.ic_star_empty)
         }
     }
