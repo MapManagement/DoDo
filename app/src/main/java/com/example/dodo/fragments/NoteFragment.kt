@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_to_do.view.*
 
 /**
  * A simple [Fragment] subclass.
- * Use the [NoteFragment.newInstance] factory method to
+ * Use the [NoteFragment newInstance] factory method to
  * create an instance of this fragment.
  */
 class NoteFragment : Fragment() {
@@ -69,7 +69,7 @@ class NoteFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadStoredNotes() {
         notesList?.clear()
-        val storedTasks: ArrayList<DoDoProto.Note> = dbConnector.getAllNotes(mainActivity.usedProfile!!.pid)
+        val storedTasks: ArrayList<DoDoProto.Note.Builder> = dbConnector.getAllNotes(mainActivity.usedProfile!!.pid)
         for(note in storedTasks) {
             notesList?.add(note)
         }

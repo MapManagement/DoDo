@@ -1,18 +1,12 @@
 package com.example.dodo
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.proto.DoDoProto
-import kotlinx.android.synthetic.main.fragment_sign_up.*
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
@@ -125,7 +119,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getAllNotes(profileID: Int): ArrayList<DoDoProto.Note> {
+    fun getAllNotes(profileID: Int): ArrayList<DoDoProto.Note.Builder> {
         val db = this.readableDatabase
         val columns = arrayOf(NOTE_ID, NOTE_TITLE, NOTE_CONTENT, NOTE_VISIBLE, NOTE_HIGHLIGHTED, NOTE_COLOR,
             NOTE_CREATOR_ID, NOTE_DATE)
@@ -140,20 +134,20 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             null, null
         )
 
-        val noteArray = arrayListOf<DoDoProto.Note>()
+        val noteArray = arrayListOf<DoDoProto.Note.Builder>()
 
         cursor.moveToFirst()
         while(!cursor.isAfterLast) {
-            val note = DoDoProto.Note.newBuilder()
-            note.nid = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
-            note.title = cursor.getString(cursor.getColumnIndex(NOTE_TITLE))
-            note.content = cursor.getString(cursor.getColumnIndex(NOTE_CONTENT))
-            note.isVisible = cursor.getInt(cursor.getColumnIndex(NOTE_VISIBLE)) == 1
-            note.isHighlighted = cursor.getInt(cursor.getColumnIndex(NOTE_HIGHLIGHTED)) == 1
-            note.color = cursor.getString(cursor.getColumnIndex(NOTE_COLOR))
+            val noteBuilder = DoDoProto.Note.newBuilder()
+            noteBuilder.nid = cursor.getInt(cursor.getColumnIndex(NOTE_ID))
+            noteBuilder.title = cursor.getString(cursor.getColumnIndex(NOTE_TITLE))
+            noteBuilder.content = cursor.getString(cursor.getColumnIndex(NOTE_CONTENT))
+            noteBuilder.isVisible = cursor.getInt(cursor.getColumnIndex(NOTE_VISIBLE)) == 1
+            noteBuilder.isHighlighted = cursor.getInt(cursor.getColumnIndex(NOTE_HIGHLIGHTED)) == 1
+            noteBuilder.color = cursor.getString(cursor.getColumnIndex(NOTE_COLOR))
             val localDT = doDoHelper.stringToDateTime(cursor.getString(cursor.getColumnIndex(NOTE_DATE)))
-            note.creationDate = localDT.toString()
-            noteArray.add(note.build())
+            noteBuilder.creationDate = localDT.toString()
+            noteArray.add(noteBuilder)
             cursor.moveToNext()
         }
         cursor.close()
@@ -202,7 +196,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
         val values = ContentValues()
         values.put(PROFILE_NAME, profile.name)
         values.put(PROFILE_PASSWORD, profile.password)
-        values.put(PROFILE_DATE, profile.creationDate.toString()) //ToDo: gRPC class to readable datetime
+        values.put(PROFILE_DATE, profile.creationDate.toString())
 
         val db = this.writableDatabase
         db.insert(PROFILE_TABLE_NAME, null, values)
@@ -240,7 +234,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             val profile= DoDoProto.Profile.newBuilder()
             profile.pid = cursor.getInt(cursor.getColumnIndex(PROFILE_ID))
             profile.name = cursor.getString(cursor.getColumnIndex(PROFILE_NAME))
-            //ToDO: datetime
+            profile.creationDate = cursor.getString(cursor.getColumnIndex(PROFILE_DATE))
             profileArray.add(profile.build())
             cursor.moveToNext()
         }
@@ -280,6 +274,7 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
             cursor.moveToFirst()
             profile.pid = cursor.getInt(cursor.getColumnIndex(PROFILE_ID))
             profile.name = cursor.getString(cursor.getColumnIndex(PROFILE_NAME))
+            cursor.close()
             profile.build()
         }
     }

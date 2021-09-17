@@ -19,13 +19,13 @@ import com.example.dodo.fragments.NoteEditDataFragment
 import com.example.dodo.fragments.NoteFragment
 import com.example.proto.DoDoProto
 
-var notesList: MutableList<DoDoProto.Note>? = null
+var notesList: MutableList<DoDoProto.Note.Builder>? = null
 lateinit var noteAdapter: CustomRecyclerViewAdapter
 
-class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.Note>, fragment: Fragment) :
+class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.Note.Builder>, fragment: Fragment) :
     RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>() {
 
-    private val itemList: MutableList<DoDoProto.Note> = notes
+    private val itemList: MutableList<DoDoProto.Note.Builder> = notes
     private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
     private val viewFragment = fragment
 
@@ -57,7 +57,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val note: DoDoProto.Note= itemList[position]
+        val note: DoDoProto.Note.Builder = itemList[position]
 
         //ToDo: beautify if-else
         if (note.title.isBlank()) {
@@ -82,23 +82,20 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
         holder.visibilityButton.setOnClickListener {
             if (note.isVisible) {
                 holder.visibilityButton.setImageResource(R.drawable.ic_visibility_off)
-                val newNote = note.toBuilder()
-                newNote.isVisible = false
-                dbConnector.updateNote(newNote.build())
+                note.isVisible = false
+                dbConnector.updateNote(note.build())
             }
         }
 
-        holder.highlightingButton.setOnClickListener { //ToDo: sort by highlighting
+        holder.highlightingButton.setOnClickListener {
             if (note.isHighlighted) {
                 holder.highlightingButton.setImageResource(R.drawable.ic_star_empty)
-                val newNote = note.toBuilder()
-                newNote.isHighlighted = false
-                dbConnector.updateNote(newNote.build())
+                note.isHighlighted = false
+                dbConnector.updateNote(note.build())
             } else {
                 holder.highlightingButton.setImageResource(R.drawable.ic_star_filled)
-                val newNote = note.toBuilder()
-                newNote.isHighlighted = true
-                dbConnector.updateNote(newNote.build())
+                note.isHighlighted = true
+                dbConnector.updateNote(note.build())
             }
         }
 
