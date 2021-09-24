@@ -36,8 +36,8 @@ class NoteEditDataFragment : Fragment() {
         editedNote.isVisible = arguments?.getBoolean("noteVisible")!!
         editedNote.isHighlighted = arguments?.getBoolean("noteHighlighted")!!
         editedNote.color = arguments?.getString("noteColor")!!
+        editedNote.creationDate = arguments?.getString("noteDatetime")!!
         editedNote.build()
-        //ToDo: EditedNote.creationDate = arguments?.getString("noteDatetime")!!
 
 
         return inflater.inflate(R.layout.fragment_note_edit_data, container, false)
@@ -96,14 +96,14 @@ class NoteEditDataFragment : Fragment() {
     private fun updateNote() {
         editedNote.content = note_edit_data_text.text.toString().trim()
         editedNote.title = note_edit_title_text.text.toString().trim()
-        //ToDo: EditedNote.noteEditedDatetime = getCurrentDatetimeString()
+        editedNote.creationDate = getCurrentDatetimeString()
         dbConnector.updateNote(editedNote.build())
     }
 
     private fun setResources() {
         note_edit_title_text.setText(editedNote.title)
         note_edit_data_text.setText(editedNote.content)
-        //ToDo: note_edit_date_time_text.text = EditedNote.noteEditedDatetime
+        note_edit_date_time_text.setText(editedNote.creationDate)
         note_edit_data_constraint_layout.setBackgroundColor(Color.parseColor(editedNote.color))
         if(!editedNote.isVisible) {
             note_edit_visibility_button.setImageResource(R.drawable.ic_visibility_off)

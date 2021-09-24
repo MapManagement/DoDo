@@ -83,7 +83,7 @@ class SignUpFragment : Fragment()  {
         val editor = pref.edit()
         editor.putString("profile_name_pref", dialog_prof_name.text.toString())
         editor.putInt("profile_id_pref", 0) //ToDo: get ID of newly created profile
-        editor.putString("profile_creation_date_pref", "") //ToDo: set creation date
+        editor.putString("profile_creation_date_pref", dodoHelper.getCurrentDatetimeString())
         editor.apply()
         return true
     }

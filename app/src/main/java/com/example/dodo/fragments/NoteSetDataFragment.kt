@@ -98,7 +98,7 @@ class NoteSetDataFragment : Fragment() {
         NewNote.title = note_set_title_text.text.toString().trim()
         NewNote.creationDate = dodoHelper.getCurrentDatetimeString()
         NewNote.creatorID = mainActivity.usedProfile!!.pid
-        //ToDo: NewNote.noteEditedDatetime = getCurrentDatetimeString()
+        NewNote.creationDate = dodoHelper.getCurrentDatetimeString()
         dbConnector.insertNewNote(NewNote.build())
     }
 

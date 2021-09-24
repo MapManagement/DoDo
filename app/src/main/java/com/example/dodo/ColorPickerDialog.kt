@@ -24,7 +24,10 @@ class ColorPickerDialog(context: Context, startColor: String): Dialog(context){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_color_picker)
 
-        //ToDO: some devices do not display all seekbars before clicking in the color textview
+        /*ToDO: some devices do not display all seekbars before clicking in the color textview
+        -> Solution: hard-coding width ):
+         */
+
         setSeekBars()
         convertColorToHexString()
         dialog_hex_color_string.setText(colorHexString)
