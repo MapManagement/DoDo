@@ -1,5 +1,5 @@
 # DoDo
-![Logo](app/src/main/ic_launcher-playstore.png)
+
 ## What is this?
 If you want to know why **DoDo** was created, you have to read following story: I was looking for a simple "ToDo"
 application on Google's Play store, but I did not find any that behaved and looked like one I wanted to use. So I
