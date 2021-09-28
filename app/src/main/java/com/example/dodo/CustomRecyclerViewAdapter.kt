@@ -28,6 +28,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
     private val itemList: MutableList<DoDoProto.Note.Builder> = notes
     private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
     private val viewFragment = fragment
+    var noteVisibility = false
 
     inner class ViewHolder(rowView: View) : RecyclerView.ViewHolder(rowView) {
         val viewContext: Context = rowView.context

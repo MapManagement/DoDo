@@ -3,6 +3,8 @@ package com.example.dodo
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -36,6 +38,23 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problems c
                 R.id.nav_settings -> setFragment(settingsFragment, "SETTINGS")
             }
             true
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_visibility -> {
+                noteAdapter.noteVisibility = !noteAdapter.noteVisibility
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

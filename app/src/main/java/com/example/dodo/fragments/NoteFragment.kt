@@ -69,7 +69,10 @@ class NoteFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadStoredNotes() {
         notesList?.clear()
-        val storedTasks: ArrayList<DoDoProto.Note.Builder> = dbConnector.getAllNotes(mainActivity.usedProfile!!.pid)
+        val storedTasks: ArrayList<DoDoProto.Note.Builder> = dbConnector.getAllNotes(
+            mainActivity.usedProfile!!.pid,
+            noteAdapter.noteVisibility)
+
         for(note in storedTasks) {
             notesList?.add(note)
         }

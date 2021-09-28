@@ -119,12 +119,21 @@ class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getAllNotes(profileID: Int): ArrayList<DoDoProto.Note.Builder> {
+    fun getAllNotes(profileID: Int, onlyVisible: Boolean): ArrayList<DoDoProto.Note.Builder> {
         val db = this.readableDatabase
         val columns = arrayOf(NOTE_ID, NOTE_TITLE, NOTE_CONTENT, NOTE_VISIBLE, NOTE_HIGHLIGHTED, NOTE_COLOR,
             NOTE_CREATOR_ID, NOTE_DATE)
-        val where = "$NOTE_CREATOR_ID = ?"
-        val whereArgs = arrayOf(profileID.toString())
+        val where: String
+        val whereArgs: Array<String>
+        if (!onlyVisible) {
+            where = "$NOTE_CREATOR_ID = ?"
+            whereArgs = arrayOf(profileID.toString())
+        }
+        else {
+            where = "$NOTE_CREATOR_ID = ? AND $NOTE_VISIBLE = ?"
+            whereArgs = arrayOf(profileID.toString(), "1")
+        }
+
         val cursor = db.query(
             NOTE_TABLE_NAME,
             columns,
