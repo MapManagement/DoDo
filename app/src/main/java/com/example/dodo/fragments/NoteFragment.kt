@@ -2,10 +2,8 @@ package com.example.dodo.fragments
 
 import android.os.Build
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -34,6 +32,7 @@ class NoteFragment : Fragment() {
         // Inflate the layout for this fragment
         dbConnector =  (activity as MainActivity).dbConnector
         serverConnector = (activity as MainActivity).serverConnector
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_note, container, false)
     }
 
@@ -55,6 +54,24 @@ class NoteFragment : Fragment() {
         loadStoredNotes()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.menu_main, menu)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean { //ToDo: make unavailable when not in note fragment
+        return when (item.itemId) {
+            R.id.action_visibility -> {
+                item.isChecked = !item.isChecked
+                showOnlyVisible = item.isChecked
+                loadStoredNotes()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun openSetDataView() {
         requireActivity().supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_wrapper, NoteSetDataFragment(), "NOTE_SET")
@@ -67,7 +84,7 @@ class NoteFragment : Fragment() {
         notesList?.clear()
         val storedTasks: ArrayList<DoDoProto.Note.Builder> = dbConnector.getAllNotes(
             mainActivity.usedProfile!!.pid,
-            noteAdapter.showOnlyVisible)
+            showOnlyVisible)
 
         for(note in storedTasks) {
             notesList?.add(note)

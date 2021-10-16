@@ -41,23 +41,6 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problems c
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean { //ToDo: make unavailable when not in note fragment
-        return when (item.itemId) {
-            R.id.action_visibility -> {
-                noteAdapter.showOnlyVisible = !noteAdapter.showOnlyVisible
-
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     private fun setFragment(fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_wrapper, fragment, tag)

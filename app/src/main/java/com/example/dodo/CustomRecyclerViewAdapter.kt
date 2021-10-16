@@ -19,13 +19,13 @@ import com.example.proto.DoDoProto
 
 var notesList: MutableList<DoDoProto.Note.Builder>? = null
 lateinit var noteAdapter: CustomRecyclerViewAdapter
+var showOnlyVisible: Boolean = true
 
 class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.Note.Builder>) :
     RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>() {
 
     private val itemList: MutableList<DoDoProto.Note.Builder> = notes
     private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
-    var showOnlyVisible = true
 
     inner class ViewHolder(rowView: View) : RecyclerView.ViewHolder(rowView) {
         val viewContext: Context = rowView.context
