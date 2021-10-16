@@ -47,10 +47,10 @@ class MainActivity : AppCompatActivity() { //ToDo: gRPC seems to make problems c
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean { //ToDo: make unavailable when not in note fragment
         return when (item.itemId) {
             R.id.action_visibility -> {
-                noteAdapter.noteVisibility = !noteAdapter.noteVisibility
+                noteAdapter.showOnlyVisible = !noteAdapter.showOnlyVisible
 
                 true
             }

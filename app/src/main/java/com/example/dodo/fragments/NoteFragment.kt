@@ -1,6 +1,5 @@
 package com.example.dodo.fragments
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,16 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dodo.*
 import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
-import kotlinx.android.synthetic.main.fragment_to_do.*
 import kotlinx.android.synthetic.main.fragment_to_do.fab_add_entry
-import kotlinx.android.synthetic.main.fragment_to_do.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -29,7 +25,7 @@ class NoteFragment : Fragment() {
     private lateinit var dbConnector: DatabaseConnector
     private lateinit var serverConnector: String
     private lateinit var mainActivity: MainActivity
-    var recyclerViewItems: RecyclerView? = null
+    private var recyclerViewItems: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +49,7 @@ class NoteFragment : Fragment() {
         recyclerViewItems = view.recycler_view
 
         notesList = mutableListOf()
-        noteAdapter = CustomRecyclerViewAdapter(requireContext(), notesList!!, this)
+        noteAdapter = CustomRecyclerViewAdapter(requireContext(), notesList!!)
         recycler_view.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerViewItems!!.adapter = noteAdapter
         loadStoredNotes()
@@ -71,7 +67,7 @@ class NoteFragment : Fragment() {
         notesList?.clear()
         val storedTasks: ArrayList<DoDoProto.Note.Builder> = dbConnector.getAllNotes(
             mainActivity.usedProfile!!.pid,
-            noteAdapter.noteVisibility)
+            noteAdapter.showOnlyVisible)
 
         for(note in storedTasks) {
             notesList?.add(note)

@@ -13,22 +13,19 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dodo.fragments.NoteEditDataFragment
-import com.example.dodo.fragments.NoteFragment
 import com.example.proto.DoDoProto
 
 var notesList: MutableList<DoDoProto.Note.Builder>? = null
 lateinit var noteAdapter: CustomRecyclerViewAdapter
 
-class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.Note.Builder>, fragment: Fragment) :
+class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.Note.Builder>) :
     RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder>() {
 
     private val itemList: MutableList<DoDoProto.Note.Builder> = notes
     private val dbConnector: DatabaseConnector = DatabaseConnector(context, null)
-    private val viewFragment = fragment
-    var noteVisibility = false
+    var showOnlyVisible = true
 
     inner class ViewHolder(rowView: View) : RecyclerView.ViewHolder(rowView) {
         val viewContext: Context = rowView.context
@@ -86,6 +83,11 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
                 note.isVisible = false
                 dbConnector.updateNote(note.build())
             }
+            else {
+                holder.visibilityButton.setImageResource(R.drawable.ic_visibility_on)
+                note.isVisible = true
+                dbConnector.updateNote(note.build())
+            }
         }
 
         holder.highlightingButton.setOnClickListener {
@@ -93,7 +95,8 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
                 holder.highlightingButton.setImageResource(R.drawable.ic_star_empty)
                 note.isHighlighted = false
                 dbConnector.updateNote(note.build())
-            } else {
+            }
+            else {
                 holder.highlightingButton.setImageResource(R.drawable.ic_star_filled)
                 note.isHighlighted = true
                 dbConnector.updateNote(note.build())
