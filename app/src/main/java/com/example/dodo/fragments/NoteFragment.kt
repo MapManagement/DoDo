@@ -57,10 +57,11 @@ class NoteFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.action_visibility).isChecked = showOnlyVisible
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onOptionsItemSelected(item: MenuItem): Boolean { //ToDo: make unavailable when not in note fragment
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_visibility -> {
                 item.isChecked = !item.isChecked

@@ -57,25 +57,7 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val note: DoDoProto.Note.Builder = itemList[position]
 
-        //ToDo: beautify if-else
-        if (note.title.isBlank()) {
-            if (note.content.length > 253) {
-                val text = "${note.content.subSequence(0, 252)}..."
-                holder.itemTextView.text = text
-            } else {
-                holder.itemTextView.text = note.content
-            }
-        } else {
-            holder.itemTextView.text = note.title
-        }
-        val noteBackground: LinearLayout = holder.linearLayout
-        if (note.color == "") {
-            noteBackground.setBackgroundColor(Color.parseColor("#7c827f"))
-        } else {
-            noteBackground.setBackgroundColor(Color.parseColor(note.color))
-        }
-        if (note.isHighlighted) holder.highlightingButton.setImageResource(R.drawable.ic_star_filled)
-        if (!note.isVisible) holder.visibilityButton.setImageResource(R.drawable.ic_visibility_off)
+        setNoteAppearance(note, holder)
 
         holder.visibilityButton.setOnClickListener {
             if (note.isVisible) {
@@ -136,5 +118,30 @@ class CustomRecyclerViewAdapter(context: Context, notes: MutableList<DoDoProto.N
             }
             builder.show()
         }
+    }
+
+    private fun setNoteAppearance(note: DoDoProto.Note.Builder, holder: ViewHolder)
+    {
+        if (note.title.isBlank()) {
+            if (note.content.length > 253) {
+                val text = "${note.content.subSequence(0, 252)}..."
+                holder.itemTextView.text = text
+            } else {
+                holder.itemTextView.text = note.content
+            }
+        } else {
+            holder.itemTextView.text = note.title
+        }
+
+        val noteBackground: LinearLayout = holder.linearLayout
+        try {
+            noteBackground.setBackgroundColor(Color.parseColor(note.color))
+        }
+        catch (e: IllegalArgumentException) {
+            noteBackground.setBackgroundColor(Color.parseColor("#7c827f"))
+        }
+
+        if (note.isHighlighted) holder.highlightingButton.setImageResource(R.drawable.ic_star_filled)
+        if (note.isVisible) holder.visibilityButton.setImageResource(R.drawable.ic_visibility_on)
     }
 }
