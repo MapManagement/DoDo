@@ -13,18 +13,13 @@ import android.widget.SeekBar
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.MainActivity
 import com.example.dodo.R
-import kotlinx.android.synthetic.main.custom_entry_dialog.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.blue_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.color_preview_button
 import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.red_seekbar
 import kotlinx.android.synthetic.main.fragment_todo_set_data.*
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ToDoSetDataFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ToDoSetDataFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector

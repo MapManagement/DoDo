@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.proto.DoDoProto
 
+
 class DatabaseConnector(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
     private var doDoHelper = DoDoHelper.create()

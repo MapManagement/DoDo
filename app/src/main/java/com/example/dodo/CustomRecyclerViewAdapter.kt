@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dodo.fragments.NoteEditDataFragment
 import com.example.proto.DoDoProto
 
+
 var notesList: MutableList<DoDoProto.Note.Builder>? = null
 lateinit var noteAdapter: CustomRecyclerViewAdapter
 var showOnlyVisible: Boolean = true

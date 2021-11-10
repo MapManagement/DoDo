@@ -9,16 +9,10 @@ import android.widget.ListView
 import androidx.core.view.isVisible
 import com.example.dodo.*
 import com.example.proto.DoDoProto
-import kotlinx.android.synthetic.main.dialog_color_picker.*
-import kotlinx.android.synthetic.main.fragment_note_set_data.*
 import kotlinx.android.synthetic.main.fragment_to_do.*
 import kotlinx.android.synthetic.main.fragment_to_do.view.*
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ToDoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ToDoFragment() : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector

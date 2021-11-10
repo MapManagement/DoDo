@@ -10,10 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import com.example.dodo.DatabaseConnector
-import com.example.dodo.DoDoHelper
-import com.example.dodo.MainActivity
-import com.example.dodo.R
+import com.example.dodo.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_log_in.*
 import java.math.BigInteger

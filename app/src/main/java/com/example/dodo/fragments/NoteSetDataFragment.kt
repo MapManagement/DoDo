@@ -13,10 +13,6 @@ import com.example.dodo.*
 import com.example.proto.DoDoProto
 import kotlinx.android.synthetic.main.dialog_color_picker.*
 import kotlinx.android.synthetic.main.fragment_note_set_data.*
-import java.io.Console
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class NoteSetDataFragment : Fragment() {

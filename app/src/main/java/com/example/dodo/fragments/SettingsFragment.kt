@@ -1,52 +1,34 @@
 package com.example.dodo.fragments
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import androidx.fragment.app.Fragment
 import com.example.dodo.DatabaseConnector
-import com.example.dodo.MainActivity
 import com.example.dodo.R
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SettingsFragment : PreferenceFragmentCompat() {
+
+class SettingsFragment :  Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector
-    private lateinit var serverConnector: String
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        dbConnector =  (activity as MainActivity).dbConnector
-        serverConnector = (activity as MainActivity).serverConnector
-        addPreferencesFromResource(R.xml.fragment_settings) //ToDo: app crashed because of wrong cast?
 
-        findPreference<Preference>("server_addr_pref")?.let { bindPreferenceSummaryToValue(it) }
-        findPreference<Preference>("profile_name_pref")?.let { bindPreferenceSummaryToValue(it) }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
-    private val prefListener = Preference.OnPreferenceChangeListener { preference, newValue ->
-        if(preference.key == "server_addr_pref") {
-            preference.summary = newValue.toString()
-        }
-        else if(preference.key == "profile_name_pref") {
-            preference.summary = newValue.toString()
-        }
-        true
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun bindPreferenceSummaryToValue(preference: Preference) {
-        preference.onPreferenceChangeListener = prefListener
-        prefListener.onPreferenceChange(preference,
-            PreferenceManager
-                .getDefaultSharedPreferences(preference.context)
-                .getString(preference.key, " "))
-            //ToDo: non-editable values need to be set at start
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.dbConnector = DatabaseConnector(context, null)
     }
 }

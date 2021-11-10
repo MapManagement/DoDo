@@ -13,11 +13,7 @@ import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.fragment_to_do.fab_add_entry
 
-/**
- * A simple [Fragment] subclass.
- * Use the [NoteFragment newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class NoteFragment : Fragment() {
 
     private lateinit var dbConnector: DatabaseConnector

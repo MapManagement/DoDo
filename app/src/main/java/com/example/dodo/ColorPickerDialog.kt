@@ -8,11 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.dialog_color_picker.*
-import kotlinx.android.synthetic.main.fragment_todo_set_data.blue_seekbar
-import kotlinx.android.synthetic.main.fragment_todo_set_data.color_preview_button
-import kotlinx.android.synthetic.main.fragment_todo_set_data.entry_hex_color_string
-import kotlinx.android.synthetic.main.fragment_todo_set_data.green_seekbar
-import kotlinx.android.synthetic.main.fragment_todo_set_data.red_seekbar
+
 
 class ColorPickerDialog(context: Context, startColor: String): Dialog(context){
     var red = 127

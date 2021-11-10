@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.R
-import kotlinx.android.synthetic.main.custom_entry_dialog.*
 import kotlinx.android.synthetic.main.custom_entry_dialog.blue_seekbar
 import kotlinx.android.synthetic.main.custom_entry_dialog.color_preview_button
 import kotlinx.android.synthetic.main.custom_entry_dialog.green_seekbar

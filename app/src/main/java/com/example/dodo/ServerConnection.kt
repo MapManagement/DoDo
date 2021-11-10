@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import java.net.URL
 
+
 public class ServerConnector(context: android.content.Context)  {
     private val app_context = context
 
@@ -34,8 +35,7 @@ public class ServerConnector(context: android.content.Context)  {
     }
 
     private fun getServerAddress(): String? {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(app_context)
-        return prefs.getString("pref_server_addr", null)
+        return  "" //ToDo: get server address
     }
 
 }

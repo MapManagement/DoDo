@@ -10,16 +10,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import com.example.dodo.DatabaseConnector
 import com.example.dodo.DoDoHelper
 import com.example.dodo.R
 import com.example.proto.DoDoProto
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import java.math.BigInteger
 import java.security.MessageDigest
-import java.util.*
 
 
 class SignUpFragment : Fragment()  {
@@ -79,12 +76,8 @@ class SignUpFragment : Fragment()  {
 
         dbConnector.insertNewProfile(newProfile.build())
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val editor = pref.edit()
-        editor.putString("profile_name_pref", dialog_prof_name.text.toString())
-        editor.putInt("profile_id_pref", 0) //ToDo: get ID of newly created profile
-        editor.putString("profile_creation_date_pref", dodoHelper.getCurrentDatetimeString())
-        editor.apply()
+        //ToDo: store profile information locally
+
         return true
     }
 
