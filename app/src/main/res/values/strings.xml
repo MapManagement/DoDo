@@ -29,11 +29,10 @@
     <string name="refresh">Refresh</string>
 
     <!-- settings -->
-    <string name="server_sum_upload">Check if you want to use a server</string>
-    <string name="server_addr">Server Address</string>
-    <string name="server_hint">dodo-server.example</string>
-    <string name="server_category">Server Connection</string>
-    <string name="enable_server">Enable Server Upload</string>
+    <string name="settings_server_check">Connect to remote server:</string>
+    <string name="settings_server_addr">Address of server:</string>
+    <string name="settings_server_addr_hint">my-server.com</string>
+    <string name="settings_profile_id">Profile ID:</string>
 
     <string name="profile_category">Profile</string>
     <string name="profile_id">Profile-ID</string>
